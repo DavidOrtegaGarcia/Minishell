@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/04/24 14:05:16 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/03 14:26:14 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,6 @@ all: makelibft $(DIR_O) $(NAME)
 
 makelibft: 
 	$(MAKE) -C libft 
-
-makemlx:
-	$(MAKE) -C mlx
 	
 $(DIR_O):
 	mkdir -p $(DIR_O)
