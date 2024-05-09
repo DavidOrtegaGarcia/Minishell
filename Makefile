@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/08 17:03:30 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/09 14:15:50 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCLUDE =	-I./libs -I./readline -I./libft
 #--------------<SRC>-------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c 
+CFILES	=	main.c
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
@@ -36,7 +36,7 @@ LIB_ADD_DIR	:=	-Lreadline -Llibft
 LIB_SEARCH	:=	-lreadline -lhistory -ltermcap -lft
 
 #-------------<RULES>-------------
-all: makelibs readline $(DIR_O) $(NAME)
+all: makelibs rdline $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
@@ -49,7 +49,7 @@ $(NAME): $(OBJC)
 	@$(CC) $(CFLAGS) $(OBJC) $(LIB_ADD_DIR) $(LIB_SEARCH) $(LIB_A) -o $(NAME)
 	@echo "${GREEN}Minishell Compiled${NC}"
 
-readline :
+rdline :
 	@echo "${YELLOW}Compiling Readline...${NC}"
 	@cd ./readline/ &> /dev/null && ./configure &> /dev/null
 	@make -C ./readline/ &> /dev/null
@@ -69,6 +69,7 @@ fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C libft fclean --no-print-directory
 	@$(MAKE) -C readline clean --no-print-directory
+	@printf "${RED}Minishell deleted\n${NC}"
 
 re: fclean all
 
