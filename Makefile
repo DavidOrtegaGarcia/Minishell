@@ -6,18 +6,18 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/03 14:26:14 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/13 14:58:03 by rpocater         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 NAMELIB = libs/minishell.h
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -static-libsan -g
 
 #--------------<SRC>-------------
 SRC = src/
-CFILES = main.c 
+CFILES = execute.c main.c
 SRCC = $(addprefix $(SRC), $(CFILES))
 
 DIR_O = tmp/
