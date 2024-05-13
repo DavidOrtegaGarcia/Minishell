@@ -22,5 +22,6 @@
 /*---------STRUCTS----------*/
 
 /*--------------HEADERS--------------*/
-
+int		main(int argc, char **argv, char **envp);
+void	pre_execute(int argc, char **argv, char **envp);
 #endif
