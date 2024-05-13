@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utilsd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/13 17:52:09 by daortega         ###   ########.fr       */
+/*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
+/*   Updated: 2024/05/13 18:10:00 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char *argv[], char *env[])
+t_env *fill_t_env(char **env)
 {
-	char	*line;
+	int 	i;
 	t_env	*t_env;
+	t_env	*aux;
 
-	(void)argv;
-	(void)env;
-	if (argc != 1)
-		return(printf("Wrong number of arguments\n"), -1);
-	t_env = fill_t_env(env);
-	while (1)
+	i = 1;
+	t_env->key = fill_key(env[0]);
+	t_env->value = fill_value(env[0]);
+	t_env->prev = NULL;
+	t_env->next = malloc(sizeof(t_env));
+	aux = t_env;
+	t_env = t_env->next;
+	while (env[i] != NULL)
 	{
-    	line = readline("minishell$ ");
-		if (line != NULL && line[0] != '\0') 
-			add_history(line);
-		ft_printf("%s\n", line);
-		//parseo
-		expansor(line, env);
-		free(line);
-		
+		t_env->key = fill_key(env[i]);
+		t_env->value = fill_value(env[i]);
+		t_env->prev = aux; 
+		t_env->next = malloc(sizeof(t_env));
+		aux = t_env;
+		t_env = t_env->next;
+		i++;
 	}
 }
