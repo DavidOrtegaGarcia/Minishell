@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/18 14:31:34 by daortega          #+#    #+#              #
-#    Updated: 2023/12/13 19:34:44 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/08 16:47:01 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,19 +53,19 @@ all: $(NAME)
 bonus: libbonus
 
 %.o: %.c $(NAMELIB) Makefile
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ) $(OBJ_PRINT) $(OBJ_GNL)
-	$(LIBCOM) $(NAME) $(OBJ) $(OBJ_PRINT) $(OBJ_GNL)
+	@$(LIBCOM) $(NAME) $(OBJ) $(OBJ_PRINT) $(OBJ_GNL)
 
 libbonus: $(BOBJ)
-	$(LIBCOM) $(NAME) $(BOBJ)
+	@$(LIBCOM) $(NAME) $(BOBJ)
 
 clean:
-	rm -f $(OBJ) $(BOBJ) $(OBJ_PRINT) $(OBJ_GNL)
+	@rm -f $(OBJ) $(BOBJ) $(OBJ_PRINT) $(OBJ_GNL)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
