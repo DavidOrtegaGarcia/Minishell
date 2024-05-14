@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/09 14:38:02 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:54:10 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 /*---------STRUCTS----------*/
 
 /*--------------HEADERS--------------*/
-int		main(int argc, char **argv, char **envp);
+int		main(int argc, char *argv[], char *env[]);
+int		parse_input(int argc, char **argv, char **envp);
+char	**ft_tokenize(char *line);
 void	pre_execute(int argc, char **argv, char **envp);
 #endif

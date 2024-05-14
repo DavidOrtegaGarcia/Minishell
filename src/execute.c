@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/13 14:47:22 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:38:23 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	path_execute(char *com, char **argv, char **envp)
 	path = ft_split(find_path(envp), ':');
 	while (path[i] != NULL)
 	{
-		route = ft_strjoin(path[i], com);//heap overflow
+		route = ft_strjoin(path[i], com);
 		execve(route, argv, envp);
 		i++;
 	}
@@ -64,16 +64,14 @@ int	path_execute(char *com, char **argv, char **envp)
 
 void	pre_execute(int argc, char **argv, char **envp)
 {
-	if (argc < 2)
+	if (parse_input(argc, argv, envp) == -1)
 	{
-		printf("Wrong number of arguments\n");
+		printf("The arguments did not pass the parse process\n");
 		return ;
 	}
-	argv++; //skip the name of the executable
-	//check for valid inputs
-	if (argv[0][0] != '.' && argv[0][0] != '/' && argv[0][0] != '~')
+	else if(parse_input(argc, argv, envp) == 1)
 	{
-		if (path_execute(argv[0], argv, envp) == -1)//heap overflow
+		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
 	}
 	return ;
