@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/09 14:15:50 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/15 16:33:20 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCLUDE =	-I./libs -I./readline -I./libft
 #--------------<SRC>-------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c
+CFILES	=	main.c utilsd.c
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
