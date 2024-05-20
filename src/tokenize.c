@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/16 14:28:42 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:56:41 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**ft_tokenize(char *line)
 			d_quote_pair = 0;
 			token_count++;
 		}
-		if ((line[i] == ' ' || (line[i] >= 9 && line[i] <= 13)) && word_flag == 1)
+		if ((line[i] == ' ' || line[i + 1] == '\0' || (line[i] >= 9 && line[i] <= 13)) && word_flag == 1)
 		{
 			word_flag = 0;
 			token_count++;

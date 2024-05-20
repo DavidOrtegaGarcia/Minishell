@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/14 13:38:23 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:30:37 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	pre_execute(int argc, char **argv, char **envp)
 	{
 		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
+	}
+	else
+	{
+		if (execve(argv[0], argv, envp) == -1)
+			printf("Could not non path execve\n");
 	}
 	return ;
 }
