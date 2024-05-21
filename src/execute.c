@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/20 13:30:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:26:19 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	pre_execute(int argc, char **argv, char **envp)
 		printf("The arguments did not pass the parse process\n");
 		return ;
 	}
-	else if(parse_input(argc, argv, envp) == 1)
+	else if (parse_input(argc, argv, envp) == 1)
 	{
 		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
 	}
-	else
+	else if(parse_input(argc, argv, envp) == 2)
 	{
 		if (execve(argv[0], argv, envp) == -1)
 			printf("Could not non path execve\n");
