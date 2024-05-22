@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/15 16:54:53 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:49:26 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_env *fill_l_env(char **env)
 	t_env *next_node;
 	int i;
 
+	if (!env)
+		return (NULL);
 	l_env = new_node(env[0]);
 	if (l_env == NULL)
 		printf("Error allocating memory\n"), exit(EXIT_FAILURE);
