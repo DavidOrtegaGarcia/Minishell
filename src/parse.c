@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/20 13:32:09 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:52:31 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parse_input(int argc, char **argv, char **envp)
 		printf("running with no environment variables\n");
 		return (-1);
 	}
-	if (argv[0][0] != '.' && argv[0][0] != '/' && argv[0][0] != '~')
+	if (argv[0][0] == '.' || argv[0][0] == '/' || argv[0][0] == '~')
 		return (1);
 	else
 		return (2);
