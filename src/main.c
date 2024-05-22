@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/16 14:01:19 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:49:43 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc != 1)
 		return(printf("Wrong number of arguments\n"), -1);
 	l_env = fill_l_env(env);
-	print_env(l_env);
+	//print_env(l_env);
 	line = readline("minishell$ ");
 	while (line != NULL)
 	{
@@ -29,7 +29,10 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(line);
 		ft_printf("%s\n", line);
 		//parseo
-		expansor(line, l_env);
+		line = expansor(line, l_env);
+		if (line == NULL)
+			exit(EXIT_FAILURE);
+		ft_printf("%s\n", line);
 		free(line);
 		line = readline("minishell$ ");
 	}

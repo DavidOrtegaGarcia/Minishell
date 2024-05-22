@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/21 17:05:05 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:45:51 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 t_env	*get_ev(char *line, int k, t_env *l_env)
 {
-	int	exit;
 	int	i;
 	int	j;
 
-	exit = 1;
 	j = k;
-	while (line[j] != ' ' && line[j] != '\0')
+	i = 0;
+	while (ft_isalpha(line[j]) == 1)
 	{
 		i++;
 		j++;
@@ -30,6 +29,20 @@ t_env	*get_ev(char *line, int k, t_env *l_env)
 	return (l_env);
 }
 
+char *put_value(char *newline, int *j, char *value)
+{
+	int i;
+
+	i = 0;
+	while (value[i] != '\0')
+	{
+		newline[*j] = value[i];
+		(*j)++;
+		i++;
+	}
+	return (newline);
+}
+
 static char	*translate_ev(char *line, int k, t_env *l_env)
 {
 	char	*newline;
@@ -37,8 +50,8 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 	int		j;
 
 	i = 0;
-	l_env = get_ev(line, k, l_env);
-	j = ft_strlen(line) - ft_strlen(l_env->key) + ft_strlen(l_env->value) + 1;
+	l_env = get_ev(line, k + 1, l_env);
+	j = ft_strlen(line) - ft_strlen(l_env->key) + ft_strlen(l_env->value);
 	newline = malloc(j * sizeof(char));
 	if (newline == NULL)
 		return (NULL);
@@ -46,24 +59,25 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 	while (line[i] != '\0')
 	{
 		if (i == k)
+		{  
 			newline = put_value(newline, &j, l_env->value);
-		newline[j] = line[i];
-		i++;
+			i += ft_strlen(l_env->key) + 1;
+		}
+		else
+			newline[j++] = line[i++];
 	}
 	newline[j] = '\0';
-	free(line);
-	return (newline);
+	return (free(line), newline);
 }
 
 static int	check_ev(char *line, t_env *l_env)
 {
-	char	*key;
 	int		i;
 	int		result;
 
 	i = 0;
 	result = -1;
-	while (line[i] != ' ' && line[i] != '\0')
+	while (ft_isalpha(line[i]) == 1)
 		i++;
 	while (l_env != NULL)
 	{
@@ -74,48 +88,24 @@ static int	check_ev(char *line, t_env *l_env)
 	return (0);
 }
 
-static char	*remove_backslash(char *line)
-{
-	char	*newline;
-	int		i;
-	int		j;
-
-	newline = malloc(ft_strlen(line) * sizeof(char));
-	if (newline == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] != 92)
-		{
-			newline[j] = line[i];
-			j++;
-		}
-		i++;
-	}
-	newline[j] = '\0';
-	free(line);
-	return (newline);
-}
-
-void	expansor(char *line, t_env *l_env)
+char *expansor(char *line, t_env *l_env)
 {
 	int	i;
 
 	i = 0;
 	if (line == NULL)
-		return (0);
+		return (NULL);
 	while (line[i] != '\0')
 	{
-		if (line[i] == '$' && line[i + 1] != ' ' && i > 0 && line[i - 1] == 92)
-			line = remove_backslash(line);
-		else if (line[i] == '$' && line[i + 1] != ' ' && i > 0
-			&& line[i - 1] != 92 && check_ev(&line[i], l_env) == 1)
-			line = translate_ev(line, i, l_env);
-		else if (line[i] == '$' && line[i + 1] != ' ' && i > 0
-			&& line[i - 1] != 92 && check_ev(&line[i], l_env) == 0)
-			line = remove_ev(line);
+		if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1
+		 	&& check_ev(&line[i + 1], l_env) == 1)
+				line = translate_ev(line, i, l_env);
+		/*else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
+			&& check_ev(&line[i + 1], l_env) == 0)
+			line = remove_ev(line);*/
 		i++;
+		//printf("line: %s\n",line);
 	}
+	return (line);
 }
+// echo '$PATH'"$USER"
