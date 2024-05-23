@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/20 13:56:41 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:23:34 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,13 @@ char	**ft_tokenize(char *line)
 		{
 			i++;
 			token_len = quote_len(line + i, '\'');
-			ret[token_start] = malloc((token_len + 1) * sizeof(char));
-			ft_memcpy(ret[token_start], line + i, token_len);
-			ret[token_start][token_len + 1] = '\0';
+			ret[token_start] = malloc((token_len + 3) * sizeof(char));
+			if (ret[token_start] == NULL)
+				return (NULL);
+			ret[token_start][0] = '\'';
+			ft_memcpy(ret[token_start] + 1, line + i, token_len);
+			ret[token_start][token_len + 1] = '\'';
+			ret[token_start][token_len + 2] = '\0';
 			token_start++;
 			num_quote--;
 			i = i + token_len + 1;
@@ -137,9 +141,13 @@ char	**ft_tokenize(char *line)
 		{
 			i++;
 			token_len = quote_len(line + i, '"');
-			ret[token_start] = malloc((token_len + 1) * sizeof(char));
-			ft_memcpy(ret[token_start], line + i, token_len);
-			ret[token_start][token_len + 1] = '\0';
+			ret[token_start] = malloc((token_len + 3) * sizeof(char));
+			if (ret[token_start] == NULL)
+				return (NULL);
+			ret[token_start][0] = '"';
+			ft_memcpy(ret[token_start] + 1, line + i, token_len);
+			ret[token_start][token_len + 1] = '"';
+			ret[token_start][token_len + 2] = '\0';
 			token_start++;
 			num_d_quote--;
 			i = i + token_len + 1;
