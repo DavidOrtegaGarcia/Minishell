@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/22 17:08:34 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:07:31 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
 char	*expansor(char *line, t_env *l_env);
 void	pre_execute(int argc, char **argv, char **envp);
+int		compare_key(char *line, char *key);
 #endif

@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/22 17:48:04 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/24 16:23:38 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,13 @@ YELLOW	=	\033[38;5;190m
 
 #-------------<COMMANDS>------------
 CC 		= 		gcc
-CFLAGS 	= 	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
 INCLUDE =	-I./libs -I./readline -I./libft
 
 #--------------<SRC>-------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c utilsd.c expansor.c
+CFILES	=	main.c utilsd.c expansor.c utils_expansor.c
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
@@ -36,7 +36,7 @@ LIB_ADD_DIR	:=	-Lreadline -Llibft
 LIB_SEARCH	:=	-lreadline -lhistory -ltermcap -lft
 
 #-------------<RULES>-------------
-all: makelibs $(DIR_O) $(NAME)
+all: makelibs rdline $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
