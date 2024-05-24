@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/22 17:45:51 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:26:38 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env	*get_ev(char *line, int k, t_env *l_env)
 		i++;
 		j++;
 	}
-	while (ft_strncmp(&line[k], l_env->key, i) != 0)
+	while (compare_key(&line[k], l_env->key) != 0)
 		l_env = l_env->next;
 	return (l_env);
 }
@@ -72,16 +72,14 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 
 static int	check_ev(char *line, t_env *l_env)
 {
-	int		i;
-	int		result;
+	int	i;
 
 	i = 0;
-	result = -1;
 	while (ft_isalpha(line[i]) == 1)
 		i++;
 	while (l_env != NULL)
 	{
-		if (ft_strncmp(line, l_env->key, i) == 0)
+		if (compare_key(line, l_env->key) == 0)
 			return (1);
 		l_env = l_env->next;
 	}
@@ -91,15 +89,42 @@ static int	check_ev(char *line, t_env *l_env)
 char *expansor(char *line, t_env *l_env)
 {
 	int	i;
+	int	dquotes;
+	int squotes;
 
+	dquotes = 0;
+	squotes = 0;
 	i = 0;
 	if (line == NULL)
 		return (NULL);
 	while (line[i] != '\0')
 	{
-		if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1
+		if (line[i] == '"' && dquotes == 0 && squotes == 0)
+		{
+			dquotes = 1;
+			//line = remove_char(line, i);
+		}
+		if (line[i] == '"' && dquotes == 1)
+		{
+			dquotes = 0;
+			//line = remove_char(line, i);
+		}
+		if (line[i] == '\'' && squotes == 0 && dquotes == 0)
+		{
+			squotes = 1;
+			//line = remove_char(line, i);
+		}
+		if (line[i] == '\'' && squotes == 1)
+		{
+			squotes = 0;
+			//line = remove_char(line, i);
+		}
+		if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 && squotes == 0
 		 	&& check_ev(&line[i + 1], l_env) == 1)
+			{
+				printf("%i\n", squotes);
 				line = translate_ev(line, i, l_env);
+			}
 		/*else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
 			&& check_ev(&line[i + 1], l_env) == 0)
 			line = remove_ev(line);*/
