@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/24 16:23:38 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/27 15:06:22 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,11 @@ LIB_ADD_DIR	:=	-Lreadline -Llibft
 LIB_SEARCH	:=	-lreadline -lhistory -ltermcap -lft
 
 #-------------<RULES>-------------
-all: makelibs rdline $(DIR_O) $(NAME)
+all: makelibs $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
-	@$(MAKE) readline --no-print-directory
+#@$(MAKE) rdline --no-print-directory
 	
 $(DIR_O):
 	@mkdir -p $(DIR_O)

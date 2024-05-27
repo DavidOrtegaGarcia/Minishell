@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/24 17:26:38 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:54:07 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 	j = ft_strlen(line) - ft_strlen(l_env->key) + ft_strlen(l_env->value);
 	newline = malloc(j * sizeof(char));
 	if (newline == NULL)
-		return (NULL);
+		return (free(line), NULL);
 	j = 0;
 	while (line[i] != '\0')
 	{
@@ -85,6 +85,49 @@ static int	check_ev(char *line, t_env *l_env)
 	}
 	return (0);
 }
+char *remove_char(char *line, int i)
+{
+	while (line[i] != '\0')
+	{
+		line[i] = line[i + 1];
+		i++;
+	}
+	return (line);
+}
+int check_quotes(char *line, int *i, int *squotes, int *dquotes)
+{
+	int remove;
+
+	remove = 0;
+	if (line[*i] == '"' && *dquotes == 1)
+	{
+		*dquotes = 0;
+		line = remove_char(line, *i);
+		remove = 1;
+	}
+	else if (line[*i] == '"' && *dquotes == 0 && *squotes == 0)
+	{
+		*dquotes = 1;
+		remove = 1;
+	}
+	else if (line[*i] == '\'' && *squotes == 1)
+	{
+		*squotes = 0;
+		remove = 1;
+	}
+	else if (line[*i] == '\'' && *squotes == 0 && *dquotes == 0)
+	{
+		*squotes = 1;
+		remove = 1;
+	}
+	if (remove)
+	{
+		line = remove_char(line, *i);
+		(*i)--;
+		return (1);
+	}
+	return (0);
+}
 
 char *expansor(char *line, t_env *l_env)
 {
@@ -99,38 +142,18 @@ char *expansor(char *line, t_env *l_env)
 		return (NULL);
 	while (line[i] != '\0')
 	{
-		if (line[i] == '"' && dquotes == 0 && squotes == 0)
+		if (!check_quotes(line, &i, &squotes, &dquotes))
 		{
-			dquotes = 1;
-			//line = remove_char(line, i);
-		}
-		if (line[i] == '"' && dquotes == 1)
-		{
-			dquotes = 0;
-			//line = remove_char(line, i);
-		}
-		if (line[i] == '\'' && squotes == 0 && dquotes == 0)
-		{
-			squotes = 1;
-			//line = remove_char(line, i);
-		}
-		if (line[i] == '\'' && squotes == 1)
-		{
-			squotes = 0;
-			//line = remove_char(line, i);
-		}
-		if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 && squotes == 0
-		 	&& check_ev(&line[i + 1], l_env) == 1)
-			{
-				printf("%i\n", squotes);
+			if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
+			&& check_ev(&line[i + 1], l_env) == 1)
 				line = translate_ev(line, i, l_env);
-			}
-		/*else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
+			/*else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
 			&& check_ev(&line[i + 1], l_env) == 0)
 			line = remove_ev(line);*/
+			if (line == NULL)
+				return (NULL);
+		}
 		i++;
-		//printf("line: %s\n",line);
 	}
 	return (line);
 }
-// echo '$PATH'"$USER"
