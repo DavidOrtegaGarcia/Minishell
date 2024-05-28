@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/27 15:06:22 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/28 17:50:28 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ all: makelibs $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
-#@$(MAKE) rdline --no-print-directory
+# @$(MAKE) rdline --no-print-directory
 	
 $(DIR_O):
 	@mkdir -p $(DIR_O)

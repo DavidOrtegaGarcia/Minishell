@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/27 16:54:07 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:12:14 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,7 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 
 static int	check_ev(char *line, t_env *l_env)
 {
-	int	i;
-
-	i = 0;
-	while (ft_isalpha(line[i]) == 1)
-		i++;
+	printf("CHECK_EV\n");
 	while (l_env != NULL)
 	{
 		if (compare_key(line, l_env->key) == 0)
@@ -85,7 +81,28 @@ static int	check_ev(char *line, t_env *l_env)
 	}
 	return (0);
 }
-char *remove_char(char *line, int i)
+
+static char *remove_ev(char *line, int i)
+{
+
+	int j;
+
+	j = i;
+	printf("REMOVE_EV\n");
+	while (ft_isalpha(line[j]) == 1)
+		j++;
+	while (line[j] != '\0')
+	{
+		line[i] = line[j];
+		i++;
+		j++;
+	}
+	line[i] = line[j];
+	printf("LINE: %s\n", line);
+	return (line);
+}
+
+static char *remove_char(char *line, int i)
 {
 	while (line[i] != '\0')
 	{
@@ -94,7 +111,8 @@ char *remove_char(char *line, int i)
 	}
 	return (line);
 }
-int check_quotes(char *line, int *i, int *squotes, int *dquotes)
+
+static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
 {
 	int remove;
 
@@ -147,13 +165,15 @@ char *expansor(char *line, t_env *l_env)
 			if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
 			&& check_ev(&line[i + 1], l_env) == 1)
 				line = translate_ev(line, i, l_env);
-			/*else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
+			else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
 			&& check_ev(&line[i + 1], l_env) == 0)
-			line = remove_ev(line);*/
+				line = remove_ev(line, i);
 			if (line == NULL)
 				return (NULL);
 		}
 		i++;
 	}
+	if (dquotes == 1 || squotes == 1)
+		return (printf("Sintaxis error\n"), free(line), NULL);
 	return (line);
 }
