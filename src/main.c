@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/24 16:44:10 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:11:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		if (line[0] != '\0') 
 			add_history(line);
-		ft_printf("%s\n", line);
+		//ft_printf("%s\n", line);
 		//parseo
 		line = expansor(line, l_env);
 		if (line == NULL)

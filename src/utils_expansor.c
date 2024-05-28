@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:07:17 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/24 17:04:30 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:01:30 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ int	compare_key(char *line, char *key)
 	i = 0;
 	while (line[i] != '\0' && key[i] != '\0' && result == 0)
 	{
-		result = (unsigned char)line[i] - (unsigned char)key[i];
+		//printf("COMAPRE KEY: %i\n", i);
+		result = line[i] - key[i];
 		i++;
 	}
 	if ((line[i] != '\0' || key[i] != '\0') &&
-		(ft_isalpha(line[i] == 1) || ft_isalpha(key[i] == 1)) && result == 0)
-		result = (unsigned char)line[i] - (unsigned char)key[i];
+		(ft_isalpha(line[i]) == 1 || ft_isalpha(key[i]) == 1) && result == 0)
+		result = line[i] - key[i];
+	//printf("result = %i \nline[i] = %i \nkey[i] = %i\n", result, line[i], key[i]);
 	if (result > 0)
 		result = 1;
 	else if (result < 0)
