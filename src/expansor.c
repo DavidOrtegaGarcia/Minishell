@@ -6,11 +6,44 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/28 18:12:14 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:32:55 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static  put_exstat(line, i, exstat)
+{
+	char *cexstat;
+	char *newline;
+	int i;
+
+	cexstat = ft_itoa(exstat);
+	if (cexstat == NULL)
+		return (free(cexstat), NULL);
+
+	while ()
+	{
+
+	}
+}
+static char *remove_ev(char *line, int i)
+{
+
+	int j;
+
+	j = i + 1;
+	while (ft_isalpha(line[j]) == 1)
+		j++;
+	while (line[j] != '\0')
+	{
+		line[i] = line[j];
+		i++;
+		j++;
+	}
+	line[i] = line[j];
+	return (line);
+}
 
 t_env	*get_ev(char *line, int k, t_env *l_env)
 {
@@ -72,7 +105,6 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 
 static int	check_ev(char *line, t_env *l_env)
 {
-	printf("CHECK_EV\n");
 	while (l_env != NULL)
 	{
 		if (compare_key(line, l_env->key) == 0)
@@ -80,26 +112,6 @@ static int	check_ev(char *line, t_env *l_env)
 		l_env = l_env->next;
 	}
 	return (0);
-}
-
-static char *remove_ev(char *line, int i)
-{
-
-	int j;
-
-	j = i;
-	printf("REMOVE_EV\n");
-	while (ft_isalpha(line[j]) == 1)
-		j++;
-	while (line[j] != '\0')
-	{
-		line[i] = line[j];
-		i++;
-		j++;
-	}
-	line[i] = line[j];
-	printf("LINE: %s\n", line);
-	return (line);
 }
 
 static char *remove_char(char *line, int i)
@@ -120,7 +132,6 @@ static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
 	if (line[*i] == '"' && *dquotes == 1)
 	{
 		*dquotes = 0;
-		line = remove_char(line, *i);
 		remove = 1;
 	}
 	else if (line[*i] == '"' && *dquotes == 0 && *squotes == 0)
@@ -147,7 +158,7 @@ static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
 	return (0);
 }
 
-char *expansor(char *line, t_env *l_env)
+char *expansor(char *line, t_env *l_env, int exstat)
 {
 	int	i;
 	int	dquotes;
@@ -162,18 +173,20 @@ char *expansor(char *line, t_env *l_env)
 	{
 		if (!check_quotes(line, &i, &squotes, &dquotes))
 		{
-			if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
+			if (line[i] == '$' && squotes == 0 && line[i + 1] == '?')
+				line = put_exstat(line, i, exstat);
+			else if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
 			&& check_ev(&line[i + 1], l_env) == 1)
 				line = translate_ev(line, i, l_env);
-			else if (line[i] == '$' && ft_isalpha(line[i + 1]) == 1 
-			&& check_ev(&line[i + 1], l_env) == 0)
-				line = remove_ev(line, i);
+			else if (line[i] == '$' && squotes == 0 
+			&& ft_isalpha(line[i + 1]) == 1 && check_ev(&line[i + 1], l_env) == 0)
+				line = remove_ev(line, i--);
 			if (line == NULL)
-				return (NULL);
+				return (printf("Error allocating memory\n"), NULL);
 		}
 		i++;
 	}
-	if (dquotes == 1 || squotes == 1)
-		return (printf("Sintaxis error\n"), free(line), NULL);
+	/*if (dquotes == 1 || squotes == 1)
+		return (printf("Sintaxis error\n"), free(line), NULL);*/
 	return (line);
 }
