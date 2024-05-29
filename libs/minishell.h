@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/14 13:54:10 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:12:30 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@
 # include <readline/history.h>
 
 /*---------STRUCTS----------*/
-
+typedef struct s_token
+{
+	char			*content;
+	struct s_token	*next;
+}					t_token;
 /*--------------HEADERS--------------*/
 int		main(int argc, char *argv[], char *env[]);
 int		parse_input(int argc, char **argv, char **envp);
