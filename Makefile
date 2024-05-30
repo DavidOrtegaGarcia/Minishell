@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/28 18:23:10 by daortega         ###   ########.fr        #
+#    Updated: 2024/05/30 15:49:30 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ YELLOW	=	\033[38;5;190m
 
 #-------------<COMMANDS>------------
 CC 		= 		gcc
-CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS 	= 	-Wall -Wextra -Werror #-fsanitize=address
 INCLUDE =	-I./libs -I./readline -I./libft
 
 #--------------<SRC>-------------
@@ -40,7 +40,7 @@ all: makelibs $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
-# @$(MAKE) rdline --no-print-directory
+#@$(MAKE) rdline --no-print-directory
 	
 $(DIR_O):
 	@mkdir -p $(DIR_O)

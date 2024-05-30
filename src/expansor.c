@@ -6,13 +6,28 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/29 17:32:55 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:58:50 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static  put_exstat(line, i, exstat)
+static char *insert_exstat(char *newline, int *i, char *cexstat)
+{
+	int j;
+
+	j = 0;
+	while (cexstat[j] != '\0')
+	{
+		newline[*i] = cexstat[j];
+		(*i)++;
+		j++;
+	}
+	(*i)--;
+	return (newline);
+}
+
+static char *put_exstat(char *line, int pos_$, int exstat, int j)
 {
 	char *cexstat;
 	char *newline;
@@ -20,12 +35,25 @@ static  put_exstat(line, i, exstat)
 
 	cexstat = ft_itoa(exstat);
 	if (cexstat == NULL)
-		return (free(cexstat), NULL);
-
-	while ()
+		return (free(line), NULL);
+	newline = malloc((ft_strlen(line) + ft_strlen(cexstat) - 1) * sizeof(char));
+	if (newline == NULL)
+		return (free(cexstat),free(line), NULL);
+	i = 0;
+	while (line[j] != '\0')
 	{
-
+		if (i == pos_$)
+		{
+			newline = insert_exstat(newline, &i, cexstat);
+			j++;
+		}
+		else
+			newline[i] = line[j];
+		i++;
+		j++;
 	}
+	newline[i] = '\0';
+	return (free(cexstat), free(line), newline);
 }
 static char *remove_ev(char *line, int i)
 {
@@ -124,6 +152,8 @@ static char *remove_char(char *line, int i)
 	return (line);
 }
 
+
+
 static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
 {
 	int remove;
@@ -174,7 +204,7 @@ char *expansor(char *line, t_env *l_env, int exstat)
 		if (!check_quotes(line, &i, &squotes, &dquotes))
 		{
 			if (line[i] == '$' && squotes == 0 && line[i + 1] == '?')
-				line = put_exstat(line, i, exstat);
+				line = put_exstat(line, i, exstat, 0);
 			else if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
 			&& check_ev(&line[i + 1], l_env) == 1)
 				line = translate_ev(line, i, l_env);
