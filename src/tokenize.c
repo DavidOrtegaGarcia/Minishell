@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/05 12:55:00 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:38:56 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,25 +107,28 @@ char **ft_lst_to_matrix(t_token **list)
 	i = 0;
 	if(list != NULL)
 	{
-		elem = *(list);
-		while (elem->next != NULL)
+		elem = **list;
+		while (elem.next != NULL)
 		{
-			elem = elem->next;
+			elem = *elem.next;
 			i++;
 		}
 	}
-	if (i < 0)
+	if (i > 0)
 	{
 		ret = (char **) malloc(sizeof(char *) * i);
-		elem = (*list);
+		if (ret == NULL)
+			return (NULL);
+		elem = **list;
 		i = 0;
-		while (elem->next != NULL)
+		while (elem.next != NULL)
 		{
-			*(ret + i) = ft_strdup(elem->content);
-			elem = elem->next
+			*(ret + i) = ft_strdup(elem.content);
+			elem = *elem.next;
 			i++;
 		}
 	}
+	printf("All good so far\n");
 	return (ret);
 }
 char	**ft_tokenize(char *line)
