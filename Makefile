@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/05/30 15:49:30 by daortega         ###   ########.fr        #
+#    Updated: 2024/06/05 18:10:51 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ NC		=	\033[0m
 YELLOW	=	\033[38;5;190m
 
 #-------------<COMMANDS>------------
-CC 		= 		gcc
+CC 		= 	gcc
 CFLAGS 	= 	-Wall -Wextra -Werror #-fsanitize=address
-INCLUDE =	-I./libs -I./readline -I./libft
+INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
 
 #--------------<SRC>-------------
 NAME	=	minishell
@@ -31,16 +31,15 @@ DIR_O	= 	tmp/
 OBJC	=	$(addprefix $(DIR_O), $(SRCC:.c=.o))
 
 
-LIB_A		:=	readline/libreadline.a readline/libhistory.a libft/libft.a
-LIB_ADD_DIR	:=	-Lreadline -Llibft
-LIB_SEARCH	:=	-lreadline -lhistory -ltermcap -lft
+LIB_A		:=	libft/libft.a #readline/libreadline.a readline/libhistory.a libft/libft.a
+LIB_ADD_DIR	:=	-Llibft #-Lreadline -Llibft
+LIB_SEARCH	:=	-lreadline -lft #-lhistory -ltermcap -lft
 
 #-------------<RULES>-------------
 all: makelibs $(DIR_O) $(NAME)
 
 makelibs: 
 	@$(MAKE) -C libft/ --no-print-directory
-#@$(MAKE) rdline --no-print-directory
 	
 $(DIR_O):
 	@mkdir -p $(DIR_O)
@@ -48,12 +47,6 @@ $(DIR_O):
 $(NAME): $(OBJC)
 	@$(CC) $(CFLAGS) $(OBJC) $(LIB_ADD_DIR) $(LIB_SEARCH) $(LIB_A) -o $(NAME)
 	@echo "${GREEN}Minishell Compiled${NC}"
-
-rdline :
-	@echo "${YELLOW}Compiling Readline...${NC}"
-	@cd ./readline/ &> /dev/null && ./configure &> /dev/null
-	@make -C ./readline/ &> /dev/null
-	@echo "${GREEN}Readline Compiled${NC}"
 	
 $(DIR_O)%.o: %.c $(LIB_A) Makefile
 	@mkdir -p $(dir $@)
@@ -68,7 +61,6 @@ clean:
 fclean: clean 
 	@rm -f $(NAME)
 	@$(MAKE) -C libft fclean --no-print-directory
-	@$(MAKE) -C readline clean --no-print-directory
 	@printf "${RED}Minishell deleted\n${NC}"
 
 re: fclean all
