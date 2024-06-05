@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/31 14:00:29 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:55:00 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char **ft_lst_to_matrix(t_token **list)
 			i++;
 		}
 	}
-	
+	return (ret);
 }
 char	**ft_tokenize(char *line)
 {

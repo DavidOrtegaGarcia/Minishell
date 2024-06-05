@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:55:37 by daortega          #+#    #+#             */
-/*   Updated: 2023/12/13 18:28:54 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:13:35 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	static	get_num_digits_hexa(unsigned long n)
+static	int	get_num_digits_hexa(unsigned long n)
 {
 	int	n_digits;
 

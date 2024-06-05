@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 12:21:30 by daortega          #+#    #+#             */
-/*   Updated: 2023/12/13 19:21:39 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:16:53 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" 
 
-char static	*get_linee(char *buff)
+static	char	*get_linee(char *buff)
 {
 	char	*line;
 	int		pos;
@@ -40,7 +40,7 @@ char static	*get_linee(char *buff)
 	return (line);
 }
 
-char static	*cleanbuff(char *buff, int linelength)
+static	char	*cleanbuff(char *buff, int linelength)
 {
 	int		i;
 	char	*newbuff;
@@ -59,7 +59,7 @@ char static	*cleanbuff(char *buff, int linelength)
 	return (newbuff);
 }
 
-char static	*read_line(int fd, char *buff)
+static	char	*read_line(int fd, char *buff)
 {
 	char	*str;
 	int		cread;
