@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 12:23:28 by daortega          #+#    #+#             */
-/*   Updated: 2023/10/06 14:23:27 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:00:09 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	static	check_char(char c, char const *set)
+static	int	check_char(char c, char const *set)
 {
 	int	i;
 	int	result;
