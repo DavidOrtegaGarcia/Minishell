@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/05 14:38:56 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:00:38 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_addtoken(t_token **token_list, char *line, int start, int end)
 	t_token	*elem;
 	t_token	*new;
 
+	printf("All good so far ft_addtoken\n");
 	if (token_list == NULL)
 	{
 		token_list = (t_token **) malloc(sizeof(t_token *));
@@ -97,7 +98,24 @@ void	ft_addtoken(t_token **token_list, char *line, int start, int end)
 	}
 }
 
-char **ft_lst_to_matrix(t_token **list)
+void	print_list(t_token **list)
+{
+	int	i;
+	t_token	*elem;
+
+	printf("All good so far print_list 1\n");
+	elem = *(list);
+	printf("All good so far print_list 1.5\n");
+	i = 0;
+	printf("All good so far print_list 2\n");
+	while (elem != NULL)
+	{
+		printf("Argument %d: %s\n", i, elem->content);
+		elem = elem->next;
+		i++;
+	}
+}
+char	**ft_lst_to_matrix(t_token **list)
 {
 	int	i;
 	char **ret;
@@ -116,19 +134,22 @@ char **ft_lst_to_matrix(t_token **list)
 	}
 	if (i > 0)
 	{
-		ret = (char **) malloc(sizeof(char *) * i);
+		ret = (char **) malloc(sizeof(char *) * (i + 1));
 		if (ret == NULL)
 			return (NULL);
 		elem = **list;
 		i = 0;
 		while (elem.next != NULL)
 		{
+			*(ret + i) = (char *) malloc(sizeof(char) * (ft_strlen(elem.content) + 1));
 			*(ret + i) = ft_strdup(elem.content);
 			elem = *elem.next;
 			i++;
 		}
 	}
-	printf("All good so far\n");
+	printf("All good so far token\n");
+	*(ret + i) = NULL;
+	printf("All good so far token 2\n");
 	return (ret);
 }
 char	**ft_tokenize(char *line)
@@ -137,7 +158,7 @@ char	**ft_tokenize(char *line)
 	int		q_flag;
 	int		start;
 	int		word_flag;
-	t_token	**token_list;
+	t_token		**token_list;
 
 	i = 0;
 	q_flag = 0;
@@ -166,7 +187,7 @@ char	**ft_tokenize(char *line)
 		{
 			while (line[i] != line[start] && line[i] != '\0')
 				i++;
-			if (line[i + 1] == '\0')
+			if (line[i + 1] == '\0' && line[i] != line[start])
 			{
 				printf("Finish quotes\n");
 				return (NULL);
@@ -177,5 +198,6 @@ char	**ft_tokenize(char *line)
 		}
 		i++;
 	}
+	//print_list(token_list);
 	return (ft_lst_to_matrix(token_list));
 }

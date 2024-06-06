@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/14 13:54:13 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:03:34 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ int	main(int argc, char *argv[], char *env[])
 		if(line != NULL && line[0] != '\0') 
 			add_history(line);
 		//parseo
-		//command = ft_split(line, ' ');
+		printf("All good so far 1\n");
 		command = ft_tokenize(line);
+		printf("All good so far 2\n");
 		argc = count_lines(command);
+		printf("All good so far 3\n");
 		pre_execute(argc, command, env);
 		free(line);
 		
