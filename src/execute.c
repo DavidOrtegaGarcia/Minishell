@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/13 14:47:22 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:35:32 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,22 @@ void	ft_free(char **str)
 	free(str);
 }
 
-char	*find_path(char **envp)
+char	*find_path(char **envp, char *str)
 {
 	int	i;
+	int	len;
 
 	i = 0;
+	len = ft_strlen(str);
 	while (*envp != NULL)
 	{
-		if (ft_strncmp("PATH=", envp[i], 5) == 0)
+		if (ft_strncmp(str, envp[i], len) == 0)
 		{
-			return (envp[i] + 5);
+			return (envp[i] + len);
 		}
 		i++;
 	}
-	return (printf("Did not find PATH\n"), "\0");
+	return (printf("Did not find %s\n", str), "\0");
 }
 
 int	path_execute(char *com, char **argv, char **envp)
@@ -48,10 +50,10 @@ int	path_execute(char *com, char **argv, char **envp)
 
 	i = 0;
 	com = ft_strjoin("/", com);
-	path = ft_split(find_path(envp), ':');
+	path = ft_split(find_path(envp, "PATH="), ':');
 	while (path[i] != NULL)
 	{
-		route = ft_strjoin(path[i], com);//heap overflow
+		route = ft_strjoin(path[i], com);
 		execve(route, argv, envp);
 		i++;
 	}
@@ -62,19 +64,43 @@ int	path_execute(char *com, char **argv, char **envp)
 	return (-1);
 }
 
+int	direction_execute(char *com, char **argv, char **envp)
+{
+	//int	i;
+
+	//i = 0;
+	if (com[0] == '~')
+	{
+		com = ft_strjoin(find_path(envp, "HOME="), com + 1);
+	}
+	if (com[0] == '.')
+	{
+		//while (com[i] == '.')
+		//{
+		//	i++;
+		//}
+		com = ft_strjoin(find_path(envp, "PWD="), com + 1);
+	}
+	execve(com, argv, envp);
+	return (-1);
+}
+
 void	pre_execute(int argc, char **argv, char **envp)
 {
-	if (argc < 2)
+	if (parse_input(argc, argv, envp) == -1)
 	{
-		printf("Wrong number of arguments\n");
+		printf("The arguments did not pass the parse process\n");
 		return ;
 	}
-	argv++; //skip the name of the executable
-	//check for valid inputs
-	if (argv[0][0] != '.' && argv[0][0] != '/' && argv[0][0] != '~')
+	else if (parse_input(argc, argv, envp) == 2)
 	{
-		if (path_execute(argv[0], argv, envp) == -1)//heap overflow
+		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
+	}
+	else if(parse_input(argc, argv, envp) == 1)
+	{
+		if (direction_execute(argv[0], argv, envp) == -1)
+			printf("Could not non path execve\n");
 	}
 	return ;
 }
