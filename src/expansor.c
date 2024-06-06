@@ -6,15 +6,15 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/05/30 15:58:50 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:54:34 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *insert_exstat(char *newline, int *i, char *cexstat)
+static char	*insert_exstat(char *newline, int *i, char *cexstat)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (cexstat[j] != '\0')
@@ -27,22 +27,22 @@ static char *insert_exstat(char *newline, int *i, char *cexstat)
 	return (newline);
 }
 
-static char *put_exstat(char *line, int pos_$, int exstat, int j)
+static char	*put_exstat(char *line, int pos_doll, int exstat, int j)
 {
-	char *cexstat;
-	char *newline;
-	int i;
+	char	*cexstat;
+	char	*newline;
+	int		i;
 
 	cexstat = ft_itoa(exstat);
 	if (cexstat == NULL)
 		return (free(line), NULL);
 	newline = malloc((ft_strlen(line) + ft_strlen(cexstat) - 1) * sizeof(char));
 	if (newline == NULL)
-		return (free(cexstat),free(line), NULL);
+		return (free(cexstat), free(line), NULL);
 	i = 0;
 	while (line[j] != '\0')
 	{
-		if (i == pos_$)
+		if (i == pos_doll)
 		{
 			newline = insert_exstat(newline, &i, cexstat);
 			j++;
@@ -55,10 +55,10 @@ static char *put_exstat(char *line, int pos_$, int exstat, int j)
 	newline[i] = '\0';
 	return (free(cexstat), free(line), newline);
 }
-static char *remove_ev(char *line, int i)
-{
 
-	int j;
+static char	*remove_ev(char *line, int i)
+{
+	int	j;
 
 	j = i + 1;
 	while (ft_isalpha(line[j]) == 1)
@@ -90,9 +90,9 @@ t_env	*get_ev(char *line, int k, t_env *l_env)
 	return (l_env);
 }
 
-char *put_value(char *newline, int *j, char *value)
+static char	*put_value(char *newline, int *j, char *value)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (value[i] != '\0')
@@ -120,7 +120,7 @@ static char	*translate_ev(char *line, int k, t_env *l_env)
 	while (line[i] != '\0')
 	{
 		if (i == k)
-		{  
+		{
 			newline = put_value(newline, &j, l_env->value);
 			i += ft_strlen(l_env->key) + 1;
 		}
@@ -142,7 +142,7 @@ static int	check_ev(char *line, t_env *l_env)
 	return (0);
 }
 
-static char *remove_char(char *line, int i)
+static char	*remove_char(char *line, int i)
 {
 	while (line[i] != '\0')
 	{
@@ -152,11 +152,9 @@ static char *remove_char(char *line, int i)
 	return (line);
 }
 
-
-
-static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
+static int	check_quotes(char *line, int *i, int *squotes, int *dquotes)
 {
-	int remove;
+	int	remove;
 
 	remove = 0;
 	if (line[*i] == '"' && *dquotes == 1)
@@ -188,11 +186,11 @@ static int check_quotes(char *line, int *i, int *squotes, int *dquotes)
 	return (0);
 }
 
-char *expansor(char *line, t_env *l_env, int exstat)
+char	*expansor(char *line, t_env *l_env, int exstat)
 {
 	int	i;
 	int	dquotes;
-	int squotes;
+	int	squotes;
 
 	dquotes = 0;
 	squotes = 0;
@@ -205,11 +203,13 @@ char *expansor(char *line, t_env *l_env, int exstat)
 		{
 			if (line[i] == '$' && squotes == 0 && line[i + 1] == '?')
 				line = put_exstat(line, i, exstat, 0);
-			else if (line[i] == '$' && squotes == 0 && ft_isalpha(line[i + 1]) == 1
-			&& check_ev(&line[i + 1], l_env) == 1)
+			else if (line[i] == '$' && squotes == 0
+				&& ft_isalpha(line[i + 1]) == 1
+				&& check_ev(&line[i + 1], l_env) == 1)
 				line = translate_ev(line, i, l_env);
-			else if (line[i] == '$' && squotes == 0 
-			&& ft_isalpha(line[i + 1]) == 1 && check_ev(&line[i + 1], l_env) == 0)
+			else if (line[i] == '$' && squotes == 0
+				&& ft_isalpha(line[i + 1]) == 1
+				&& check_ev(&line[i + 1], l_env) == 0)
 				line = remove_ev(line, i--);
 			if (line == NULL)
 				return (printf("Error allocating memory\n"), NULL);
