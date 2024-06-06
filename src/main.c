@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/06 14:03:34 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:39:07 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,26 @@ int	count_lines(char **matrix)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	char *line;
-	(void)argv;
-	(void)env;
-	char **command;
+	char	*line;
+	t_env	*l_env;
+
 	if (argc != 1)
-		return(printf("Wrong number of arguments\n"), -1);
-	while (1)
+		return (printf("Wrong number of arguments\n"), -1);
+	l_env = fill_l_env(env);
+	//print_env(l_env);
+	line = readline("minishell$ ");
+	while (line != NULL)
 	{
-    	line = readline("minishell$ ");
-		if(line != NULL && line[0] != '\0') 
+		if (line[0] != '\0') 
 			add_history(line);
+		//ft_printf("%s\n", line);
 		//parseo
-		printf("All good so far 1\n");
-		command = ft_tokenize(line);
-		printf("All good so far 2\n");
-		argc = count_lines(command);
-		printf("All good so far 3\n");
-		pre_execute(argc, command, env);
+		line = expansor(line, l_env, 1735);
+		if (line == NULL)
+			exit(EXIT_FAILURE);
+		ft_printf("%s\n", line);
 		free(line);
-		
+		line = readline("minishell$ ");
 	}
-	printf("HOLA");
+	exit(EXIT_SUCCESS);
 }
