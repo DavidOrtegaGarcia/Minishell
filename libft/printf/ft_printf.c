@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 14:01:57 by daortega          #+#    #+#             */
-/*   Updated: 2023/12/13 18:16:14 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:26:48 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	static	check_format(char const c, va_list args)
+static	int	check_format(char const c, va_list args)
 {
 	int	contador;
 
@@ -38,7 +38,7 @@ int	static	check_format(char const c, va_list args)
 	return (contador);
 }
 
-int	static	print_str(char const *str, va_list	args)
+static	int	print_str(char const *str, va_list	args)
 {
 	int		result;
 	int		aux;

@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:04:02 by daortega          #+#    #+#             */
-/*   Updated: 2023/12/13 16:41:08 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:27:36 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	static	get_n_digits_hexa(unsigned int n)
+static	int	get_n_digits_hexa(unsigned int n)
 {
 	int	n_digits;
 
@@ -27,7 +27,7 @@ int	static	get_n_digits_hexa(unsigned int n)
 	return (n_digits);
 }
 
-char static	*hexaitoa(unsigned int n, char *basehexa)
+static	char	*hexaitoa(unsigned int n, char *basehexa)
 {
 	char	*result;
 	int		n_digits;
