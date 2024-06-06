@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:14 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/05 13:05:32 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:22:11 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	fill_matrix(char *subs, char const *s, char c, int pstr)
+static int	fill_matrix(char *subs, char const *s, char c, int pstr)
 {
 	int	i;
 

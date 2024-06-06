@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:01:50 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/05 13:09:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:20:21 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	get_num_digits(int n)
+static int	get_num_digits(int n)
 {
 	int	n_digits;
 
