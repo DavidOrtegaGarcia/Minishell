@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:14 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/05 15:56:06 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:22:11 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	fill_matrix(char *subs, char const *s, char c, int pstr)
 	return (pstr);
 }
 
-static char	**free_matrix(char **matrix, int i)
+static	char	**free_matrix(char **matrix, int i)
 {
 	while (--i > -1)
 		free(matrix[i]);
@@ -33,7 +33,7 @@ static char	**free_matrix(char **matrix, int i)
 	return (NULL);
 }
 
-static int	chk_size(char const *s, char c, int pstr)
+static	int	chk_size(char const *s, char c, int pstr)
 {
 	int	result;
 
@@ -48,7 +48,7 @@ static int	chk_size(char const *s, char c, int pstr)
 	return (result);
 }
 
-static int	chk_substrings(char const *s, char c)
+static	int	chk_substrings(char const *s, char c)
 {
 	int	result;
 	int	i;
