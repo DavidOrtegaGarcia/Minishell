@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 17:46:49 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/05 15:57:11 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:28:57 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_putnum(int num)
 	return (result);
 }
 
-static int	get_n_digits(unsigned int n)
+static	int	get_n_digits(unsigned int n)
 {
 	int	n_digits;
 
@@ -40,7 +40,7 @@ static int	get_n_digits(unsigned int n)
 	return (n_digits);
 }
 
-static char	*unsitoa(unsigned int n)
+static	char	*unsitoa(unsigned int n)
 {
 	char			*result;
 	int				n_digits;
