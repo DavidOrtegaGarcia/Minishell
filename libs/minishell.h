@@ -6,19 +6,25 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/06 15:31:50 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:02:23 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/*-------SIGNALS---------*/
+# define CTRL_C SIGINT
+# define CTRL_BS SIGQUIT
+
+/*--------LIBRARIES----------*/
 # include <libft.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 /*---------STRUCTS----------*/
 typedef struct s_token
@@ -42,4 +48,5 @@ int	parse_input(int argc, char **argv, char **envp);
 char	**ft_tokenize(char *line);
 void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
+void    signals(void);
 #endif

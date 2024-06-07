@@ -6,11 +6,11 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/06/06 15:19:08 by rpocater         ###   ########.fr        #
+#    Updated: 2024/06/07 13:00:27 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
+#------------<COLORS>---------------
 GREEN	=	\033[38;5;154m
 RED		=	\033[38;5;197m
 NC		=	\033[0m
@@ -19,20 +19,21 @@ YELLOW	=	\033[38;5;190m
 #-------------<COMMANDS>------------
 CC 		= 	gcc
 CFLAGS 	= 	-Wall -Wextra -Werror #-fsanitize=address
-INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
+INCLUDE =	-I./libs -I./libft 
 
-#--------------<SRC>-------------
+#--------------<SRC>----------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c execute.c parse.c tokenize.c utilsd.c expansor.c utils_expansor.c
+CFILES	=	main.c execute.c parse.c tokenize.c utilsd.c expansor.c utils_expansor.c \
+			signals.c
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
 OBJC	=	$(addprefix $(DIR_O), $(SRCC:.c=.o))
 
 
-LIB_A		:=	libft/libft.a #readline/libreadline.a readline/libhistory.a libft/libft.a
-LIB_ADD_DIR	:=	-Llibft #-Lreadline -Llibft
+LIB_A		:=	libft/libft.a 
+LIB_ADD_DIR	:=	-Llibft 
 LIB_SEARCH	:=	-lreadline -lft #-lhistory -ltermcap -lft
 
 #-------------<RULES>-------------
