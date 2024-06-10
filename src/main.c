@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/06 15:39:07 by rpocater         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	count_lines(char **matrix)
@@ -26,26 +14,25 @@ int	count_lines(char **matrix)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	char	*line;
-	t_env	*l_env;
-
+	char *line;
+	(void)argv;
+	(void)env;
+	t_token *command;
 	if (argc != 1)
-		return (printf("Wrong number of arguments\n"), -1);
-	l_env = fill_l_env(env);
-	//print_env(l_env);
-	line = readline("minishell$ ");
-	while (line != NULL)
+		return(printf("Wrong number of arguments\n"), -1);
+	while (1)
 	{
-		if (line[0] != '\0') 
+    	line = readline("minishell$ ");
+		if(line != NULL && line[0] != '\0') 
 			add_history(line);
-		//ft_printf("%s\n", line);
 		//parseo
-		line = expansor(line, l_env, 1735);
-		if (line == NULL)
-			exit(EXIT_FAILURE);
-		ft_printf("%s\n", line);
+		command = ft_tokenize(line);
+		printf("In main: \n");
+		print_list(command);
+		//argc = count_lines(command);
+		//pre_execute(argc, command, env);
 		free(line);
-		line = readline("minishell$ ");
+		
 	}
-	exit(EXIT_SUCCESS);
+	printf("HOLA");
 }
