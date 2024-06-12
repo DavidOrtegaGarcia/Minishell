@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/10 15:21:34 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:41:39 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_metachr(int c)
 	char	*meta_char;
 
 	i = 0;
-	meta_char = " \t";
+	meta_char = " \t|<>>";
 	while (meta_char[i] != '\0')
 	{
 		if (meta_char[i] == (char)c)
@@ -55,6 +55,7 @@ char	*ft_strtoken(char *line, int start, int end)
 		i++;
 	}
 	str[i] = '\0';
+	//printf("Token: %s\n", str);
 	return (str);
 }
 
@@ -104,6 +105,27 @@ void	print_list(t_token *list)
 	return ;
 }
 
+int	ft_addquote(char *line, int start, int x)
+{
+	int	i;
+
+	i = x;
+	while(line[i] != '\0')
+	{
+		if(line[i] == line[start])
+			break ;
+		i++;
+	}
+	if (line[i] != line[start] && line[i + 1] == '\0')
+		return (printf("Finish quotes \n"), -1);
+	else
+		i++;
+	if (line[i] == '\'' || line[i] == '\"')
+		if (ft_addquote(line, i , i + 1) != -1)
+			i = ft_addquote(line, i, i + 1);
+	return (i);
+}
+
 t_token	*ft_tokenize(char *line)
 {
 	int		i;
@@ -137,21 +159,25 @@ t_token	*ft_tokenize(char *line)
 		}
 		if (q_flag == 1)
 		{
-			while (line[i] != line[start] && line[i] != '\0')
+			/*while (line[i] != line[start] && line[i] != '\0')
 				i++;
 			if (line[i + 1] == '\0' && line[i] != line[start])
 			{
 				printf("Finish quotes\n");
 				return (NULL);
 			}
-			else
-				token_list = ft_addtoken(token_list, line, start, i + 1);
+			if (line[i + 1] == '\'' || line[i + 1] == '\"')
+				ft_addquote(line, ++i);*/
+			i = ft_addquote(line, start, i);
+			if (i != -1)
+				token_list = ft_addtoken(token_list, line, start, i);
 			q_flag = 0;
 		}
-		i++;
+		else
+			i++;
 	}
 	if (word_flag == 1)
 		token_list = ft_addtoken(token_list, line, start, i);
-	print_list(token_list);
+	//print_list(token_list);
 	return (token_list);
 }
