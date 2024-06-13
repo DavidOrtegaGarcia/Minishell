@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/07 13:02:23 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:28:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_token
 {
 	char			*content;
 	struct s_token	*next;
-}					t_token;
+}	t_token;
 
 typedef struct s_env
 {
@@ -44,7 +44,7 @@ typedef struct s_env
 t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
 char	*expansor(char *line, t_env *l_env, int exstat);
-int	parse_input(int argc, char **argv, char **envp);
+int		parse_input(int argc, char **argv, char **envp);
 char	**ft_tokenize(char *line);
 void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
