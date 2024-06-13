@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/06/07 13:00:27 by daortega         ###   ########.fr        #
+#    Updated: 2024/06/13 17:33:00 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,13 @@ YELLOW	=	\033[38;5;190m
 
 #-------------<COMMANDS>------------
 CC 		= 	gcc
-CFLAGS 	= 	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
 INCLUDE =	-I./libs -I./libft 
 
 #--------------<SRC>----------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c execute.c parse.c tokenize.c utilsd.c expansor.c utils_expansor.c \
+CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c utils_expansor.c \
 			signals.c
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
