@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/06 15:31:50 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:27:55 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
 char	*expansor(char *line, t_env *l_env, int exstat);
 int	parse_input(int argc, char **argv, char **envp);
-char	**ft_tokenize(char *line);
-void	pre_execute(int argc, char **argv, char **envp);
-int		compare_key(char *line, char *key);
+t_token	*ft_tokenize(char *line);
+//void	pre_execute(int argc, char **argv, char **envp);
+int	compare_key(char *line, char *key);
+void	print_list(t_token *list);
 #endif
