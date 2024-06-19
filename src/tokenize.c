@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/19 14:33:14 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:51:09 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*ft_strtoken(char *line, int start, int end)
 	int	i;
 
 	i = 0;
-	len = (end - start + 1);
-	str = (char *) malloc(len * sizeof(char));
+	len = (end - start) + 1;
+	str = (char *) malloc(len * sizeof(char) + 1);
 	if (str == NULL)
 		return (NULL);
 	while (i < len)
@@ -64,7 +64,7 @@ char	*ft_strtoken(char *line, int start, int end)
 		i++;
 	}
 	str[i] = '\0';
-	//printf("Token: %s\n", str);
+	//printf("Final Token: %s\n", str);
 	return (str);
 }
 
@@ -91,7 +91,6 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 			return (NULL);
 		new->content = ft_strtoken(line, start, end);
 		new->next = NULL;
-
 		elem = ft_tokenlast(token_list);
 		elem->next = new;
 	}
@@ -179,16 +178,12 @@ t_token	*ft_tokenize(char *line)
 			}
 		}
 		else if(ft_metachr(line[i]) == 1)
-		{
 			i++;
-		}
 		else if(ft_metachr(line[i]) == 2)
 		{
 			start = i;
 			if (line[i] == '|')
-			{
 				token_list = ft_addtoken(token_list, line, start, i);
-			}
 			else
 			{
 				if (line[i + 1] == line[start])
@@ -202,7 +197,7 @@ t_token	*ft_tokenize(char *line)
 			start = i;
 			while ((ft_metachr(line[i]) == 0) && (ft_isprint(line[i]) == 1))
 				i++;
-			token_list = ft_addtoken(token_list, line, start, i - 1);
+			token_list = ft_addtoken(token_list, line, start, i- 1);
 		}
 	}
 	return (token_list);

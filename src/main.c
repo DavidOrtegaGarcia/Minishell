@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/19 14:34:47 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:55:15 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_free_list(t_token *list)
 	{
 		elem = list;
 		list = list->next;
+		free(elem->content);
 		free(elem);
 	}
 	return (0);
@@ -96,13 +97,16 @@ int	main(int argc, char *argv[], char *env[])
 		//parseo
   		command = ft_tokenize(line);
 		printf("In main: \n");
+		if (command == NULL)
+			exit(EXIT_FAILURE);
 		print_list(command);
 		//line = expansor(line, l_env, 1735);
 		//if (line == NULL)
 			//exit(EXIT_FAILURE);
-		ft_printf("%s\n", line);
+		//ft_printf("%s\n", line);
 		//execute();
 		free(line);
+		ft_free_list(command);
 		line = readline("minishell$ ");
 	}
 	printf("HOLA\n");
