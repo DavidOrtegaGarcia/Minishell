@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/19 14:35:32 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:54:41 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /*---------STRUCTS----------*/
 typedef struct s_token
 {
-	char			*content;
+	char		*content;
 	struct s_token	*next;
 }	t_token;
 
