@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/19 14:33:14 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:54:48 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strtoken(char *line, int start, int end)
 
 	i = 0;
 	len = (end - start + 1);
-	str = (char *) malloc(len * sizeof(char));
+	str = (char *) malloc(sizeof(char) * len);
 	if (str == NULL)
 		return (NULL);
 	while (i < len)

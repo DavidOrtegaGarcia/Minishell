@@ -85,10 +85,11 @@ int	main(int argc, char *argv[], char *env[])
   		command = ft_tokenize(line);
 		printf("In main: \n");
 		print_list(command);
+		ft_free_list(command);
 		//line = expansor(line, l_env, 1735);
 		//if (line == NULL)
 			//exit(EXIT_FAILURE);
-		ft_printf("%s\n", line);
+		//ft_printf("%s\n", line);
 		//execute();
 		free(line);
 		line = readline("minishell$ ");
