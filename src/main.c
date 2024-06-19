@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
+/*   Updated: 2024/06/19 14:34:47 by daortega         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	count_lines(char **matrix)
@@ -71,7 +83,7 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argv;
 	if (argc != 1)
 		return (printf("Wrong number of arguments\n"), -1);
-	//signals();
+	signals();
 	l_env = fill_l_env(env);
 	if (l_env == NULL)
 		return (printf("Error allocating memory\n"), exit(EXIT_FAILURE), -1);
