@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/18 14:45:53 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:33:14 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void	print_list(t_token *list)
 		elem = elem->next;
 		i++;
 	}
+	/*if (elem == NULL)
+	{
+		printf("(null)\n");
+	}*/
 	return ;
 }
 
