@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/19 15:51:09 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:41:11 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,12 @@ t_token	*ft_tokenize(char *line)
 			i = ft_addquote(line, start, i);
 			if (i != -1)
 			{
-				token_list = ft_addtoken(token_list, line, start, i - 1);
+			token_list = ft_addtoken(token_list, line, start, i - 1);
 			}
 			else
 			{
 				printf("Finish quotes\n");
+				token_list = ft_addtoken(token_list, line, start, i - 1);
 			}
 		}
 		else if(ft_metachr(line[i]) == 1)
@@ -197,7 +198,7 @@ t_token	*ft_tokenize(char *line)
 			start = i;
 			while ((ft_metachr(line[i]) == 0) && (ft_isprint(line[i]) == 1))
 				i++;
-			token_list = ft_addtoken(token_list, line, start, i- 1);
+			token_list = ft_addtoken(token_list, line, start, i - 1);
 		}
 	}
 	return (token_list);
