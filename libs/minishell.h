@@ -49,4 +49,5 @@ char	**ft_tokenize(char *line);
 void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
 void    signals(void);
+void	print_list(t_token *list);
 #endif

@@ -40,17 +40,20 @@ int	main(int argc, char *argv[], char *env[])
 	line = readline("minishell$ ");
 	while (line != NULL)
 	{
-		if (line[0] != '\0') 
-			add_history(line);
-		//ft_printf("%s\n", line);
+    	line = readline("minishell$ ");
+      if(line != NULL && line[0] != '\0') 
+			  add_history(line);
 		//parseo
-		line = expansor(line, l_env, 1735);
+  	command = ft_tokenize(line);
+		printf("In main: \n");
+		print_list(command);
+		/*line = expansor(line, l_env, 1735);
 		if (line == NULL)
 			exit(EXIT_FAILURE);
-		ft_printf("%s\n", line);
+		ft_printf("%s\n", line);*/
 		//execute();
 		free(line);
-		line = readline("minishell$ ");
+		
 	}
-	exit(EXIT_SUCCESS);
+	printf("HOLA");
 }
