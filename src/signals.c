@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 15:40:23 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/06 14:25:20 by daortega         ###   ########.fr       */
+/*   Created: 2024/06/07 12:40:59 by daortega          #+#    #+#             */
+/*   Updated: 2024/06/07 13:13:00 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+void	handler(int sig)
 {
-	char	*str;
-	size_t	s1_length;
-	size_t	i;
-
-	i = 0;
-	s1_length = ft_strlen(s1) + 1;
-	str = (char *) malloc(s1_length * sizeof(char));
-	if (str == NULL)
-		return (0);
-	while (i < s1_length)
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	return (str);
+    if (sig == CTRL_C)
+    {
+        printf("\n");
+        rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+    }
+}
+void    signals(void)
+{
+    signal(CTRL_C, handler);
+	signal(CTRL_BS, handler);
 }
