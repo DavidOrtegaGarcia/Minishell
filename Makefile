@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/06/19 16:51:39 by rpocater         ###   ########.fr        #
+#    Updated: 2024/06/20 13:24:37 by rpocater         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,7 @@ YELLOW	=	\033[38;5;190m
 #-------------<COMMANDS>------------
 CC 		= 	gcc
 CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
-<<<<<<< HEAD
 INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
-=======
-INCLUDE =	-I./libs -I./libft 
->>>>>>> b552deffa6d5e214408dff57579fae2f687aadf1
 
 #--------------<SRC>----------------
 NAME	=	minishell
