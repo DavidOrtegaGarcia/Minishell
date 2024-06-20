@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/19 15:55:15 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:07:25 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (command == NULL)
 			exit(EXIT_FAILURE);
 		print_list(command);
-		ft_free_list(command);
+		//ft_free_list(command);
 		//line = expansor(line, l_env, 1735);
 		//if (line == NULL)
 			//exit(EXIT_FAILURE);
