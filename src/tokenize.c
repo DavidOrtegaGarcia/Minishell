@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/19 16:52:46 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:42:05 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 	t_token	*elem;
 	t_token	*new;
 
-	if(token_list == NULL)
+	if (token_list == NULL)
 	{
 		token_list = (t_token *) malloc(sizeof(t_token));
 		if (token_list == NULL)
@@ -122,9 +122,9 @@ int	ft_addquote(char *line, int start, int x)
 	int	i;
 
 	i = x;
-	while(line[i] != '\0')
+	while (line[i] != '\0')
 	{
-		if(line[i] == line[start])
+		if (line[i] == line[start])
 			break ;
 		i++;
 	}
@@ -136,7 +136,7 @@ int	ft_addquote(char *line, int start, int x)
 		i++;
 	if (line[i] == '\'' || line[i] == '\"')
 	{
-		if (ft_addquote(line, i , i + 1) != -1)
+		if (ft_addquote(line, i, i + 1) != -1)
 			i = ft_addquote(line, i, i + 1);
 	}
 	else if (ft_metachr(line[i]) == 0 && ft_isprint(line[i]) == 1)
@@ -161,7 +161,7 @@ t_token	*ft_tokenize(char *line)
 	i = 0;
 	start = 0;
 	token_list = NULL;
-	while(line[i] != '\0')
+	while (line[i] != '\0')
 	{
 		if (line[i] == '\"' || line[i] == '\'')
 		{
@@ -170,17 +170,17 @@ t_token	*ft_tokenize(char *line)
 			i = ft_addquote(line, start, i);
 			if (i != -1)
 			{
-			token_list = ft_addtoken(token_list, line, start, i - 1);
+				token_list = ft_addtoken(token_list, line, start, i - 1);
 			}
 			else
 			{
 				printf("Finish quotes\n");
-				token_list = ft_addtoken(token_list, line, start, i - 1);
+				//token_list = ft_addtoken(token_list, line, start, i - 1);
 			}
 		}
-		else if(ft_metachr(line[i]) == 1)
+		else if (ft_metachr(line[i]) == 1)
 			i++;
-		else if(ft_metachr(line[i]) == 2)
+		else if (ft_metachr(line[i]) == 2)
 		{
 			start = i;
 			if (line[i] == '|')
@@ -193,7 +193,7 @@ t_token	*ft_tokenize(char *line)
 			}
 			i++;
 		}
-		else if((ft_isprint(line[i]) == 1) && (ft_metachr(line[i]) == 0))
+		else if ((ft_isprint(line[i]) == 1) && (ft_metachr(line[i]) == 0))
 		{
 			start = i;
 			while ((ft_metachr(line[i]) == 0) && (ft_isprint(line[i]) == 1))
