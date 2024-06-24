@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/22 14:42:05 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:57:11 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_strtoken(char *line, int start, int end)
 		i++;
 	}
 	str[i] = '\0';
-	//printf("Final Token: %s\n", str);
+	printf("Final Token: %s\n", str);
 	return (str);
 }
 
@@ -85,7 +85,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 		token_list->next = NULL;
 	}
 	else
-	{	
+	{
 		new = (t_token *)malloc(sizeof(t_token));
 		if (new == NULL)
 			return (NULL);
@@ -110,10 +110,6 @@ void	print_list(t_token *list)
 		elem = elem->next;
 		i++;
 	}
-	/*if (elem == NULL)
-	{
-		printf("(null)\n");
-	}*/
 	return ;
 }
 
@@ -128,7 +124,7 @@ int	ft_addquote(char *line, int start, int x)
 			break ;
 		i++;
 	}
-	if (line[i] != line[start] && line[i + 1] == '\0')
+	if ((line[i] != line[start]) && (line[i] == '\0'))
 	{
 		return (-1);
 	}
@@ -176,6 +172,7 @@ t_token	*ft_tokenize(char *line)
 			{
 				printf("Finish quotes\n");
 				//token_list = ft_addtoken(token_list, line, start, i - 1);
+				return (token_list);
 			}
 		}
 		else if (ft_metachr(line[i]) == 1)
