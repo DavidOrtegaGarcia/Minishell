@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/21 14:08:35 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:40:00 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,7 @@ int	ft_free_list(t_token *list);
 int	ft_metachr(int c);
 t_token	*ft_tokenlast(t_token *tkn);
 void	print_list(t_token *list);
+int	ft_addmetachr(char *line, int start, int x);
+int	ft_addprint(char *line, int x);
+int	ft_addend(char *line, int x);
 #endif
