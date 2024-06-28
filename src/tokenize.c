@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/27 15:51:59 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/28 12:33:44 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,20 @@ int	ft_addquote(char *line, int start, int x)
 	while (line[i] != '\0' && line[i] != line[start])
 		i++;
 	if ((line[i] != line[start]) && (line[i] == '\0'))
-		return (-1);
+		return (ft_addend(line, i));
 	else
 		i++;
 	con = ft_metachr(line[i]);
 	if (con == 3)
 	{
-		if (ft_addquote(line, i, i + 1) != -1)
-			i = ft_addquote(line, i, i + 1);
+		i = ft_addquote(line, i, i + 1);
 	}
 	else if ((con == 3 || con == 0) && ft_isprint(line[i]) == 1)
 	{
 		while (line[i] != '\0' && ft_metachr(line[i]) == 0)
 			i++;
 		if (line[i] == '\'' || line[i] == '\"')
-			if (ft_addquote(line, i, i + 1) != -1)
-				i = ft_addquote(line, i, i + 1);
+			i = ft_addquote(line, i, i + 1);
 	}
 	return (i);
 }
@@ -128,13 +126,7 @@ t_token	*ft_tokenize(char *line)
 		{
 			start = i++;
 			i = ft_addquote(line, start, i);
-			if (i != -1)
-				token_list = ft_addtoken(token_list, line, start, i - 1);
-			else
-			{
-				i = ft_addend(line, ++i);
-				token_list = ft_addtoken(token_list, line, start, i - 1);
-			}
+			token_list = ft_addtoken(token_list, line, start, i - 1);
 		}
 		else
 			token_list = ft_pretokenize(line, &i, token_list);
