@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:28:09 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/27 15:35:29 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:27:52 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	ft_addprint(char *line, int x)
 	int	i;
 
 	i = x;
-	while (line[i] != '\0')
+	while (line[i] != '\0' && ft_metachr(line[i]) == 0)
 	{
-		if (ft_metachr(line[i]) == 1)
-			break ;
-		if (ft_metachr(line[i]) == 2)
-			break ;
 		i++;
+	}
+	if (ft_metachr(line[i]) == 3)
+	{
+		i = ft_addquote(line, i, i + 1);
 	}
 	return (i);
 }
@@ -48,7 +48,7 @@ int	ft_addend(char *line, int x)
 	int	i;
 
 	i = x;
-	printf("Finish quotes\n");
+	//printf("Finish quotes\n");
 	while (line[i] != '\0')
 	{
 		i++;
