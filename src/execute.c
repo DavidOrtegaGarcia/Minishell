@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/05/22 14:35:32 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:02:24 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ char	*find_path(char **envp, char *str)
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(str, envp[i], len) == 0)
-		{
 			return (envp[i] + len);
-		}
 		i++;
 	}
 	return (printf("Did not find %s\n", str), "\0");
@@ -70,9 +68,7 @@ int	direction_execute(char *com, char **argv, char **envp)
 
 	//i = 0;
 	if (com[0] == '~')
-	{
 		com = ft_strjoin(find_path(envp, "HOME="), com + 1);
-	}
 	if (com[0] == '.')
 	{
 		//while (com[i] == '.')
@@ -97,7 +93,7 @@ void	pre_execute(int argc, char **argv, char **envp)
 		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
 	}
-	else if(parse_input(argc, argv, envp) == 1)
+	else if (parse_input(argc, argv, envp) == 1)
 	{
 		if (direction_execute(argv[0], argv, envp) == -1)
 			printf("Could not non path execve\n");

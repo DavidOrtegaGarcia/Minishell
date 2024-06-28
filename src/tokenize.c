@@ -6,198 +6,146 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/06 15:00:38 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:09:00 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
 
-int	ft_metachr(int c)
-{
-	int		i;
-	char	*meta_char;
-
-	i = 0;
-	meta_char = " \t|<>";
-	while (meta_char[i] != '\0')
-	{
-		if (meta_char[i] == (char)c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-t_token	*ft_tokenlast(t_token *tkn)
-{
-	if (tkn != NULL)
-	{
-		while (tkn->next != NULL)
-			tkn = tkn->next;
-	}
-	return (tkn);
-}
-
 char	*ft_strtoken(char *line, int start, int end)
 {
 	char	*str;
-	int		len;
-	int		i;
+	int	len;
+	int	i;
 
 	i = 0;
 	len = (end - start) + 1;
-	str = (char *) malloc(len * sizeof(char));
+	str = (char *) malloc(len * sizeof(char) + 1);
 	if (str == NULL)
-		return (0);
+		return (NULL);
 	while (i < len)
 	{
 		str[i] = line[start + i];
 		i++;
 	}
-	str[++i] = '\0';
+	str[i] = '\0';
+	//printf("Final Token: %s\n", str);
 	return (str);
 }
 
-void	ft_addtoken(t_token **token_list, char *line, int start, int end)
+t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 {
 	t_token	*elem;
 	t_token	*new;
 
-	printf("All good so far ft_addtoken\n");
 	if (token_list == NULL)
 	{
-		token_list = (t_token **) malloc(sizeof(t_token *));
+		token_list = (t_token *) malloc(sizeof(t_token));
 		if (token_list == NULL)
 		{
-			printf("Malloc fail at creating double pointer to token\n");
-			return ;
-		}
-		*token_list = (t_token *) malloc(sizeof(t_token));
-		if (*token_list == NULL)
-		{
 			printf("Malloc fail at creating token\n");
-			return ;
+			return (NULL);
 		}
-		(*token_list)->content = ft_strtoken(line, start, end);
-		(*token_list)->next = NULL;
-		return ;
+		token_list->content = ft_strtoken(line, start, end);
+		token_list->next = NULL;
 	}
 	else
-	{	
-		new = (t_token *) malloc(sizeof(t_token *));
+	{
+		new = (t_token *)malloc(sizeof(t_token));
+		if (new == NULL)
+			return (NULL);
 		new->content = ft_strtoken(line, start, end);
 		new->next = NULL;
-		if (token_list != NULL && *token_list != NULL)
-		{
-			elem = *token_list;
-			elem = ft_tokenlast(*token_list);
-			elem->next = new;
-			return ;
-		}
-		*token_list = new;
+		elem = ft_tokenlast(token_list);
+		elem->next = new;
 	}
+	return (token_list);
 }
 
-void	print_list(t_token **list)
+int	ft_addquote(char *line, int start, int x)
 {
 	int	i;
-	t_token	*elem;
+	int	con;
 
-	printf("All good so far print_list 1\n");
-	elem = *(list);
-	printf("All good so far print_list 1.5\n");
-	i = 0;
-	printf("All good so far print_list 2\n");
-	while (elem != NULL)
-	{
-		printf("Argument %d: %s\n", i, elem->content);
-		elem = elem->next;
+	i = x;
+	while (line[i] != '\0' && line[i] != line[start])
 		i++;
+	if ((line[i] != line[start]) && (line[i] == '\0'))
+		return (ft_addend(line, i));
+	else
+		i++;
+	con = ft_metachr(line[i]);
+	if (con == 3)
+	{
+		i = ft_addquote(line, i, i + 1);
 	}
+	else if ((con == 3 || con == 0) && ft_isprint(line[i]) == 1)
+	{
+		while (line[i] != '\0' && ft_metachr(line[i]) == 0)
+			i++;
+		if (line[i] == '\'' || line[i] == '\"')
+			i = ft_addquote(line, i, i + 1);
+	}
+	return (i);
 }
-char	**ft_lst_to_matrix(t_token **list)
-{
-	int	i;
-	char **ret;
-	t_token elem;
 
-	ret = NULL;
-	i = 0;
-	if(list != NULL)
+t_token	*ft_pretokenize(char *line, int *i, t_token *token_list)
+{
+	int	start;
+
+	if (ft_isprint(line[*i]) == 1 && (ft_metachr(line[*i]) == 0))
 	{
-		elem = **list;
-		while (elem.next != NULL)
-		{
-			elem = *elem.next;
-			i++;
-		}
+		start = *i;
+		*i = ft_addprint(line, *i);
+		token_list = ft_addtoken(token_list, line, start, *i - 1);
 	}
-	if (i > 0)
+	else if (ft_metachr(line[*i]) == 1)
+		(*i)++;
+	else if (ft_metachr(line[*i]) == 2)
 	{
-		ret = (char **) malloc(sizeof(char *) * (i + 1));
-		if (ret == NULL)
-			return (NULL);
-		elem = **list;
-		i = 0;
-		while (elem.next != NULL)
-		{
-			*(ret + i) = (char *) malloc(sizeof(char) * (ft_strlen(elem.content) + 1));
-			*(ret + i) = ft_strdup(elem.content);
-			elem = *elem.next;
-			i++;
-		}
+		start = *i;
+		*i = ft_addmetachr(line, start, *i);
+		token_list = ft_addtoken(token_list, line, start, *i);
+		(*i)++;
 	}
-	printf("All good so far token\n");
-	*(ret + i) = NULL;
-	printf("All good so far token 2\n");
-	return (ret);
+	return (token_list);
 }
-char	**ft_tokenize(char *line)
+
+t_token	*ft_tokenize(char *line)
 {
 	int		i;
-	int		q_flag;
 	int		start;
-	int		word_flag;
-	t_token		**token_list;
+	t_token		*token_list;
 
 	i = 0;
-	q_flag = 0;
 	start = 0;
-	word_flag = 0;
-	token_list = NULL;	
+	token_list = NULL;
 	while (line[i] != '\0')
-	{	
-		if (ft_isprint(line[i]) == 1 && line[i] != ' ' && word_flag == 0 && q_flag == 0)
+	{
+		if (line[i] == '\"' || line[i] == '\'')
+		{
+			start = i++;
+			i = ft_addquote(line, start, i);
+			token_list = ft_addtoken(token_list, line, start, i - 1);
+		}
+		else if (ft_metachr(line[i]) == 1)
+			i++;
+		else if (ft_isprint(line[i]) == 1 && (ft_metachr(line[i]) == 0))
 		{
 			start = i;
-			if (line[i] == '\"' || line[i] == '\'')
-			{
-				q_flag = 1;
-				i++;
-			}
-			else
-				word_flag = 1;
+			i = ft_addprint(line, i);
+			token_list = ft_addtoken(token_list, line, start, i - 1);
 		}
-		if (ft_metachr(line[i]) == 1 && q_flag == 0 && word_flag == 1)
+		else if (ft_metachr(line[i]) == 2)
 		{
-			ft_addtoken(token_list, line, start, i);
-			word_flag = 0;
+			start = i;
+			i = ft_addmetachr(line, start, i);
+			token_list = ft_addtoken(token_list, line, start, i);
+			i++;
 		}
-		if (q_flag == 1)
-		{
-			while (line[i] != line[start] && line[i] != '\0')
-				i++;
-			if (line[i + 1] == '\0' && line[i] != line[start])
-			{
-				printf("Finish quotes\n");
-				return (NULL);
-			}
-			else
-				ft_addtoken(token_list, line, start, i);
-			q_flag = 0;
-		}
-		i++;
+		else
+			i++;
+		//token_list = ft_pretokenize(line, &i, token_list);
 	}
-	//print_list(token_list);
-	return (ft_lst_to_matrix(token_list));
+	return (token_list);
 }
