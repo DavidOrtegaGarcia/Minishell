@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/28 12:33:44 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:09:00 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,13 @@ t_token	*ft_pretokenize(char *line, int *i, t_token *token_list)
 {
 	int	start;
 
-	if (ft_metachr(line[*i]) == 1)
+	if (ft_isprint(line[*i]) == 1 && (ft_metachr(line[*i]) == 0))
+	{
+		start = *i;
+		*i = ft_addprint(line, *i);
+		token_list = ft_addtoken(token_list, line, start, *i - 1);
+	}
+	else if (ft_metachr(line[*i]) == 1)
 		(*i)++;
 	else if (ft_metachr(line[*i]) == 2)
 	{
@@ -101,12 +107,6 @@ t_token	*ft_pretokenize(char *line, int *i, t_token *token_list)
 		*i = ft_addmetachr(line, start, *i);
 		token_list = ft_addtoken(token_list, line, start, *i);
 		(*i)++;
-	}
-	else if (ft_isprint(line[*i]) == 1 && (ft_metachr(line[*i]) == 0))
-	{
-		start = *i;
-		*i = ft_addprint(line, *i);
-		token_list = ft_addtoken(token_list, line, start, *i - 1);
 	}
 	return (token_list);
 }
@@ -128,8 +128,24 @@ t_token	*ft_tokenize(char *line)
 			i = ft_addquote(line, start, i);
 			token_list = ft_addtoken(token_list, line, start, i - 1);
 		}
+		else if (ft_metachr(line[i]) == 1)
+			i++;
+		else if (ft_isprint(line[i]) == 1 && (ft_metachr(line[i]) == 0))
+		{
+			start = i;
+			i = ft_addprint(line, i);
+			token_list = ft_addtoken(token_list, line, start, i - 1);
+		}
+		else if (ft_metachr(line[i]) == 2)
+		{
+			start = i;
+			i = ft_addmetachr(line, start, i);
+			token_list = ft_addtoken(token_list, line, start, i);
+			i++;
+		}
 		else
-			token_list = ft_pretokenize(line, &i, token_list);
+			i++;
+		//token_list = ft_pretokenize(line, &i, token_list);
 	}
 	return (token_list);
 }
