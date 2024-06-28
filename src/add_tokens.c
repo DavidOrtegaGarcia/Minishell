@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:28:09 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/28 15:27:52 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:58:35 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_addend(char *line, int x)
 	int	i;
 
 	i = x;
-	//printf("Finish quotes\n");
+	printf("Finish quotes\n");
 	while (line[i] != '\0')
 	{
 		i++;
