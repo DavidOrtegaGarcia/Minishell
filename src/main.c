@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/22 14:12:46 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:36:58 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	char	*line;
 	t_env	*l_env;
-	t_token	*command;
+	t_token	*list;
 
 	(void)argv;
 	if (argc != 1)
@@ -31,20 +31,22 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		if (line != NULL && line[0] != '\0')
 			add_history(line);
-		//parseo
-		command = ft_tokenize(line);
+		list = ft_tokenize(line);
 		printf("In main: \n");
-		if (command == NULL)
+		if (list == NULL)
 			exit(EXIT_FAILURE);
-		print_list(command);
-		//ft_free_list(command);
+		print_list(list);
+		//parseo
 		//line = expansor(line, l_env, 1735);
 		//if (line == NULL)
 			//exit(EXIT_FAILURE);
 		//ft_printf("%s\n", line);
-		//execute();
+		argv = ft_lst_to_matrix(list);
+		argc = count_lines(argv);
+		pre_execute(argc, argv, env);
+		printf("After execute\n");
 		free(line);
-		ft_free_list(command);
+		ft_free(argv);
 		line = readline("minishell$ ");
 	}
 	printf("HOLA\n");

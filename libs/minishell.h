@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/28 14:35:53 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:36:04 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,6 @@ int	ft_addmetachr(char *line, int start, int x);
 int	ft_addprint(char *line, int x);
 int	ft_addend(char *line, int x);
 int	ft_addquote(char *line, int start, int x);
+char	**ft_lst_to_matrix(t_token *list);
+void	ft_free(char **str);
 #endif
