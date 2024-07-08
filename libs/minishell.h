@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/08 15:12:23 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:39:20 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 /*-------SIGNALS---------*/
 # define CTRL_C SIGINT
 # define CTRL_BS SIGQUIT
+
+/*------ERROR-MSG-----------*/
+# define MSG_SE_PIPE "syntax error near unexpected token '|'\n"
+# define MSG_MLC_F "Error allocating memory\n"
+
+/*-------ERROR-CODES-----*/
+
+# define SE_PIPE 7
+# define MLC_F 8
 
 /*--------LIBRARIES----------*/
 # include <libft.h>
@@ -46,12 +55,13 @@ typedef struct s_redir
 {
 	t_type		type;
 	char		*file;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_com
 {
 	char		**command;
-	//struct		*s_redir;
+	//struct	*redir;
 	struct	s_com	*next;
 }	t_com;
 
@@ -85,4 +95,5 @@ int	ft_addquote(char *line, int start, int x);
 char	**ft_lst_to_matrix(t_token *list);
 t_com	*ft_lst_to_coms(t_token *list);
 void	ft_free(char **str);
+void	ft_free_coms(t_com *com);
 #endif

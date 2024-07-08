@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:20:33 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/02 12:49:17 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:27:46 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_lst_to_matrix(t_token *list)
 			return (NULL);
 		elem = list;
 		i = 0;
-		while (elem != NULL)//possible problem
+		while (elem != NULL)
 		{
 			*(ret + i) = ft_strdup(elem->content);	
 			elem = elem->next;
