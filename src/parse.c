@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/08 15:36:05 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:53:47 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ char	**con_with_i(t_token *list, int x)
 
 	ret = (char **)malloc(sizeof(char *) * (x + 1));
 	if (ret == NULL)
-		return (NULL);
+	{
+		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+	}
 	elem = list;
 	i = 0;
 	while (elem != NULL && i < x)
@@ -76,7 +78,7 @@ char	**con_with_i(t_token *list, int x)
 	return (ret);
 }
 
-t_com	*ft_lst_to_coms(t_token *list)
+t_com	*ft_lst_to_coms(t_token *list, int *err)
 {
 	int	i;
 	t_com	*ret;
@@ -95,20 +97,23 @@ t_com	*ft_lst_to_coms(t_token *list)
 		printf("I: %d\n", i);
 		ret = (t_com *)malloc(sizeof(t_com));
 		if (ret == NULL)
-			return (NULL);
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		ret->command = con_with_i(list, i);
 		if (elem != NULL)
 		{
 			if (elem->content[0] == '|')
 			{
 				elem = elem->next;
-				ret->next = ft_lst_to_coms(elem);
+				ret->next = ft_lst_to_coms(elem, err);
 			}
 		}
 		else
 			ret->next = NULL;
 	}
 	else
-		printf("Syntax error at list to command conversion\n");
+	{
+		*err = SE_PIPE;
+		return (printf(MSG_SE_PIPE), NULL);
+	}
 	return (ret);
 }

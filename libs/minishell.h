@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/08 17:39:20 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:17:37 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_addprint(char *line, int x);
 int	ft_addend(char *line, int x);
 int	ft_addquote(char *line, int start, int x);
 char	**ft_lst_to_matrix(t_token *list);
-t_com	*ft_lst_to_coms(t_token *list);
+t_com	*ft_lst_to_coms(t_token *list, int *err);
 void	ft_free(char **str);
 void	ft_free_coms(t_com *com);
 #endif

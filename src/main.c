@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/08 17:37:08 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:56:05 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ int	main(int argc, char *argv[], char *env[])
 		if (line != NULL && line[0] != '\0')
 			add_history(line);
 		list = ft_tokenize(line);
-		printf("Status: %d In main: \n", status);
+		status = 0;
+		printf("In main: \nStatus %d\n", status);
 		if (list == NULL)
 			exit(EXIT_FAILURE);
-		print_list(list);
-		com = ft_lst_to_coms(list);
+		//print_list(list);
+		com = ft_lst_to_coms(list, &status);
+		printf("After list to coms:\nStatus %d\n", status);
 		ft_free_list(list);
 		print_commands(com);
 		ft_free_coms(com);
