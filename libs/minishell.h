@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 16:25:06 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:02:03 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@
 /*-------ERROR-CODES-----*/
 # define SE_PIPE 7
 # define MLC_F 8
-# define WNA 9
-# define CNR 10
-# define FORK_F 11
-# define FDE 12
+# define OPEN_F 9
+# define WNA 10
+# define CNR 11
+# define FORK_F 12
+# define FDE 13
 
 /*--------LIBRARIES----------*/
 # include <libft.h>

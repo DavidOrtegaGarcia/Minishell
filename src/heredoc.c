@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:02:56 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 16:40:35 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:10:25 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	make_heredoc(char *file, char *path)
 
 	fd = open(path, O_CREAT);
 	if (fd == -1)
-		return (perror(MSG_OPEN_F), exit(EXIT_FAILURE));
+		return (perror(MSG_OPEN_F), exit(OPEN_F));
 	line = readline("> ");
 	while (line != NULL && ft_strncm(line, file, ft_strlen) != 0)
 	{
@@ -44,11 +44,11 @@ void	check_heredoc(t_redir *redir)
 		{
 			num = ft_itoa(i);
 			if (num == NULL)
-				return (perror(MSG_MLC_F), exit(EXIT_FAILURE));
+				return (perror(MSG_MLC_F), exit(MLC_F));
 			path = ft_strjoin("/tmp/heredoc_minishell", num);
 			free(num);
 			if (path == NULL)
-				return (perror(MSG_MLC_F), exit(EXIT_FAILURE));
+				return (perror(MSG_MLC_F), exit(MLC_F));
 			make_heredoc(redir->file, path);
 			free(redir->file);
 			redir->file = path;

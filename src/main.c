@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 16:36:26 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:11:05 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char *argv[], char *env[])
 	signals();
 	l_env = fill_l_env(env);
 	if (l_env == NULL)
-		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), MLC_F);
+		return (perror(MSG_MLC_F), exit(MLC_F), MLC_F);
 	print_env(l_env);
 	line = readline("minishell$ ");
 	while (line != NULL)

@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 16:36:58 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:11:24 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ char	*find_path(char *command, t_env *l_env, int *status)
 		l_env = l_env->next;
 	routes = ft_split(l_env->value, ':');
 	if (routes == NULL)
-		return(perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		return(perror(MSG_MLC_F), exit(MLC_F), NULL);
 	while (routes[i] != NULL)
 	{
 		path = ft_strjoin_s(routes[i], command);
 		if (path == NULL)
-			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 		if (access(path, F_OK) == 0)
 			return (free_matrix(routes), path);
 		free(path);
