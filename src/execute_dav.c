@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 18:07:55 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:05:51 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ int make_redirections(t_redir *redir)
 	return (0);
 }
 
-void exec_command(t_com *command, t_env l_env, char *env[], int *status)
+void exec_one_command(t_com *command, t_env *l_env, char *env[], int *status)
 {
 	int path;
 	int pid;
+	int child_status;
 
 	pid = fork();
 	if (pid < 0)
@@ -93,19 +94,32 @@ void exec_command(t_com *command, t_env l_env, char *env[], int *status)
 			return(perror(MSG_CNR), exit(MSG_CNR));
 		execve(path, command, env);
 	}
-	return (0);
+	waitpid(pid, &child_status, 0);
+	if (WIFEXITED(child_status))
+		*status = WEXITSTATUS(status);
 }
 
-void    execute(t_com *command, t_env l_env, char *env[], int *status)
+void    execute(t_com *command, t_env *l_env, char *env[], int *status)
 {
-	int *pids;
+	t_exec exec;
 	int n_com;
+	int i;
 
 	n_com = get_commands(command);
 	if (n_com == 1)
-		return (exec_command(command, l_env, env ,status));
-	pids = malloc(n_com * sizeof(int));
-	if (pids == NULL)
-		return (perror(MSG_MLC_F), exit(MLC_F), -1);
+		return (exec_one_command(command, l_env, env, status));
+	exec = fill_exec(env, status, n_com);
+	i = 0;
+	exec_first_command(command, l_env, exec);
+	while(i < n_com)
+	{
+		exec.pids[i] = fork();
+		if (exec.pids[i] < 0)
+			return (perror(MSG_FORK_F), exit(EXIT_FAILURE), -1);
+		if (exec.pids[i] == 0)
+			exec_command();
+		i++;
+		command = command->next;
+	}
 	return (0);
 }

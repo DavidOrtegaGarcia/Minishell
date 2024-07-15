@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 18:02:03 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:55:50 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MSG_CNR "Command not recognized\n"
 # define MSG_FORK_F "Error creating a child procces\n"
 # define MSG_FDE "The %s file doesn't exist\n"
+# define MSG_PFE "Pipe function failed\n" 
 
 /*-------ERROR-CODES-----*/
 # define SE_PIPE 7
@@ -34,6 +35,7 @@
 # define CNR 11
 # define FORK_F 12
 # define FDE 13
+# define PFE 14
 
 /*--------LIBRARIES----------*/
 # include <libft.h>
@@ -84,6 +86,14 @@ typedef struct s_env
 	struct s_env *next;
 }	t_env;
 
+typedef struct s_exec
+{
+	int		*pids;
+	int		fd[2];
+	char	*env;
+	int		*status;
+}	t_exec;
+
 /*--------------HEADERS--------------*/
 t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
@@ -94,4 +104,6 @@ void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
 void    signals(void);
 void	print_list(t_token *list);
+char	*find_path(char *command, t_env *l_env);
+t_exec fill_exec(char *env, int *status, int n_com);
 #endif
