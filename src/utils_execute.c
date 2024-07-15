@@ -6,12 +6,26 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 18:11:24 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:56:46 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+
+t_exec fill_exec(char *env, int *status, int n_com)
+{
+	t_exec exec;
+
+	exec.env = env;
+	exec.status = status;
+	exec.pids = malloc(n_com * sizeof(int));
+	if (pipe(exec.fd) == -1) 
+		return (perror(MSG_PFE), exit(PFE), NULL);
+	if (exec.pids == NULL)
+		return (perror(MSG_MLC_F), exit(MLC_F), NULL);
+	return(exec);
+}
 void free_matrix(char **matrix)
 {
 	int	i;
@@ -51,7 +65,7 @@ char	*ft_strjoin_s(char const *s1, char const *s2)
 	return (sfinal);
 }
 
-char	*find_path(char *command, t_env *l_env, int *status)
+char	*find_path(char *command, t_env *l_env)
 {
 	char	**routes;
 	char	*path;
