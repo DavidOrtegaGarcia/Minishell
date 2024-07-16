@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/15 16:55:50 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:25:01 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_exec
 	int		fd[2];
 	char	*env;
 	int		*status;
+	int 	n_com;
 }	t_exec;
 
 /*--------------HEADERS--------------*/
@@ -104,6 +105,8 @@ void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
 void    signals(void);
 void	print_list(t_token *list);
+int 	get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec fill_exec(char *env, int *status, int n_com);
+t_exec 	fill_exec(char *env, int *status, int n_com);
+void 	make_redirections(t_redir *redir);
 #endif

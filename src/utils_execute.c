@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/15 16:56:46 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:45:30 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ t_exec fill_exec(char *env, int *status, int n_com)
 
 	exec.env = env;
 	exec.status = status;
+	exec.n_com = n_com;
 	exec.pids = malloc(n_com * sizeof(int));
-	if (pipe(exec.fd) == -1) 
-		return (perror(MSG_PFE), exit(PFE), NULL);
 	if (exec.pids == NULL)
 		return (perror(MSG_MLC_F), exit(MLC_F), NULL);
+	if (pipe(exec.fd) == -1) 
+		return (perror(MSG_PFE), exit(PFE), NULL);
 	return(exec);
 }
 void free_matrix(char **matrix)
@@ -91,7 +92,7 @@ char	*find_path(char *command, t_env *l_env)
 
 }
 
-int get_commands(t_com *command)
+int get_n_commands(t_com *command)
 {
 	int	i = 0;
 	while (command != NULL)
