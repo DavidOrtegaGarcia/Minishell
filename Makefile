@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/07/08 17:31:49 by rpocater         ###   ########.fr        #
+#    Updated: 2024/07/15 16:08:27 by rpocater         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ YELLOW	=	\033[38;5;190m
 
 #-------------<COMMANDS>------------
 CC 		= 	gcc
-CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS 	= 	#-Wall -Wextra -Werror -fsanitize=address
 INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
 
 #--------------<SRC>----------------
