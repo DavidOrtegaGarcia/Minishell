@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/09 14:17:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:07:30 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@
 # define CTRL_BS SIGQUIT
 
 /*------ERROR-MSG-----------*/
-# define MSG_SE_PIPE "syntax error near unexpected token '|'\n"
+# define MSG_SE_PIPE "Syntax error near unexpected token '|'\n"
 # define MSG_MLC_F "Error allocating memory\n"
+# define MSG_AT_END "Syntax error near the end\n"
+# define MSG_DBL_RE "Syntax error caused by double metacharacters\n"
+# define MSG_DBL_FILE "Syntax error caused by trying to redirect to more than one file per redirection\n"
 
 /*-------ERROR-CODES-----*/
 
+# define DBL_FILE 5
+# define DBL_RE 6
 # define SE_PIPE 7
 # define MLC_F 8
+# define AT_END 9
 
 /*--------LIBRARIES----------*/
 # include <libft.h>
@@ -61,7 +67,7 @@ typedef struct s_redir
 typedef struct s_com
 {
 	char		**command;
-	//struct	*redir;
+	struct	s_redir	*redir;
 	struct	s_com	*next;
 }	t_com;
 
@@ -96,4 +102,5 @@ char	**ft_lst_to_matrix(t_token *list);
 t_com	*ft_lst_to_coms(t_token *list, int *err);
 void	ft_free(char **str);
 void	ft_free_coms(t_com *com);
+t_type  ft_type_redir(char *str);
 #endif
