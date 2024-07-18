@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/16 15:45:30 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:30:09 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_exec fill_exec(char *env, int *status, int n_com)
 	exec.env = env;
 	exec.status = status;
 	exec.n_com = n_com;
-	exec.pids = malloc(n_com * sizeof(int));
+	exec.pids = malloc(n_com * sizeof(pid_t));
 	if (exec.pids == NULL)
-		return (perror(MSG_MLC_F), exit(MLC_F), NULL);
+		return (perror(MSG_MLC_F), exit(MLC_F), exec);
 	if (pipe(exec.fd) == -1) 
-		return (perror(MSG_PFE), exit(PFE), NULL);
+		return (perror(MSG_PFE), exit(PFE), exec);
 	return(exec);
 }
 void free_matrix(char **matrix)
@@ -64,32 +64,6 @@ char	*ft_strjoin_s(char const *s1, char const *s2)
 		sfinal[i++] = s2[j++];
 	sfinal[i] = '\0';
 	return (sfinal);
-}
-
-char	*find_path(char *command, t_env *l_env)
-{
-	char	**routes;
-	char	*path;
-	int		i;
-
-	i = 0;
-	while(compare_key(l_env->key, "PATH") != 0)
-		l_env = l_env->next;
-	routes = ft_split(l_env->value, ':');
-	if (routes == NULL)
-		return(perror(MSG_MLC_F), exit(MLC_F), NULL);
-	while (routes[i] != NULL)
-	{
-		path = ft_strjoin_s(routes[i], command);
-		if (path == NULL)
-			return (perror(MSG_MLC_F), exit(MLC_F), NULL);
-		if (access(path, F_OK) == 0)
-			return (free_matrix(routes), path);
-		free(path);
-		i++;
-	}
-	return(free_matrix(routes), NULL);
-
 }
 
 int get_n_commands(t_com *command)
