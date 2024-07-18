@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/17 13:12:41 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:11:47 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,37 +88,37 @@ char	**con_with_i(t_token *list, int x)
 	return (ret);
 }
 
-t_redir	*ft_addredir(t_token *list, t_com *com, int *err)
+t_redir	*ft_addredir(t_token **list, t_com *com, int *err)
 {
 	t_redir	*ret;
 
 	ret = (t_redir *)malloc(sizeof(t_redir));
 	if (ret == NULL)
 		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-	ret->type = ft_type_redir(list->content);
-	list = list->next;
-	if (list == NULL)
+	ret->type = ft_type_redir((*list)->content);
+	*list = (*list)->next;
+	if ((*list) == NULL)
 		return (printf(MSG_AT_END), *err = AT_END, NULL);
-	if (ft_metachr(list->content[0]) == 2)
+	if (ft_metachr((*list)->content[0]) == 2)
 	{
 		*err = DBL_RE;
 		return (printf(MSG_DBL_RE), NULL);
 	}
-	ret->file = ft_strdup(list->content);
-	list = list->next;
-	if (list == NULL)
+	ret->file = ft_strdup((*list)->content);
+	(*list) = (*list)->next;
+	if (*list == NULL)
 		return (ret);
-	if (list->content[0] == '|')
+	if ((*list)->content[0] == '|')
 	{
-		list = list->next;
-		com->next = ft_lst_to_coms(list, err);
+		*list = (*list)->next;
+		com->next = ft_lst_to_coms(*list, err);
 	}
-	else if (ft_metachr(list->content[0]) == 2)
+	else if (ft_metachr((*list)->content[0]) == 2)
 	{
 		ret->next = ft_addredir(list, com, err);
 	}
-	else if (ft_isprint(list->content[0]) == 1)
-		return (printf(MSG_DBL_FILE), *err = DBL_FILE, NULL);
+	//else if (ft_isprint(list->content[0]) == 1)
+		//return (printf(MSG_DBL_FILE), *err = DBL_FILE, NULL);
 	return (ret);
 }
 
@@ -127,10 +127,20 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 	int	i;
 	t_com	*ret;
 	t_token	*elem;
+	t_redir *ered;
 
 	ret = NULL;
 	i = 0;
 	elem = list;
+	ret = (t_com *)malloc(sizeof(t_com));
+	if (ret == NULL)
+		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+	ret->command = NULL;
+	if (ft_metachr(elem->content[0]) == 2 && elem->content[0] != '|')
+	{
+		ret->redir = ft_addredir(&elem, ret, err);
+	}
+	list = elem;
 	while (elem != NULL && ft_metachr(elem->content[0]) != 2)
 	{
 		elem = elem->next;
@@ -139,30 +149,37 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 	if (i > 0)
 	{
 		//printf("I: %d\n", i);
-		ret = (t_com *)malloc(sizeof(t_com));
-		if (ret == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		//ret = (t_com *)malloc(sizeof(t_com));
+		//if (ret == NULL)
+			//return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		ret->command = con_with_i(list, i);
-		ret->redir = NULL;
-		if (elem != NULL)
+		//ret->redir = NULL;
+	}
+	if (elem != NULL)
+	{
+		if (elem->content[0] == '|')
 		{
-			if (elem->content[0] == '|')
-			{
-				elem = elem->next;
-				ret->next = ft_lst_to_coms(elem, err);
-			}
-			else if (ft_metachr(elem->content[0]) == 2)
-			{
-				ret->redir = ft_addredir(elem, ret, err);
-			}
+			elem = elem->next;
+			ret->next = ft_lst_to_coms(elem, err);
 		}
-		else
-			ret->next = NULL;
+		else if (ft_metachr(elem->content[0]) == 2)
+		{
+			if (ret->redir != NULL)
+			{
+				ered = ft_red_last(ret->redir);
+				ered->next = ft_addredir(&elem, ret, err);
+			}
+			else
+				ret->redir = ft_addredir(&elem, ret, err);
+		}
 	}
 	else
-	{
-		*err = SE_PIPE;
-		return (printf(MSG_SE_PIPE), NULL);
-	}
+		ret->next = NULL;
+	//}
+	//else
+	//{
+	//	*err = SE_PIPE;
+	//	return (printf(MSG_SE_PIPE), NULL);
+	//}
 	return (ret);
 }

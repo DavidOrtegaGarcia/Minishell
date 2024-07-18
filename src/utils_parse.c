@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:20:49 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/16 14:12:36 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:16:57 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ void	ft_free_coms(t_com *com)
                 x = 0;
         }
         return ;
+}
+
+t_redir *ft_red_last(t_redir *elem)
+{
+	while (elem->next != NULL)
+	{
+		elem = elem->next;
+	}
+	return (elem);
 }
