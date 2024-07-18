@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/17 13:07:30 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:11:25 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,5 @@ t_com	*ft_lst_to_coms(t_token *list, int *err);
 void	ft_free(char **str);
 void	ft_free_coms(t_com *com);
 t_type  ft_type_redir(char *str);
+t_redir *ft_red_last(t_redir *elem);
 #endif
