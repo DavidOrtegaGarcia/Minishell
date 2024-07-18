@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/16 15:25:01 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:14:14 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 /*-------SIGNALS---------*/
 # define CTRL_C SIGINT
 # define CTRL_BS SIGQUIT
+# define DEFAULT 0
+# define CHILD 1
 
 /*------ERROR-MSG-----------*/
 # define MSG_SE_PIPE "Syntax error near unexpected token '|'\n"
@@ -36,6 +38,12 @@
 # define FORK_F 12
 # define FDE 13
 # define PFE 14
+
+// Command errors
+# define CMD_NO_ACCESS 126
+# define CMD_NOT_FOUND 127
+# define IS_A_DIR 400
+# define NO_SUCH_FILE 401
 
 /*--------LIBRARIES----------*/
 # include <libft.h>
@@ -88,7 +96,7 @@ typedef struct s_env
 
 typedef struct s_exec
 {
-	int		*pids;
+	pid_t	*pids;
 	int		fd[2];
 	char	*env;
 	int		*status;
@@ -103,7 +111,7 @@ int		parse_input(int argc, char **argv, char **envp);
 t_token	*ft_tokenize(char *line);
 void	pre_execute(int argc, char **argv, char **envp);
 int		compare_key(char *line, char *key);
-void    signals(void);
+void    signals(int process);
 void	print_list(t_token *list);
 int 	get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
