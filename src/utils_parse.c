@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:20:49 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/18 17:16:57 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:05:55 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ void	ft_free_coms(t_com *com)
         {
 		elem = com;
 		com = com->next;
-                while (elem->command[x] != NULL)
-                {
-			free(elem->command[x]);
-                        x++;
-                }
+		if (elem->command != NULL)
+		{
+                	while (elem->command[x] != NULL)
+                	{
+				free(elem->command[x]);
+                        	x++;
+                	}
+		}
 		free(elem->command);
 		while (elem->redir != NULL)
 		{
@@ -64,4 +67,17 @@ t_redir *ft_red_last(t_redir *elem)
 		elem = elem->next;
 	}
 	return (elem);
+}
+
+void	free_dpchar(char **com)
+{
+	int	i;
+
+	i = 0;
+	while (com[i] != NULL)
+	{
+		free(com[i]);
+		i++;
+	}
+	return ;
 }
