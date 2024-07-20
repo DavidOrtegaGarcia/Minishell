@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/18 17:11:47 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:04:20 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ void	print_commands(t_com *com)
 	while (elem != NULL)
 	{
 		printf("Command %d: \n", i);
-		while (elem->command[x] != NULL)
+		if (elem->command != NULL)
 		{
-			printf("%s\n", elem->command[x]);
-			x++;
+			while (elem->command[x] != NULL)
+			{
+				printf("%s\n", elem->command[x]);
+				x++;
+			}
 		}
+		else
+			printf("No contents in command %d\n", i);
 		if (elem->redir != NULL)
 		{
 			printf("Command %d has redirections\n", i);
@@ -88,38 +93,112 @@ char	**con_with_i(t_token *list, int x)
 	return (ret);
 }
 
-t_redir	*ft_addredir(t_token **list, t_com *com, int *err)
+void	ft_addredir(t_com *elem, int n_com, int n_red, int *err)
 {
-	t_redir	*ret;
+	int	i;
+	char	**new_com;
+	int 	tru;
+	int	nci;
+	t_redir	*red;
 
-	ret = (t_redir *)malloc(sizeof(t_redir));
-	if (ret == NULL)
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-	ret->type = ft_type_redir((*list)->content);
-	*list = (*list)->next;
-	if ((*list) == NULL)
-		return (printf(MSG_AT_END), *err = AT_END, NULL);
-	if (ft_metachr((*list)->content[0]) == 2)
+	i = 0;
+	tru = 0;
+	nci = 0;
+	new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
+        if (new_com == NULL)
+        {
+                return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+        }
+	new_com[n_com + 1] = NULL;
+	elem->redir = (t_redir *)malloc(sizeof(t_redir));
+	if (elem->redir == NULL)
 	{
-		*err = DBL_RE;
-		return (printf(MSG_DBL_RE), NULL);
+		return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
 	}
-	ret->file = ft_strdup((*list)->content);
-	(*list) = (*list)->next;
-	if (*list == NULL)
-		return (ret);
-	if ((*list)->content[0] == '|')
+	elem->redir->next = NULL;
+	while (elem->command[i] != NULL)
 	{
-		*list = (*list)->next;
-		com->next = ft_lst_to_coms(*list, err);
+		if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
+		{
+			tru = 1;
+			red = ft_red_last(elem->redir);
+			red->type = ft_type_redir(elem->command[i]);
+		}
+		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
+		{
+			red->file = ft_strdup(elem->command[i]);
+			red->next = NULL;
+			tru = 0;
+		}
+		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
+		{
+			*err = DBL_RE;
+			printf(MSG_DBL_RE);
+			return ;
+		}
+		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
+		{
+			new_com[nci] = ft_strdup(elem->command[i]);
+			nci++;
+		}
+		i++;
 	}
-	else if (ft_metachr((*list)->content[0]) == 2)
+	printf("AFTER COMMAND CONVERSION\n");
+	free_dpchar(elem->command);
+	printf("xd\n");
+	elem->command = new_com;
+	return ;
+}
+
+void	ft_countredir(t_com *list, int *err)
+{
+	int	i;
+	int	tru;
+	int	n_com;
+	int	n_red;
+	t_com	*elem;
+
+	elem = list;
+	while (elem != NULL)
 	{
-		ret->next = ft_addredir(list, com, err);
+		i = 0;
+		n_com = 0;
+		n_red = 0;
+		tru = 0;
+		while (elem->command[i] != NULL)
+		{
+			if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
+			{
+				tru = 1;
+			}
+			else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
+			{
+				n_red++;
+				tru = 0;
+			}
+			else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
+			{
+				*err = DBL_RE;
+				printf(MSG_DBL_RE);
+				return ;
+			}
+			else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
+			{
+				n_com++;
+			}
+			i++;
+		}
+		if (tru == 1)
+		{
+			*err = AT_END;
+			printf(MSG_AT_END);
+			return ;
+		}
+	printf("Command integrants : %i\nRedirection numbers : %i\n", n_com, n_red);
+	//ft_addredir(elem, n_com, n_red, err);
+	elem = elem->next;
 	}
-	//else if (ft_isprint(list->content[0]) == 1)
-		//return (printf(MSG_DBL_FILE), *err = DBL_FILE, NULL);
-	return (ret);
+	return ;
 }
 
 t_com	*ft_lst_to_coms(t_token *list, int *err)
@@ -127,59 +206,39 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 	int	i;
 	t_com	*ret;
 	t_token	*elem;
-	t_redir *ered;
 
-	ret = NULL;
 	i = 0;
 	elem = list;
-	ret = (t_com *)malloc(sizeof(t_com));
-	if (ret == NULL)
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-	ret->command = NULL;
-	if (ft_metachr(elem->content[0]) == 2 && elem->content[0] != '|')
-	{
-		ret->redir = ft_addredir(&elem, ret, err);
-	}
-	list = elem;
-	while (elem != NULL && ft_metachr(elem->content[0]) != 2)
+	while (elem != NULL && elem->content[0] != '|')
 	{
 		elem = elem->next;
 		i++;
 	}
 	if (i > 0)
 	{
-		//printf("I: %d\n", i);
-		//ret = (t_com *)malloc(sizeof(t_com));
-		//if (ret == NULL)
-			//return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		printf("I: %d\n", i);
+		ret = (t_com *)malloc(sizeof(t_com));
+		if (ret == NULL)
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		ret->command = con_with_i(list, i);
-		//ret->redir = NULL;
-	}
-	if (elem != NULL)
-	{
-		if (elem->content[0] == '|')
+		ret->redir = NULL;
+		if (elem != NULL)
 		{
-			elem = elem->next;
-			ret->next = ft_lst_to_coms(elem, err);
-		}
-		else if (ft_metachr(elem->content[0]) == 2)
-		{
-			if (ret->redir != NULL)
+			if (elem->content[0] == '|')
 			{
-				ered = ft_red_last(ret->redir);
-				ered->next = ft_addredir(&elem, ret, err);
+				elem = elem->next;
+				ret->next = ft_lst_to_coms(elem, err);
 			}
 			else
-				ret->redir = ft_addredir(&elem, ret, err);
+				ret->next = NULL;
 		}
+		else
+			ret->next = NULL;
 	}
 	else
-		ret->next = NULL;
-	//}
-	//else
-	//{
-	//	*err = SE_PIPE;
-	//	return (printf(MSG_SE_PIPE), NULL);
-	//}
+	{
+		*err = SE_PIPE;
+		return (printf(MSG_SE_PIPE), NULL);
+	}
 	return (ret);
 }

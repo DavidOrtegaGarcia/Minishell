@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/18 17:11:25 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:55:38 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define MSG_SE_PIPE "Syntax error near unexpected token '|'\n"
 # define MSG_MLC_F "Error allocating memory\n"
 # define MSG_AT_END "Syntax error near the end\n"
-# define MSG_DBL_RE "Syntax error caused by double metacharacters\n"
+# define MSG_DBL_RE "Syntax error caused by double redirections\n"
 # define MSG_DBL_FILE "Syntax error caused by trying to redirect to more than one file per redirection\n"
 
 /*-------ERROR-CODES-----*/
@@ -104,4 +104,7 @@ void	ft_free(char **str);
 void	ft_free_coms(t_com *com);
 t_type  ft_type_redir(char *str);
 t_redir *ft_red_last(t_redir *elem);
+void    ft_countredir(t_com *list, int *err);
+void	free_dpchar(char **com);
+
 #endif
