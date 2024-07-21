@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/20 20:04:20 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:39:06 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**con_with_i(t_token *list, int x)
 	return (ret);
 }
 
-void	ft_addredir(t_com *elem, int n_com, int n_red, int *err)
+void	ft_addredir(t_com *elem, int n_com, int *err)
 {
 	int	i;
 	char	**new_com;
@@ -104,30 +104,37 @@ void	ft_addredir(t_com *elem, int n_com, int n_red, int *err)
 	i = 0;
 	tru = 0;
 	nci = 0;
-	new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
-        if (new_com == NULL)
-        {
-                return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
-        }
-	new_com[n_com + 1] = NULL;
-	elem->redir = (t_redir *)malloc(sizeof(t_redir));
-	if (elem->redir == NULL)
+	red = NULL;
+	if (n_com != 0)
 	{
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+		new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
+        	if (new_com == NULL)
+        	{
+                	return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+        	}
 	}
-	elem->redir->next = NULL;
+	else
+		new_com = NULL;
 	while (elem->command[i] != NULL)
 	{
 		if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
 		{
 			tru = 1;
-			red = ft_red_last(elem->redir);
+			red = (t_redir *)malloc(sizeof(t_redir));
+			if (red == NULL)
+			{
+				return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+			}
 			red->type = ft_type_redir(elem->command[i]);
 		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
 		{
 			red->file = ft_strdup(elem->command[i]);
 			red->next = NULL;
+			if (elem->redir == NULL)
+				elem->redir = red;
+			else
+				(ft_red_last(elem->redir))->next = red;
 			tru = 0;
 		}
 		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
@@ -143,9 +150,9 @@ void	ft_addredir(t_com *elem, int n_com, int n_red, int *err)
 		}
 		i++;
 	}
-	printf("AFTER COMMAND CONVERSION\n");
 	free_dpchar(elem->command);
-	printf("xd\n");
+	if (new_com != NULL)
+		new_com[nci] = NULL;
 	elem->command = new_com;
 	return ;
 }
@@ -195,7 +202,7 @@ void	ft_countredir(t_com *list, int *err)
 			return ;
 		}
 	printf("Command integrants : %i\nRedirection numbers : %i\n", n_com, n_red);
-	//ft_addredir(elem, n_com, n_red, err);
+	ft_addredir(elem, n_com, err);
 	elem = elem->next;
 	}
 	return ;
