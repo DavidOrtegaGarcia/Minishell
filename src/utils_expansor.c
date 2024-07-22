@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:07:17 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 15:12:43 by daortega         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:57:17 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	compare_key(char *line, char *key)
 		result = line[i] - key[i];
 		i++;
 	}
-	if ((line[i] != '\0' || key[i] != '\0') 
-		&& (ft_isalpha(line[i]) == 1 || ft_isalpha(key[i]) == 1) && result == 0)
+	if ((line[i] != '\0' || key[i] != '\0') &&
+		(ft_isalpha(line[i]) == 1 || ft_isalpha(key[i]) == 1) && result == 0)
 		result = line[i] - key[i];
 	if (result > 0)
 		result = 1;

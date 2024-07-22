@@ -6,12 +6,12 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/22 17:07:07 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:02:24 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
-/*
+
 void	ft_free(char **str)
 {
 	int	i;
@@ -93,10 +93,10 @@ void	pre_execute(int argc, char **argv, char **envp)
 		if (path_execute(argv[0], argv, envp) == -1)
 			perror("Could not path_execute");
 	}
-	else if(parse_input(argc, argv, envp) == 1)
+	else if (parse_input(argc, argv, envp) == 1)
 	{
 		if (direction_execute(argv[0], argv, envp) == -1)
 			printf("Could not non path execve\n");
 	}
 	return ;
-}*/
+}

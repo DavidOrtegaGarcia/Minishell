@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 18:09:36 by daortega         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:54:34 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ char	*expansor(char *line, t_env *l_env, int exstat)
 				&& check_ev(&line[i + 1], l_env) == 0)
 				line = remove_ev(line, i--);
 			if (line == NULL)
-				return (perror(MSG_MLC_F), exit(MLC_F), NULL);
+				return (printf("Error allocating memory\n"), NULL);
 		}
 		i++;
 	}
