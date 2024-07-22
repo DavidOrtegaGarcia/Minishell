@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/28 15:09:00 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:14:37 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ char	*ft_strtoken(char *line, int start, int end)
 	len = (end - start) + 1;
 	str = (char *) malloc(len * sizeof(char) + 1);
 	if (str == NULL)
-		return (NULL);
+		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	while (i < len)
 	{
 		str[i] = line[start + i];
 		i++;
 	}
 	str[i] = '\0';
-	//printf("Final Token: %s\n", str);
 	return (str);
 }
 
@@ -42,10 +41,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 	{
 		token_list = (t_token *) malloc(sizeof(t_token));
 		if (token_list == NULL)
-		{
-			printf("Malloc fail at creating token\n");
-			return (NULL);
-		}
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		token_list->content = ft_strtoken(line, start, end);
 		token_list->next = NULL;
 	}
@@ -53,7 +49,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 	{
 		new = (t_token *)malloc(sizeof(t_token));
 		if (new == NULL)
-			return (NULL);
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		new->content = ft_strtoken(line, start, end);
 		new->next = NULL;
 		elem = ft_tokenlast(token_list);
@@ -87,28 +83,6 @@ int	ft_addquote(char *line, int start, int x)
 			i = ft_addquote(line, i, i + 1);
 	}
 	return (i);
-}
-
-t_token	*ft_pretokenize(char *line, int *i, t_token *token_list)
-{
-	int	start;
-
-	if (ft_isprint(line[*i]) == 1 && (ft_metachr(line[*i]) == 0))
-	{
-		start = *i;
-		*i = ft_addprint(line, *i);
-		token_list = ft_addtoken(token_list, line, start, *i - 1);
-	}
-	else if (ft_metachr(line[*i]) == 1)
-		(*i)++;
-	else if (ft_metachr(line[*i]) == 2)
-	{
-		start = *i;
-		*i = ft_addmetachr(line, start, *i);
-		token_list = ft_addtoken(token_list, line, start, *i);
-		(*i)++;
-	}
-	return (token_list);
 }
 
 t_token	*ft_tokenize(char *line)
@@ -145,7 +119,6 @@ t_token	*ft_tokenize(char *line)
 		}
 		else
 			i++;
-		//token_list = ft_pretokenize(line, &i, token_list);
 	}
 	return (token_list);
 }

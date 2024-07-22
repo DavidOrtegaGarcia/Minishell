@@ -1,56 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_tokens.c                                       :+:      :+:    :+:   */
+/*   list_to_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 14:28:09 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/08 15:39:51 by rpocater         ###   ########.fr       */
+/*   Created: 2024/06/10 15:20:33 by rpocater          #+#    #+#             */
+/*   Updated: 2024/07/02 14:27:46 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
 
-int	ft_addmetachr(char *line, int start, int x)
+char	**ft_lst_to_matrix(t_token *list)
 {
 	int	i;
+	char	**ret;
+	t_token	*elem;
 
-	i = x;
-	if (line[i] == '|')
-		return (i);
-	else
+	ret = NULL;
+	i = 0;
+	if(list != NULL)
 	{
-		if (line[i + 1] == line[start])
+		elem = list;
+		while (elem != NULL)
+		{
+			elem = elem->next;
 			i++;
+		}
 	}
-	return (i);
-}
-
-int	ft_addprint(char *line, int x)
-{
-	int	i;
-
-	i = x;
-	while (line[i] != '\0' && ft_metachr(line[i]) == 0)
+	if (i > 0)
 	{
-		i++;
+		ret = (char **)malloc(sizeof(char *) * (i + 1));
+		if (ret == NULL)
+			return (NULL);
+		elem = list;
+		i = 0;
+		while (elem != NULL)
+		{
+			*(ret + i) = ft_strdup(elem->content);	
+			elem = elem->next;
+			i++;
+		}
 	}
-	if (ft_metachr(line[i]) == 3)
-	{
-		i = ft_addquote(line, i, i + 1);
-	}
-	return (i);
-}
-
-int	ft_addend(char *line, int x)
-{
-	int	i;
-
-	i = x;
-	while (line[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	*(ret + i) = NULL;
+	ft_free_list(list);
+	return (ret);
 }
