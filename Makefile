@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
+#    By: daortega <daortegastudent.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/07/21 20:07:53 by rpocater         ###   ########.fr        #
+#    Updated: 2024/07/22 17:02:03 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,16 @@ YELLOW	=	\033[38;5;190m
 #-------------<COMMANDS>------------
 CC 		= 	gcc
 CFLAGS 	= 	-Wall -Wextra -Werror -fsanitize=address
-INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
+INCLUDE =	-I./libs -I./libft 
 
 #--------------<SRC>----------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c utils_expansor.c signals.c utils_token.c add_tokens.c list_to_matrix.c utils_parse.c
+CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c \
+		utils_expansor.c utils_execute.c heredoc.c redirections.c \
+		signals.c utils_token.c add_tokens.c list_to_matrix.c \
+		utils_parse.c \
+
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
@@ -39,29 +43,29 @@ LIB_SEARCH	:=	-lreadline -lft #-lhistory -ltermcap -lft
 all: makelibs $(DIR_O) $(NAME)
 
 makelibs: 
-	@$(MAKE) -C libft/ --no-print-directory
+	$(MAKE) -C libft/ --no-print-directory
 	
 $(DIR_O):
-	@mkdir -p $(DIR_O)
+	mkdir -p $(DIR_O)
 
 $(NAME): $(OBJC)
-	@$(CC) $(CFLAGS) $(OBJC) $(LIB_ADD_DIR) $(LIB_SEARCH) $(LIB_A) -o $(NAME)
-	@echo "${GREEN}Minishell Compiled${NC}"
+	$(CC) $(CFLAGS) $(OBJC) $(LIB_ADD_DIR) $(LIB_SEARCH) $(LIB_A) -o $(NAME)
+	echo "${GREEN}Minishell Compiled${NC}"
 	
-$(DIR_O)%.o: %.c $(LIB_A) Makefile
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-	@echo "${YELLOW}Compiling obj $@...${NC}"
+$(DIR_O)%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	echo "${YELLOW}Compiling obj $@...${NC}"
 
 clean: 
-	@$(MAKE) -C libft clean --no-print-directory
-	@rm -rf $(DIR_O)
-	@printf "${RED}Objs deleted\n${NC}"
+	$(MAKE) -C libft clean --no-print-directory
+	rm -rf $(DIR_O)
+	printf "${RED}Objs deleted\n${NC}"
 
 fclean: clean 
-	@rm -f $(NAME)
-	@$(MAKE) -C libft fclean --no-print-directory
-	@printf "${RED}Minishell deleted\n${NC}"
+	rm -f $(NAME)
+	$(MAKE) -C libft fclean --no-print-directory
+	printf "${RED}Minishell deleted\n${NC}"
 
 re: fclean all
 
