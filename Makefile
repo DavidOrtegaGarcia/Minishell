@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/07/21 20:07:53 by rpocater         ###   ########.fr        #
+#    Updated: 2024/07/22 18:04:33 by rpocater         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,11 @@ INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
 #--------------<SRC>----------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c utils_expansor.c signals.c utils_token.c add_tokens.c list_to_matrix.c utils_parse.c
+CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c \
+		utils_expansor.c signals.c utils_token.c add_tokens.c \
+		list_to_matrix.c utils_parse.c utils_execute.c heredoc.c \
+		redirections.c \
+
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
 DIR_O	= 	tmp/
