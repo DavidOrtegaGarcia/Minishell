@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/11 18:09:36 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:21:00 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,5 @@ char	*expansor(char *line, t_env *l_env, int exstat)
 		}
 		i++;
 	}
-	/*if (dquotes == 1 || squotes == 1)
-		return (printf("Sintaxis error\n"), free(line), NULL);*/
 	return (line);
 }

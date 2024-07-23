@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:02:56 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/15 17:25:06 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:51:15 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	make_heredoc(char *file, char *path)
 	if (fd == -1)
 		return (perror(MSG_OPEN_F), exit(OPEN_F));
 	line = readline("> ");
-	while (line != NULL && ft_strcmp(line, file, ft_strlen(file)) != 0)
+	while (line != NULL && ft_strcmp(line, file) != 0)
 	{
 		ft_putstr_fd(fd, line);
 		free(line);

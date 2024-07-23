@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_expansor.c                                   :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 15:07:17 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 15:53:48 by daortega         ###   ########.fr       */
+/*   Created: 2024/07/23 15:51:42 by daortega          #+#    #+#             */
+/*   Updated: 2024/07/23 15:51:47 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	compare_key(char *line, char *key)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 	int	result;
 
 	result = 0;
 	i = 0;
-	while (line[i] != '\0' && key[i] != '\0' && result == 0)
+	while ((s1[i] != '\0' && s2[i] != '\0') && result == 0)
 	{
-		result = line[i] - key[i];
+		result = (unsigned char)s1[i] - (unsigned char)s2[i];
 		i++;
 	}
-	if ((line[i] != '\0' || key[i] != '\0')
-		&& (ft_isalpha(line[i]) == 1 || ft_isalpha(key[i]) == 1) && result == 0)
-		result = line[i] - key[i];
+	if ((s1[i] != '\0' || s2[i] != '\0') && result == 0)
+		result = (unsigned char)s1[i] - (unsigned char)s2[i];
 	if (result > 0)
 		result = 1;
 	else if (result < 0)
