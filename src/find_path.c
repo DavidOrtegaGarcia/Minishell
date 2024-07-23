@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:26:11 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:25:03 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:43:17 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	*find_relative_path(char *path)
 		if (access(path, X_OK) == 0)
 			return (path);
 		else
-			return (perror(), exit(CMD_NO_ACCESS), NULL);
+			return (perror("You don't have permissions to exec the command\n"), exit(CMD_NO_ACCESS), NULL);
 	}
 	else
-		return (perror(), exit(NO_SUCH_FILE), NULL);
+		return (perror("No such file or directory\n"), exit(NO_SUCH_FILE), NULL);
 }
 
 char	*find_path(char *command, t_env *l_env)
