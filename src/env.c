@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/06/13 17:53:31 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:17:38 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_env(t_env *l_env)
+void	free_env(t_env *l_env)
 {
 	t_env	*aux;
 
@@ -39,6 +39,18 @@ void	print_env(t_env *l_env)
 	}
 }
 
+static void	get_position(int *i, int *j, char *env)
+{
+	while (env[*i] != '=')
+		*i++;
+	*i++;
+	while (env[*i] != '\0')
+	{
+		i++;
+		j++;
+	}
+}
+
 static char	*find_value(char *env)
 {
 	char	*value;
@@ -47,14 +59,7 @@ static char	*find_value(char *env)
 
 	i = 0;
 	j = 0;
-	while (env[i] != '=')
-		i++;
-	i++;
-	while (env[i] != '\0')
-	{
-		i++;
-		j++;
-	}
+	get_psition(&i, &j);
 	value = malloc((j + 1) * sizeof(char));
 	if (value == NULL)
 		return (NULL);
