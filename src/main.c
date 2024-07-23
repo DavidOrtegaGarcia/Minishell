@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/22 17:55:11 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:34:55 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	char	*line;
 	t_env	*l_env;
-	t_token	*list;
+	t_token	*tokens;
 	t_com	*com;
 	int	status;
 
@@ -33,18 +33,20 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		if (line != NULL && line[0] != '\0')
 			add_history(line);
-		list = ft_tokenize(line);
-		if (list == NULL)
+		//TOKENIZER
+		tokens = ft_tokenize(line);
+		if (tokens == NULL)
 			exit(EXIT_FAILURE);
-		
-		com = ft_lst_to_coms(list, &status);
-		ft_free_list(list);
+		//PARSER
+		com = ft_lst_to_coms(tokens, &status);
+		ft_free_list(tokens);
 		ft_countredir(com, &status);
 		print_commands(com);
 		ft_free_coms(com);
-
-		line = expansor(line, l_env, status);
+		//EXPANSOR
+		expansor(com ,line, l_env, status);
 		free(line);
+		//EXEC
 		line = readline("minishell$ ");
 	}
 	exit(EXIT_SUCCESS);

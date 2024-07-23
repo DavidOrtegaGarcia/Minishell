@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:21:00 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:45:52 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ static int	check_quotes(char *line, int *i, int *squotes, int *dquotes)
 	return (0);
 }
 
-char	*expansor(char *line, t_env *l_env, int exstat)
+static char	*make_expansor(char *line, t_env *l_env, int exstat)
 {
 	int	i;
 	int	dquotes;
@@ -218,3 +218,12 @@ char	*expansor(char *line, t_env *l_env, int exstat)
 	}
 	return (line);
 }
+void expansor (t_com *com, char *line, t_env *l_env, int exstat)
+{
+	while(com != NULL)
+	{
+		com->command = make_expansor(com->command, l_env, exstat);
+		com = com->next;
+	}
+}
+
