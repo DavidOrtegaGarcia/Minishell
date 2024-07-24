@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:45:52 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:55:05 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,12 +218,20 @@ static char	*make_expansor(char *line, t_env *l_env, int exstat)
 	}
 	return (line);
 }
-void expansor (t_com *com, char *line, t_env *l_env, int exstat)
+
+void expansor (t_com *com, t_env *l_env, int exstat)
 {
+	int i;
+
+	i = 0;
 	while(com != NULL)
 	{
-		com->command = make_expansor(com->command, l_env, exstat);
+		i = 0;
+		while(com->command[i] != NULL)
+		{
+			com->command[i] = make_expansor(com->command[i], l_env, exstat);
+			i++;
+		}
 		com = com->next;
 	}
 }
-

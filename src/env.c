@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:17:38 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:51:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void	print_env(t_env *l_env)
 	}
 }
 
-static void	get_position(int *i, int *j, char *env)
+void	get_size_value(int *i, int *j, char *env)
 {
 	while (env[*i] != '=')
-		*i++;
-	*i++;
+		(*i)++;
+	(*i)++;
 	while (env[*i] != '\0')
 	{
-		i++;
-		j++;
+		(*i)++;
+		(*j)++;
 	}
 }
 
@@ -59,7 +59,7 @@ static char	*find_value(char *env)
 
 	i = 0;
 	j = 0;
-	get_psition(&i, &j);
+	get_size_value(&i, &j, env);
 	value = malloc((j + 1) * sizeof(char));
 	if (value == NULL)
 		return (NULL);

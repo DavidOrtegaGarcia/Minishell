@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:52:25 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:37:17 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,15 @@
 # define MSG_DBL_FILE "Syntax error caused by trying to redirect to more than one file per redirection\n"
 # define MSG_OPEN_F "Error: %s couldn't be opened\n"
 # define MSG_WNA "Wrong number of arguments\n"
-# define MSG_CNR "Command not recognized\n"
 # define MSG_FORK_F "Error creating a child procces\n"
 # define MSG_FDE "The %s file doesn't exist\n"
 # define MSG_PFE "Pipe function failed\n" 
+
+/*-----MSG-COMMAND-ERRORS-------*/
+# define MSG_CNA "%s: permission denied\n"
+# define MSG_CNF "%s: command not found\n"
+# define MSG_IAD "%s: is a directory\n"
+# define MSG_NSF "%s: no such file or directory\n"
 
 /*-------ERROR-CODES-----*/
 # define DBL_FILE 5
@@ -46,7 +51,7 @@
 # define PFE 14
 
 
-// Command errors
+/*------COMMAND-ERRORS------*/
 # define CMD_NO_ACCESS 126
 # define CMD_NOT_FOUND 127
 # define IS_A_DIR 400
@@ -61,6 +66,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 
@@ -103,12 +109,12 @@ typedef struct s_env
 
 typedef struct s_exec
 {
-        pid_t   *pids;
-        int             fd[2];
-        char    *env;
-        int             *status;
-        int     n_com;
-}       t_exec;
+	pid_t   *pids;
+	int		fd[2];
+	char	**env;
+	int		*status;
+	int		n_com;
+}	t_exec;
 
 
 /*--------------HEADERS--------------*/
@@ -116,15 +122,19 @@ typedef struct s_exec
 //	EXPANSOR
 t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
-char	*expansor(t_com *com,char *line, t_env *l_env, int exstat);
+void	expansor(t_com *com, t_env *l_env, int exstat);
 int		compare_key(char *line, char *key);
 
 //EXEC
 void	signals(int process);
+void	herdoc(t_com *command);
+void	execute(t_com *t_command, t_env *l_env, char *env[], int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec  fill_exec(char *env, int *status, int n_com);
+t_exec  fill_exec(char **env, int *status, int n_com);
 void	make_redirections(t_redir *redir);
+char	*ft_strjoin_s(char const *s1, char const *s2);
+void	free_matrix(char **matrix);
 
 int		parse_input(int argc, char **argv, char **envp);
 t_token	*ft_tokenize(char *line);

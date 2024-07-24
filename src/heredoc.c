@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:02:56 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 15:51:15 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:57:45 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	make_heredoc(char *file, char *path)
 	line = readline("> ");
 	while (line != NULL && ft_strcmp(line, file) != 0)
 	{
-		ft_putstr_fd(fd, line);
+		ft_putstr_fd(line, fd);
 		free(line);
 		line = readline("> ");
 	}
@@ -58,7 +58,7 @@ void	check_heredoc(t_redir *redir)
 	}
 }
 
-void	*herdoc(t_com *command)
+void	herdoc(t_com *command)
 {
 	while (command != NULL)
 	{

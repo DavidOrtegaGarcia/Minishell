@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/22 14:03:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:20:40 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 	}
 	if (i > 0)
 	{
-		printf("I: %d\n", i);
 		ret = (t_com *)malloc(sizeof(t_com));
 		if (ret == NULL)
 			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
