@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 16:34:55 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:16:30 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char *env[])
 	 l_env = fill_l_env(env);
         if (l_env == NULL)
                 return (perror(MSG_MLC_F), exit(MLC_F), MLC_F);
-        print_env(l_env);
+        //print_env(l_env);
         line = readline("minishell$ ");
 	while (line != NULL)
 	{
@@ -37,17 +37,21 @@ int	main(int argc, char *argv[], char *env[])
 		tokens = ft_tokenize(line);
 		if (tokens == NULL)
 			exit(EXIT_FAILURE);
+		free(line);
 		//PARSER
 		com = ft_lst_to_coms(tokens, &status);
 		ft_free_list(tokens);
 		ft_countredir(com, &status);
-		print_commands(com);
-		ft_free_coms(com);
+		//print_commands(com);
 		//EXPANSOR
-		expansor(com ,line, l_env, status);
-		free(line);
+		expansor(com, l_env, status);
+		//print_commands(com);
 		//EXEC
+		herdoc(com);
+		execute(com,l_env, env, &status);
+		ft_free_coms(com);
 		line = readline("minishell$ ");
 	}
 	exit(EXIT_SUCCESS);
+	return(0);
 }

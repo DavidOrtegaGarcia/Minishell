@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/22 14:02:24 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:50:21 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
 
-void	ft_free(char **str)
+/*void	ft_free(char **str)
 {
 	int	i;
 
@@ -99,4 +99,4 @@ void	pre_execute(int argc, char **argv, char **envp)
 			printf("Could not non path execve\n");
 	}
 	return ;
-}
+}*/

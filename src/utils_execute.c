@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/23 15:59:19 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:06:23 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_exec	fill_exec(char *env, int *status, int n_com)
+t_exec	fill_exec(char **env, int *status, int n_com)
 {
 	t_exec	exec;
 
