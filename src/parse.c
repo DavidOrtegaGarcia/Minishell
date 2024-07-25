@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/25 15:06:34 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:20:45 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 
 	i = 0;
 	elem = list;
+	ret = NULL;
 	while (elem != NULL && elem->content[0] != '|')
 	{
 		elem = elem->next;
@@ -231,23 +232,19 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		ret->command = con_with_i(list, i);
 		ret->redir = NULL;
+		ret->next = NULL;
 		if (elem != NULL)
 		{
 			if (elem->content[0] == '|')
 			{
 				elem = elem->next;
+				if (elem == NULL)
+					return (*err = SE_PIPE, printf(MSG_SE_PIPE), ret);
 				ret->next = ft_lst_to_coms(elem, err);
 			}
-			else
-				ret->next = NULL;
 		}
-		else
-			ret->next = NULL;
 	}
-	else
-	{
-		*err = SE_PIPE;
-		return (printf(MSG_SE_PIPE), NULL);
-	}
+	else if (elem != NULL && elem->content[0] == '|')
+		return (*err = SE_PIPE, printf(MSG_SE_PIPE), NULL);
 	return (ret);
 }
