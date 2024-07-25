@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/22 14:03:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:06:34 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	parse_input(int argc, char **argv, char **envp)
 
 void	print_commands(t_com *com)
 {
-	int	i;
-	int	x;
-	t_com	*elem;
-	t_redir	*red;
+	int		i;
+	int		x;
+	t_com		*elem;
+	t_redir		*red;
 
 	elem = com;
 	i = 0;
@@ -99,7 +99,7 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 {
 	int	i;
 	char	**new_com;
-	int 	tru;
+	int	tru;
 	int	nci;
 	t_redir	*red;
 
@@ -110,10 +110,10 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 	if (n_com != 0)
 	{
 		new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
-        	if (new_com == NULL)
-        	{
-                	return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
-        	}
+		if (new_com == NULL)
+		{
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+		}
 	}
 	else
 		new_com = NULL;
@@ -204,8 +204,8 @@ void	ft_countredir(t_com *list, int *err)
 			return ;
 		}
 	//printf("Command integrants : %i\nRedirection numbers : %i\n", n_com, n_red);
-	ft_addredir(elem, n_com, err);
-	elem = elem->next;
+		ft_addredir(elem, n_com, err);
+		elem = elem->next;
 	}
 	return ;
 }
