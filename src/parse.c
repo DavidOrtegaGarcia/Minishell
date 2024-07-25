@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/24 16:20:40 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:20:45 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	parse_input(int argc, char **argv, char **envp)
 
 void	print_commands(t_com *com)
 {
-	int	i;
-	int	x;
-	t_com	*elem;
-	t_redir	*red;
+	int		i;
+	int		x;
+	t_com		*elem;
+	t_redir		*red;
 
 	elem = com;
 	i = 0;
@@ -99,7 +99,7 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 {
 	int	i;
 	char	**new_com;
-	int 	tru;
+	int	tru;
 	int	nci;
 	t_redir	*red;
 
@@ -110,10 +110,10 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 	if (n_com != 0)
 	{
 		new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
-        	if (new_com == NULL)
-        	{
-                	return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
-        	}
+		if (new_com == NULL)
+		{
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
+		}
 	}
 	else
 		new_com = NULL;
@@ -204,8 +204,8 @@ void	ft_countredir(t_com *list, int *err)
 			return ;
 		}
 	//printf("Command integrants : %i\nRedirection numbers : %i\n", n_com, n_red);
-	ft_addredir(elem, n_com, err);
-	elem = elem->next;
+		ft_addredir(elem, n_com, err);
+		elem = elem->next;
 	}
 	return ;
 }
@@ -218,6 +218,7 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 
 	i = 0;
 	elem = list;
+	ret = NULL;
 	while (elem != NULL && elem->content[0] != '|')
 	{
 		elem = elem->next;
@@ -230,23 +231,19 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		ret->command = con_with_i(list, i);
 		ret->redir = NULL;
+		ret->next = NULL;
 		if (elem != NULL)
 		{
 			if (elem->content[0] == '|')
 			{
 				elem = elem->next;
+				if (elem == NULL)
+					return (*err = SE_PIPE, printf(MSG_SE_PIPE), ret);
 				ret->next = ft_lst_to_coms(elem, err);
 			}
-			else
-				ret->next = NULL;
 		}
-		else
-			ret->next = NULL;
 	}
-	else
-	{
-		*err = SE_PIPE;
-		return (printf(MSG_SE_PIPE), NULL);
-	}
+	else if (elem != NULL && elem->content[0] == '|')
+		return (*err = SE_PIPE, printf(MSG_SE_PIPE), NULL);
 	return (ret);
 }
