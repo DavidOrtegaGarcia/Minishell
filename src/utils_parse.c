@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:20:49 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/22 13:59:01 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:12:17 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_type	ft_type_redir(char *str)
 {
 	if (ft_strncmp(str, "<<", 2) == 0)
-                return (HERE_DOC);
+		return (HERE_DOC);
 	else if (ft_strncmp(str, ">>", 2) == 0)
 		return (OUT_APPEND);
 	else if (ft_strncmp(str, "<", 1) == 0)
@@ -24,26 +24,26 @@ t_type	ft_type_redir(char *str)
 		return (OUT_TRUNC);
 	else
 		return (REDIRECT_NONE);
-
 }
+
 void	ft_free_coms(t_com *com)
 {
-        int     x;
-        t_com   *elem;
-	t_redir *red;
+	int	x;
+	t_com	*elem;
+	t_redir	*red;
 
-        x = 0;
-        while (com != NULL)
-        {
+	x = 0;
+	while (com != NULL)
+	{
 		elem = com;
 		com = com->next;
 		if (elem->command != NULL)
 		{
-                	while (elem->command[x] != NULL)
-                	{
+			while (elem->command[x] != NULL)
+			{
 				free(elem->command[x]);
-                        	x++;
-                	}
+				x++;
+			}
 		}
 		free(elem->command);
 		if (elem->redir != NULL)
@@ -58,12 +58,12 @@ void	ft_free_coms(t_com *com)
 		}
 		free(elem->redir);
 		free(elem);
-                x = 0;
-        }
-        return ;
+		x = 0;
+	}
+	return ;
 }
 
-t_redir *ft_red_last(t_redir *elem)
+t_redir	*ft_red_last(t_redir *elem)
 {
 	while (elem->next != NULL)
 	{
