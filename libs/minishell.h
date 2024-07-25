@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 16:37:17 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:19:54 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define MSG_FORK_F "Error creating a child procces\n"
 # define MSG_FDE "The %s file doesn't exist\n"
 # define MSG_PFE "Pipe function failed\n" 
+# define MSG_DF "Dup function failed\n"
 
 /*-----MSG-COMMAND-ERRORS-------*/
 # define MSG_CNA "%s: permission denied\n"
@@ -111,6 +112,7 @@ typedef struct s_exec
 {
 	pid_t   *pids;
 	int		fd[2];
+	int		default_fd[2];
 	char	**env;
 	int		*status;
 	int		n_com;
@@ -135,6 +137,7 @@ t_exec  fill_exec(char **env, int *status, int n_com);
 void	make_redirections(t_redir *redir);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
+t_exec	fill_exec(char **env, int *status, int n_com);
 
 int		parse_input(int argc, char **argv, char **envp);
 t_token	*ft_tokenize(char *line);

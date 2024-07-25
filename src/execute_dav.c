@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 16:56:44 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:19:02 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	exec_command(t_com *t_command, t_env *l_env, t_exec exec, int i)
 {
 	char	*path;
 
-	ft_printf("i in exec_command: %d\n", i);
 	signals(CHILD);
 	path = find_path(t_command->command[0], l_env);
 	dup2(exec.fd[0], STDIN_FILENO);
@@ -53,23 +52,22 @@ static void	exec_command(t_com *t_command, t_env *l_env, t_exec exec, int i)
 		dup2(exec.fd[1], STDOUT_FILENO);
 	close(exec.fd[1]);
 	make_redirections(t_command->redir);
-	ft_printf("path: %s\n", path);
 	execve(path, t_command->command, exec.env);
 }
 
 static void	exec_first_command(t_com *t_command, t_env *l_env, t_exec exec)
 {
 	char	*path;
-
 	exec.pids[0] = fork();
 	if (exec.pids[0] < 0)
 		return (perror(MSG_FORK_F), exit(FORK_F));
 	if (exec.pids[0] == 0)
 	{
 		signals(CHILD);
-		path = find_path(t_command->command[0], l_env);
+		path = NULL;
+		if (t_command->command != NULL)
+			path = find_path(t_command->command[0], l_env);
 		close(exec.fd[0]);
-		ft_printf("N_COM: %d \n", exec.n_com);
 		if (exec.n_com > 1)
 			dup2(exec.fd[1], STDOUT_FILENO);
 		close(exec.fd[1]);
@@ -106,6 +104,8 @@ void	execute(t_com *t_command, t_env *l_env, char *env[], int *status)
 	int		n_com;
 	int		i;
 
+	if (t_command == NULL)
+		return ;
 	n_com = get_n_commands(t_command);
 	exec = fill_exec(env, status, n_com);
 	exec_first_command(t_command, l_env, exec);
@@ -113,7 +113,6 @@ void	execute(t_com *t_command, t_env *l_env, char *env[], int *status)
 	i = 1;
 	while (i < n_com)
 	{
-		ft_printf("i: %d\n", i);
 		exec.pids[i] = fork();
 		if (exec.pids[i] < 0)
 			return (perror(MSG_FORK_F), exit(FORK_F));
@@ -122,5 +121,9 @@ void	execute(t_com *t_command, t_env *l_env, char *env[], int *status)
 		i++;
 		t_command = t_command->next;
 	}
+	dup2(exec.default_fd[0], STDIN_FILENO);
+	dup2(exec.default_fd[1], STDOUT_FILENO);
+	close(exec.default_fd[0]);
+	close(exec.default_fd[1]);
 	the_whatipids(exec);
 }

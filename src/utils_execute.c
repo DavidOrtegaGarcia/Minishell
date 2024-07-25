@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 16:06:23 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:15:37 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ t_exec	fill_exec(char **env, int *status, int n_com)
 	exec.n_com = n_com;
 	exec.pids = malloc(n_com * sizeof(pid_t));
 	if (exec.pids == NULL)
-		return (perror(MSG_MLC_F), exit(MLC_F), exec);
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), exec);
 	if (pipe(exec.fd) == -1)
-		return (perror(MSG_PFE), exit(PFE), exec);
+		return (perror(MSG_PFE), exit(EXIT_FAILURE), exec);
+	exec.default_fd[0] = dup(STDIN_FILENO);
+	if (exec.default_fd[0] == -1)
+		return (perror(MSG_DF), exit(EXIT_FAILURE), exec);
+	exec.default_fd[1] = dup(STDOUT_FILENO);
+	if (exec.default_fd[1] == -1)
+		return (perror(MSG_DF), exit(EXIT_FAILURE), exec);
 	return (exec);
 }
 

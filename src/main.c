@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 16:16:30 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:36:31 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,18 @@ int	main(int argc, char *argv[], char *env[])
 	status = 0;
 	if (argc != 1)
 		return (perror(MSG_WNA), WNA);
-	 l_env = fill_l_env(env);
-        if (l_env == NULL)
-                return (perror(MSG_MLC_F), exit(MLC_F), MLC_F);
-        //print_env(l_env);
-        line = readline("minishell$ ");
+	signals(DEFAULT);
+	l_env = fill_l_env(env);
+	if (l_env == NULL)
+		return (perror(MSG_MLC_F), exit(MLC_F), MLC_F);
+    //print_env(l_env);
+	line = readline("minishell$ ");
 	while (line != NULL)
 	{
-		if (line != NULL && line[0] != '\0')
+		if (line[0] != '\0')
 			add_history(line);
 		//TOKENIZER
 		tokens = ft_tokenize(line);
-		if (tokens == NULL)
-			exit(EXIT_FAILURE);
-		free(line);
 		//PARSER
 		com = ft_lst_to_coms(tokens, &status);
 		ft_free_list(tokens);
@@ -48,8 +46,10 @@ int	main(int argc, char *argv[], char *env[])
 		//print_commands(com);
 		//EXEC
 		herdoc(com);
-		execute(com,l_env, env, &status);
+		execute(com, l_env, env, &status);
+		//clean_heredoc(com);
 		ft_free_coms(com);
+		free(line);
 		line = readline("minishell$ ");
 	}
 	exit(EXIT_SUCCESS);
