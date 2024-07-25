@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 15:55:05 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:11 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void expansor (t_com *com, t_env *l_env, int exstat)
 	while(com != NULL)
 	{
 		i = 0;
-		while(com->command[i] != NULL)
+		while(com->command != NULL && com->command[i] != NULL)
 		{
 			com->command[i] = make_expansor(com->command[i], l_env, exstat);
 			i++;
