@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 15:19:54 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:39:21 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define MSG_MLC_F "Error allocating memory\n"
 # define MSG_AT_END "Syntax error near the end\n"
 # define MSG_DBL_RE "Syntax error caused by double redirections\n"
-# define MSG_DBL_FILE "Syntax error caused by trying to redirect to more than one file per redirection\n"
 # define MSG_OPEN_F "Error: %s couldn't be opened\n"
 # define MSG_WNA "Wrong number of arguments\n"
 # define MSG_FORK_F "Error creating a child procces\n"
@@ -39,7 +38,6 @@
 # define MSG_NSF "%s: no such file or directory\n"
 
 /*-------ERROR-CODES-----*/
-# define DBL_FILE 5
 # define DBL_RE 6
 # define SE_PIPE 7
 # define MLC_F 8
@@ -98,14 +96,14 @@ typedef struct s_com
 {
 	char		**command;
 	t_redir		*redir;
-	struct	s_com	*next;
+	struct s_com	*next;
 }	t_com;
 
 typedef struct s_env
 {
-	char *key;
-	char *value;
-	struct s_env *next;
+	char		*key;
+	char		*value;
+	struct s_env	*next;
 }	t_env;
 
 typedef struct s_exec
@@ -118,7 +116,6 @@ typedef struct s_exec
 	int		n_com;
 }	t_exec;
 
-
 /*--------------HEADERS--------------*/
 
 //	EXPANSOR
@@ -129,7 +126,7 @@ int		compare_key(char *line, char *key);
 
 //EXEC
 void	signals(int process);
-void	herdoc(t_com *command);
+void	heredoc(t_com *command);
 void	execute(t_com *t_command, t_env *l_env, char *env[], int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
@@ -139,24 +136,32 @@ char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 t_exec	fill_exec(char **env, int *status, int n_com);
 
+/*General*/
 int		parse_input(int argc, char **argv, char **envp);
-t_token	*ft_tokenize(char *line);
-void	print_list(t_token *list);
 int	count_lines(char **matrix);
-int	ft_free_list(t_token *list);
-int	ft_metachr(int c);
-t_token	*ft_tokenlast(t_token *tkn);
-void	print_commands(t_com *com);
-int	ft_addmetachr(char *line, int start, int x);
-int	ft_addprint(char *line, int x);
-int	ft_addend(char *line, int x);
-int	ft_addquote(char *line, int start, int x);
-char	**ft_lst_to_matrix(t_token *list);
-t_com	*ft_lst_to_coms(t_token *list, int *err);
 void	ft_free(char **str);
-void	ft_free_coms(t_com *com);
+t_com   *ft_token_and_parse(char *line, int *status);
+char    *find_path_old(char **envp, char *str);
+
+/*--------------TOKENIZE-------------*/
+t_token *ft_tokenize(char *line);
+void    print_list(t_token *list);
+int     ft_free_list(t_token *list);
+int     ft_metachr(int c);
+t_token *ft_tokenlast(t_token *tkn);
+int     ft_addmetachr(char *line, int start, int x);
+int     ft_addprint(char *line, int x);
+int     ft_addend(char *line, int x);
+int     ft_addquote(char *line, int start, int x);
+
+/*--------------PARSING--------------*/
+void    make_redirections(t_redir *redir);
+void    print_commands(t_com *com);
+t_com   *ft_lst_to_coms(t_token *list, int *err);
+void    ft_free_coms(t_com *com);
 t_type  ft_type_redir(char *str);
 t_redir *ft_red_last(t_redir *elem);
 void    ft_countredir(t_com *list, int *err);
-void	free_dpchar(char **com);
+void    free_dpchar(char **com);
 #endif
+//Missing misaligned variable declarations

@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 13:43:24 by daortega          #+#    #+#              #
-#    Updated: 2024/07/24 16:07:20 by daortega         ###   ########.fr        #
+#    Updated: 2024/07/24 17:36:49 by rpocater         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC		=	src/
 CFILES	=	main.c execute_dav.c parse.c tokenize.c env.c expansor.c \
 		utils_expansor.c signals.c utils_token.c add_tokens.c \
 		list_to_matrix.c utils_parse.c utils_execute.c heredoc.c \
-		redirections.c find_path.c\
+		redirections.c find_path.c general_utils.c\
 
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 

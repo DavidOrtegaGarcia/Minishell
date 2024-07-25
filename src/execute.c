@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/24 15:50:21 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:34:51 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 	free(str);
 }
 
-char	*find_path(char **envp, char *str)
+char	*find_path_old(char **envp, char *str)
 {
 	int	i;
 	int	len;
@@ -48,7 +48,7 @@ int	path_execute(char *com, char **argv, char **envp)
 
 	i = 0;
 	com = ft_strjoin("/", com);
-	path = ft_split(find_path(envp, "PATH="), ':');
+	path = ft_split(find_path_old(envp, "PATH="), ':');
 	while (path[i] != NULL)
 	{
 		route = ft_strjoin(path[i], com);
@@ -68,14 +68,14 @@ int	direction_execute(char *com, char **argv, char **envp)
 
 	//i = 0;
 	if (com[0] == '~')
-		com = ft_strjoin(find_path(envp, "HOME="), com + 1);
+		com = ft_strjoin(find_path_old(envp, "HOME="), com + 1);
 	if (com[0] == '.')
 	{
 		//while (com[i] == '.')
 		//{
 		//	i++;
 		//}
-		com = ft_strjoin(find_path(envp, "PWD="), com + 1);
+		com = ft_strjoin(find_path_old(envp, "PWD="), com + 1);
 	}
 	execve(com, argv, envp);
 	return (-1);
