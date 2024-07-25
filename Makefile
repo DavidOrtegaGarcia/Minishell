@@ -24,10 +24,10 @@ INCLUDE =	-I./libs -I./libft #-I./libs -I./readline -I./libft
 #--------------<SRC>----------------
 NAME	=	minishell
 SRC		=	src/
-CFILES	=	main.c execute.c parse.c tokenize.c env.c expansor.c \
+CFILES	=	main.c execute_dav.c parse.c tokenize.c env.c expansor.c \
 		utils_expansor.c signals.c utils_token.c add_tokens.c \
-		general_utils.c utils_parse.c utils_execute.c heredoc.c \
-		redirections.c \
+		list_to_matrix.c utils_parse.c utils_execute.c heredoc.c \
+		redirections.c find_path.c general_utils.c\
 
 SRCC	=	$(addprefix $(SRC), $(CFILES))
 
