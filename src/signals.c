@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:40:59 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/17 16:03:34 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:55:25 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static void	handler_default(int sig)
 		rl_redisplay();
 	}
 }
-void    signals(int process)
+
+void	signals(int process)
 {
 	if (process == DEFAULT)
 		signal(CTRL_C, handler_default);
 	else if (process == CHILD)
-		signal(CTRL_C, handler_default);
+		signal(CTRL_C, handler_child);
 	signal(CTRL_BS, handler_default);
 }

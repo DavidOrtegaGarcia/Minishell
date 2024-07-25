@@ -12,7 +12,7 @@
 
 #include "../libs/minishell.h"
 
-void	ft_free(char **str)
+/*void	ft_free(char **str)
 {
 	int	i;
 
@@ -99,4 +99,4 @@ void	pre_execute(int argc, char **argv, char **envp)
 			printf("Could not non path execve\n");
 	}
 	return ;
-}
+}*/
