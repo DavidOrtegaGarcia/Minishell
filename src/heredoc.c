@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:02:56 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 16:12:01 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/27 12:57:43 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	check_heredoc(t_redir *redir)
 	}
 }
 
-void	herdoc(t_com *command)
+void	heredoc(t_com *command)
 {
 	while (command != NULL)
 	{
