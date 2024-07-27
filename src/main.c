@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 17:45:31 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:19:49 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (line[0] != '\0')
 			add_history(line);
 		com = ft_token_and_parse(line, &status);
-		print_commands(com);
+		//print_commands(com);
 		//EXPANSOR
 		expansor(com, l_env, status);
 		//print_commands(com);
@@ -43,7 +43,7 @@ int	main(int argc, char *argv[], char *env[])
 		execute(com, l_env, env, &status);
 		//clean_heredoc(com);
 		ft_free_coms(com);
-		free(line);
+		//free(line);
 		line = readline("minishell$ ");
 	}
 	exit(EXIT_SUCCESS);
