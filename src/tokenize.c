@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/08 17:14:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:20:42 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*ft_strtoken(char *line, int start, int end)
 {
 	char	*str;
-	int	len;
-	int	i;
+	int		len;
+	int		i;
 
 	i = 0;
 	len = (end - start) + 1;
@@ -87,9 +87,9 @@ int	ft_addquote(char *line, int start, int x)
 
 t_token	*ft_tokenize(char *line)
 {
+	t_token	*token_list;
 	int		i;
 	int		start;
-	t_token		*token_list;
 
 	i = 0;
 	start = 0;

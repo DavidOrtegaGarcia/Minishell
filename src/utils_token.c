@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:37:13 by rpocater          #+#    #+#             */
-/*   Updated: 2024/06/27 15:08:20 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:23:18 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_token	*ft_tokenlast(t_token *tkn)
 
 void	print_list(t_token *list)
 {
-	int	i;
 	t_token	*elem;
+	int		i;
 
 	elem = list;
 	i = 0;
@@ -66,9 +66,9 @@ void	print_list(t_token *list)
 
 int	ft_metachr(int c)
 {
-	int	i;
 	char	*meta_char;
 	char	*space;
+	int		i;
 
 	i = 0;
 	meta_char = "|<>";
