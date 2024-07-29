@@ -6,24 +6,28 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 15:15:37 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:00:55 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_exec	fill_exec(char **env, int *status, int n_com)
+void	close_pipe(int in, int out)
+{
+	close(in);
+	close(out);
+}
+
+t_exec	fill_exec(char **env, int *status, t_com *t_command)
 {
 	t_exec	exec;
 
 	exec.env = env;
 	exec.status = status;
-	exec.n_com = n_com;
-	exec.pids = malloc(n_com * sizeof(pid_t));
+	exec.n_com = get_n_commands(t_command);
+	exec.pids = malloc(exec.n_com * sizeof(pid_t));
 	if (exec.pids == NULL)
 		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), exec);
-	if (pipe(exec.fd) == -1)
-		return (perror(MSG_PFE), exit(EXIT_FAILURE), exec);
 	exec.default_fd[0] = dup(STDIN_FILENO);
 	if (exec.default_fd[0] == -1)
 		return (perror(MSG_DF), exit(EXIT_FAILURE), exec);
