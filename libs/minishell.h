@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 14:24:38 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:08:09 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	free_matrix(char **matrix);
 t_exec	fill_exec(char **env, int *status, int n_com);
 
 /*General*/
-int		parse_input(int argc, char **argv, char **envp);
 int		count_lines(char **matrix);
 void	ft_free(char **str);
 t_com	*ft_token_and_parse(char *line, int *status);
@@ -156,6 +155,7 @@ int		ft_addquote(char *line, int start, int x);
 /*--------------PARSING--------------*/
 void	make_redirections(t_redir *redir);
 void	print_commands(t_com *com);
+void	print_content_com(t_com *elem, int i);
 t_com	*ft_lst_to_coms(t_token *list, int *err);
 void	ft_free_coms(t_com *com);
 t_type	ft_type_redir(char *str);
