@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/29 16:10:46 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:58:03 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 			tru = 1;
 			red = (t_redir *)malloc(sizeof(t_redir));
 			if (red == NULL)
-			{
-				*err = MLC_F;
-				return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
-			}
+				return (*err = MLC_F, printf(MSG_MLC_F), exit(EXIT_FAILURE));
 			red->type = ft_type_redir(elem->command[i]);
 		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
@@ -96,10 +93,7 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 			tru = 0;
 		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
-		{
-			new_com[nci] = ft_strdup(elem->command[i]);
-			nci++;
-		}
+			new_com[nci++] = ft_strdup(elem->command[i]);
 		i++;
 	}
 	free_dpchar(elem->command);
@@ -112,48 +106,21 @@ void	ft_countredir(t_com *list, int *err)
 {
 	t_com	*elem;
 	int		i;
-	int		tru;
 	int		n_com;
-	int		n_red;
 
 	elem = list;
 	while (elem != NULL)
 	{
 		i = 0;
 		n_com = 0;
-		n_red = 0;
-		tru = 0;
-		while (elem->command[i] != NULL)
+		n_com = count_subcom(elem, i, n_com, err);
+		if (n_com != -1)
 		{
-			if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
-			{
-				tru = 1;
-			}
-			else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
-			{
-				n_red++;
-				tru = 0;
-			}
-			else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
-			{
-				*err = DBL_RE;
-				printf(MSG_DBL_RE);
-				return ;
-			}
-			else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
-			{
-				n_com++;
-			}
-			i++;
+			ft_addredir(elem, n_com, err);
+			elem = elem->next;
 		}
-		if (tru == 1)
-		{
-			*err = AT_END;
-			printf(MSG_AT_END);
+		else
 			return ;
-		}
-		ft_addredir(elem, n_com, err);
-		elem = elem->next;
 	}
 	return ;
 }
