@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/29 16:44:15 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:58:35 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,26 @@ void	print_content_com(t_com *elem, int i)
 		}
 	}
 	return ;
+}
+
+int	count_subcom(t_com *elem, int i, int n_com, int *err)
+{
+	int	tru;
+
+	tru = 0;
+	while (elem->command[i] != NULL)
+	{
+		if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
+			tru = 1;
+		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
+			tru = 0;
+		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
+			return (*err = DBL_RE, printf(MSG_DBL_RE), -1);
+		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
+			n_com++;
+		i++;
+	}
+	if (tru == 1)
+		return (*err = AT_END, printf(MSG_AT_END), -1);
+	return (n_com);
 }
