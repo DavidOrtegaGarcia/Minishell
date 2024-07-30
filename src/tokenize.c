@@ -6,7 +6,7 @@
 /*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/29 16:20:42 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:38:27 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,8 @@ int	ft_addquote(char *line, int start, int x)
 	return (i);
 }
 
-t_token	*ft_tokenize(char *line)
+t_token	*compare_token(char *line, int i, int start, t_token *token_list)
 {
-	t_token	*token_list;
-	int		i;
-	int		start;
-
-	i = 0;
-	start = 0;
-	token_list = NULL;
 	while (line[i] != '\0')
 	{
 		if (line[i] == '\"' || line[i] == '\'')
@@ -102,8 +95,6 @@ t_token	*ft_tokenize(char *line)
 			i = ft_addquote(line, start, i);
 			token_list = ft_addtoken(token_list, line, start, i - 1);
 		}
-		else if (ft_metachr(line[i]) == 1)
-			i++;
 		else if (ft_isprint(line[i]) == 1 && (ft_metachr(line[i]) == 0))
 		{
 			start = i;
@@ -114,11 +105,23 @@ t_token	*ft_tokenize(char *line)
 		{
 			start = i;
 			i = ft_addmetachr(line, start, i);
-			token_list = ft_addtoken(token_list, line, start, i);
-			i++;
+			token_list = ft_addtoken(token_list, line, start, i++);
 		}
 		else
 			i++;
 	}
+	return (token_list);
+}
+
+t_token	*ft_tokenize(char *line)
+{
+	t_token	*token_list;
+	int		i;
+	int		start;
+
+	i = 0;
+	start = 0;
+	token_list = NULL;
+	token_list = compare_token(line, i, start, token_list);
 	return (token_list);
 }

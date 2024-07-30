@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 16:08:09 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:44:48 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	free_matrix(char **matrix);
 t_exec	fill_exec(char **env, int *status, int n_com);
 
 /*General*/
-int		count_lines(char **matrix);
 void	ft_free(char **str);
 t_com	*ft_token_and_parse(char *line, int *status);
 char	*find_path_old(char **envp, char *str);
