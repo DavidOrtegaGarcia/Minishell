@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:26:11 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 16:09:30 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:10:28 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*find_relative_path(char *path)
 			return (perror("Stat failed\n"), exit(EXIT_FAILURE), NULL);
 		if (S_ISDIR(path_stat.st_mode))
 			return (ft_printf(MSG_IAD, path), exit(IS_A_DIR), NULL);
-		if (access (path, X_OK) == 0)
+		if (access(path, X_OK) == 0)
 			return (path);
 		else
 			return (ft_printf(MSG_CNA, path), exit(CMD_NO_ACCESS), NULL);

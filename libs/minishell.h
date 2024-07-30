@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 17:01:29 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:27:52 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define MSG_CNF "%s: command not found\n"
 # define MSG_IAD "%s: is a directory\n"
 # define MSG_NSF "%s: no such file or directory\n"
+# define MSG_NAD "cd: %s: Not a directory\n"
 
 /*-------ERROR-CODES-----*/
 # define DBL_RE 6
@@ -141,6 +142,12 @@ void	make_redirections(t_redir *redir);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 void	close_pipe(int in, int out);
+
+// BUILTINS
+int 	check_builtin(char **com);
+void	builtins(t_com *t_com, t_env *l_env, int *status);
+void	echo(char **command, int *status);
+
 
 /*General*/
 int		parse_input(int argc, char **argv, char **envp);
