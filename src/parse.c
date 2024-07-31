@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 16:09:03 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:20:15 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,36 +63,12 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 	tru = 0;
 	red = NULL;
 	new_com = generate_new_com(&n_com);
-	/*if (n_com != 0)
-	{
-		new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
-		if (new_com == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE));
-	}
-	else
-		new_com = NULL;
-	n_com = 0;*/
 	while (elem->command[i] != NULL)
 	{
 		if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
 			red = first_redir(elem, err, &tru, i);
-		/*{
-			tru = 1;
-			red = (t_redir *)malloc(sizeof(t_redir));
-			if (red == NULL)
-				return (*err = MLC_F, printf(MSG_MLC_F), exit(EXIT_FAILURE));
-			red->type = ft_type_redir(elem->command[i]);
-		}*/
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
-		{
-			red->file = ft_strdup(elem->command[i]);
-			red->next = NULL;
-			if (elem->redir == NULL)
-				elem->redir = red;
-			else
-				(ft_red_last(elem->redir))->next = red;
-			tru = 0;
-		}
+			second_redir(elem, red, i, &tru);
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
 			new_com[n_com++] = ft_strdup(elem->command[i]);
 		i++;
