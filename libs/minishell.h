@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 16:18:23 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:12:44 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int		ft_addend(char *line, int x);
 int		ft_addquote(char *line, int start, int x);
 
 /*--------------PARSING--------------*/
+t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err);
 void	make_redirections(t_redir *redir);
 void	print_commands(t_com *com);
 void	print_content_com(t_com *elem, int i);
@@ -160,11 +161,10 @@ void	ft_free_coms(t_com *com);
 t_type	ft_type_redir(char *str);
 t_redir	*ft_red_last(t_redir *elem);
 void	ft_countredir(t_com *list, int *err);
-char    **con_with_i(t_token *list, int x);
-t_com   *prepare_com(t_token *list, t_token *elem, int i, int *err);
-int     count_subcom(t_com *elem, int i, int n_com, int *err);
+char	**con_with_i(t_token *list, int x);
+int		count_subcom(t_com *elem, int i, int n_com, int *err);
 void	free_dpchar(char **com);
-t_redir *first_redir(t_com *elem, int *err, int *tru, int i);
-void    second_redir(t_com *elem, t_redir *red, int i, int *tru);
-char    **generate_new_com(int *n_com);
+t_redir	*first_redir(t_com *elem, int *err, int *tru, int i);
+void	second_redir(t_com *elem, t_redir *red, int i, int *tru);
+char	**generate_new_com(int *n_com);
 #endif

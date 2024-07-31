@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 16:20:15 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:59:20 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,6 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 		ret = prepare_com(list, elem, i, err);
 	}
 	else if (elem != NULL && elem->content[0] == '|')
-		return (*err = SE_PIPE, printf(MSG_SE_PIPE), NULL);
+		return (*err = SE_PIPE * -1, printf(MSG_SE_PIPE), NULL);
 	return (ret);
 }
