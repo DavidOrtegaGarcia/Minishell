@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 16:26:35 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:06:54 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err)
 		{
 			elem = elem->next;
 			if (elem == NULL)
-				return (*err = SE_PIPE, printf(MSG_SE_PIPE), ret);
+				return (*err = SE_PIPE * -1, printf(MSG_SE_PIPE), ret);
 			ret->next = ft_lst_to_coms(elem, err);
 		}
 	}
@@ -47,13 +47,13 @@ int	count_subcom(t_com *elem, int i, int n_com, int *err)
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
 			tru = 0;
 		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
-			return (*err = DBL_RE, printf(MSG_DBL_RE), -1);
+			return (*err = DBL_RE * -1, printf(MSG_DBL_RE), -1);
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
 			n_com++;
 		i++;
 	}
 	if (tru == 1)
-		return (*err = AT_END, printf(MSG_AT_END), -1);
+		return (*err = AT_END * -1, printf(MSG_AT_END), -1);
 	return (n_com);
 }
 
@@ -66,7 +66,7 @@ t_redir	*first_redir(t_com *elem, int *err, int *tru, int i)
 	red = (t_redir *)malloc(sizeof(t_redir));
 	if (red == NULL)
 	{
-		*err = MLC_F;
+		*err = MLC_F * -1;
 		printf(MSG_MLC_F);
 		return (exit(EXIT_FAILURE), NULL);
 	}
