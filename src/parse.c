@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/30 16:58:03 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:09:03 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 	t_redir	*red;
 	int		i;
 	int		tru;
-	int		nci;
 
 	i = 0;
 	tru = 0;
-	nci = 0;
 	red = NULL;
-	if (n_com != 0)
+	new_com = generate_new_com(&n_com);
+	/*if (n_com != 0)
 	{
 		new_com = (char **)malloc(sizeof(char *) * (n_com + 1));
 		if (new_com == NULL)
@@ -72,16 +71,18 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 	}
 	else
 		new_com = NULL;
+	n_com = 0;*/
 	while (elem->command[i] != NULL)
 	{
 		if (ft_metachr(elem->command[i][0]) == 2 && tru == 0)
-		{
+			red = first_redir(elem, err, &tru, i);
+		/*{
 			tru = 1;
 			red = (t_redir *)malloc(sizeof(t_redir));
 			if (red == NULL)
 				return (*err = MLC_F, printf(MSG_MLC_F), exit(EXIT_FAILURE));
 			red->type = ft_type_redir(elem->command[i]);
-		}
+		}*/
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
 		{
 			red->file = ft_strdup(elem->command[i]);
@@ -93,12 +94,12 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 			tru = 0;
 		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
-			new_com[nci++] = ft_strdup(elem->command[i]);
+			new_com[n_com++] = ft_strdup(elem->command[i]);
 		i++;
 	}
 	free_dpchar(elem->command);
 	if (new_com != NULL)
-		new_com[nci] = NULL;
+		new_com[n_com] = NULL;
 	elem->command = new_com;
 }
 
@@ -141,22 +142,7 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 	}
 	if (i > 0)
 	{
-		ret = (t_com *)malloc(sizeof(t_com));
-		if (ret == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-		ret->command = con_with_i(list, i);
-		ret->redir = NULL;
-		ret->next = NULL;
-		if (elem != NULL)
-		{
-			if (elem->content[0] == '|')
-			{
-				elem = elem->next;
-				if (elem == NULL)
-					return (*err = SE_PIPE, printf(MSG_SE_PIPE), ret);
-				ret->next = ft_lst_to_coms(elem, err);
-			}
-		}
+		ret = prepare_com(list, elem, i, err);
 	}
 	else if (elem != NULL && elem->content[0] == '|')
 		return (*err = SE_PIPE, printf(MSG_SE_PIPE), NULL);
