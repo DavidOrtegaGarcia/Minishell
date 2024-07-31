@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:20:49 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/25 15:12:17 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:28:39 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,23 @@ t_type	ft_type_redir(char *str)
 		return (REDIRECT_NONE);
 }
 
+void	ft_free_redir(t_redir *original)
+{
+	t_redir	*red;
+
+	while (original != NULL)
+	{
+		red = original;
+		free(red->file);
+		original = original->next;
+		free(red);
+	}
+}
+
 void	ft_free_coms(t_com *com)
 {
-	int	x;
 	t_com	*elem;
-	t_redir	*red;
+	int		x;
 
 	x = 0;
 	while (com != NULL)
@@ -48,15 +60,8 @@ void	ft_free_coms(t_com *com)
 		free(elem->command);
 		if (elem->redir != NULL)
 		{
-			while (elem->redir != NULL)
-			{
-				red = elem->redir;
-				free(red->file);
-				elem->redir = elem->redir->next;
-				free(red);
-			}
+			ft_free_redir(elem->redir);
 		}
-		free(elem->redir);
 		free(elem);
 		x = 0;
 	}
