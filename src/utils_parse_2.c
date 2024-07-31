@@ -6,40 +6,11 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 16:10:17 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:26:35 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
-
-void	print_content_com(t_com *elem, int i)
-{
-	t_redir	*red;
-	int		x;
-
-	x = 0;
-	if (elem->command != NULL)
-	{
-		while (elem->command[x] != NULL)
-		{
-			printf("%s\n", elem->command[x++]);
-		}
-	}
-	else
-		printf("No contents in command %d\n", i);
-	red = elem->redir;
-	if (red != NULL)
-	{
-		printf("Command %d has redirections\n", i);
-		while (red != NULL)
-		{
-			printf("Redirection type %d\n", red->type);
-			printf("To file %s\n", red->file);
-			red = red->next;
-		}
-	}
-	return ;
-}
 
 t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err)
 {
@@ -95,12 +66,23 @@ t_redir	*first_redir(t_com *elem, int *err, int *tru, int i)
 	red = (t_redir *)malloc(sizeof(t_redir));
 	if (red == NULL)
 	{
-		*err = MLC_F; 
+		*err = MLC_F;
 		printf(MSG_MLC_F);
 		return (exit(EXIT_FAILURE), NULL);
 	}
 	red->type = ft_type_redir(elem->command[i]);
 	return (red);
+}
+
+void	second_redir(t_com *elem, t_redir *red, int i, int *tru)
+{
+	red->file = ft_strdup(elem->command[i]);
+	red->next = NULL;
+	if (elem->redir == NULL)
+		elem->redir = red;
+	else
+		(ft_red_last(elem->redir))->next = red;
+	*tru = 0;
 }
 
 char	**generate_new_com(int *n_com)

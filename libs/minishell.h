@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 16:09:32 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:18:23 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,6 @@ t_com   *prepare_com(t_token *list, t_token *elem, int i, int *err);
 int     count_subcom(t_com *elem, int i, int n_com, int *err);
 void	free_dpchar(char **com);
 t_redir *first_redir(t_com *elem, int *err, int *tru, int i);
+void    second_redir(t_com *elem, t_redir *red, int i, int *tru);
 char    **generate_new_com(int *n_com);
 #endif
