@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:26:11 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 15:09:12 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:10:28 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**get_routes(t_env *l_env)
 {
 	char	**routes;
 
+	if (l_env == NULL)
+		return (NULL);
 	while (compare_key(l_env->key, "PATH") != 0)
 		l_env = l_env->next;
 	routes = ft_split(l_env->value, ':');
@@ -34,7 +36,7 @@ char	*find_relative_path(char *path)
 			return (perror("Stat failed\n"), exit(EXIT_FAILURE), NULL);
 		if (S_ISDIR(path_stat.st_mode))
 			return (ft_printf(MSG_IAD, path), exit(IS_A_DIR), NULL);
-		if (access (path, X_OK) == 0)
+		if (access(path, X_OK) == 0)
 			return (path);
 		else
 			return (ft_printf(MSG_CNA, path), exit(CMD_NO_ACCESS), NULL);
@@ -53,7 +55,7 @@ char	*find_path(char *command, t_env *l_env)
 	if (ft_strchr(command, '/') != 0)
 		return (find_relative_path(command));
 	routes = get_routes(l_env);
-	while (routes[i] != NULL)
+	while (routes != NULL && routes[i] != NULL)
 	{
 		path = ft_strjoin_s(routes[i], command);
 		if (path == NULL)
@@ -68,6 +70,5 @@ char	*find_path(char *command, t_env *l_env)
 		free(path);
 		i++;
 	}
-	free_matrix(routes);
 	return (ft_printf(MSG_CNF, command), exit(CMD_NOT_FOUND), NULL);
 }
