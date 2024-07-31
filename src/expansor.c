@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:11 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:33:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,32 +152,35 @@ static char	*remove_char(char *line, int i)
 	return (line);
 }
 
+static char	*expan(char *line, int *i, t_env *l_env, t_utils_exp utils)
+{
+	if (line[*i] == '$' && utils.squotes == 0 && line[*i + 1] == '?')
+		line = put_exstat(line, *i, utils.exstat, 0);
+	else if (line[*i] == '$' && utils.squotes == 0
+		&& ft_isalpha(line[*i + 1]) == 1
+		&& check_ev(&line[*i + 1], l_env) == 1)
+		line = translate_ev(line, *i, l_env);
+	else if (line[*i] == '$' && utils.squotes == 0
+		&& ft_isalpha(line[*i + 1]) == 1
+		&& check_ev(&line[*i + 1], l_env) == 0)
+		line = remove_ev(line, (*i)--);
+	return (line);
+}
+
 static int	check_quotes(char *line, int *i, int *squotes, int *dquotes)
 {
 	int	remove;
 
-	remove = 0;
+	remove = *dquotes + *squotes;
 	if (line[*i] == '"' && *dquotes == 1)
-	{
 		*dquotes = 0;
-		remove = 1;
-	}
 	else if (line[*i] == '"' && *dquotes == 0 && *squotes == 0)
-	{
 		*dquotes = 1;
-		remove = 1;
-	}
 	else if (line[*i] == '\'' && *squotes == 1)
-	{
 		*squotes = 0;
-		remove = 1;
-	}
 	else if (line[*i] == '\'' && *squotes == 0 && *dquotes == 0)
-	{
 		*squotes = 1;
-		remove = 1;
-	}
-	if (remove)
+	if (remove != *dquotes + *squotes)
 	{
 		line = remove_char(line, *i);
 		(*i)--;
@@ -188,10 +191,12 @@ static int	check_quotes(char *line, int *i, int *squotes, int *dquotes)
 
 static char	*make_expansor(char *line, t_env *l_env, int exstat)
 {
-	int	i;
-	int	dquotes;
-	int	squotes;
+	int			i;
+	int			dquotes;
+	int			squotes;
+	t_utils_exp	utils;
 
+	utils.exstat = exstat;
 	dquotes = 0;
 	squotes = 0;
 	i = 0;
@@ -201,16 +206,9 @@ static char	*make_expansor(char *line, t_env *l_env, int exstat)
 	{
 		if (!check_quotes(line, &i, &squotes, &dquotes))
 		{
-			if (line[i] == '$' && squotes == 0 && line[i + 1] == '?')
-				line = put_exstat(line, i, exstat, 0);
-			else if (line[i] == '$' && squotes == 0
-				&& ft_isalpha(line[i + 1]) == 1
-				&& check_ev(&line[i + 1], l_env) == 1)
-				line = translate_ev(line, i, l_env);
-			else if (line[i] == '$' && squotes == 0
-				&& ft_isalpha(line[i + 1]) == 1
-				&& check_ev(&line[i + 1], l_env) == 0)
-				line = remove_ev(line, i--);
+			//Quizas va arriba
+			utils.squotes = squotes;
+			line = expan(line, &i, l_env, utils);
 			if (line == NULL)
 				return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 		}
@@ -219,15 +217,15 @@ static char	*make_expansor(char *line, t_env *l_env, int exstat)
 	return (line);
 }
 
-void expansor (t_com *com, t_env *l_env, int exstat)
+void	expansor(t_com *com, t_env *l_env, int exstat)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(com != NULL)
+	while (com != NULL)
 	{
 		i = 0;
-		while(com->command != NULL && com->command[i] != NULL)
+		while (com->command != NULL && com->command[i] != NULL)
 		{
 			com->command[i] = make_expansor(com->command[i], l_env, exstat);
 			i++;
