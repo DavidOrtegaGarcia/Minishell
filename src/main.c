@@ -25,9 +25,7 @@ int	main(int argc, char *argv[], char *env[])
 		return (perror(MSG_WNA), WNA);
 	signals(DEFAULT);
 	l_env = fill_l_env(env);
-	if (l_env == NULL)
-		return (perror(MSG_MLC_F), exit(MLC_F), MLC_F);
-	//print_env(l_env);
+   //print_env(l_env);
 	line = readline("minishell$ ");
 	while (line != NULL)
 	{
