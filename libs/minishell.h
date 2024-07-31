@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 17:27:52 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:04:23 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <linux/limits.h>
 
 /*---------STRUCTS----------*/
 typedef enum s_redirect_type

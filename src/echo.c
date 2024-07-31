@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:17:38 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 16:57:03 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:02:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void print_echo(char **com, int print, int has_flag, int *status)
 	}
 	if (!has_flag)
 		ft_printf("\n");
-	*status = 0;
+	*status = EXIT_SUCCESS;
 }
 
 static int check_flag(char *com)

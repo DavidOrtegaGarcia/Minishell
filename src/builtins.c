@@ -6,11 +6,38 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 17:41:40 by daortega         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:16:15 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exit(char **com, int *status)
+{
+	if (com[1] == NULL)
+		return(printf("exit\n"), exit(EXIT_SUCCESS))
+	
+}
+
+void env(t_env *l_env, int *status)
+{
+	print_env(l_env);
+	*status = 0;
+}
+
+void pwd(int *status)
+{
+	char cwd[PATH_MAX]; 
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		ft_printf("%s\n", cwd);
+	else 
+	{
+		perror("getcwd() error\n");
+		*status = EXIT_FAILURE;
+	}
+	*status = EXIT_SUCCESS;
+}
 
 char* find_home(t_env *l_env)
 {
@@ -55,5 +82,15 @@ void builtins(t_com *t_command, t_env *l_env, int *status)
 		echo(t_command->command, status);
 	else if (ft_strcmp(t_command->command[0], "cd") == 0)
 		*status = cd(t_command->command, l_env);
-	//else if (ft_strcmp(t_command->command[0], "pwd"))
+	else if (ft_strcmp(t_command->command[0], "pwd") == 0)
+		pwd(status);
+	/*else if (ft_strcmp(t_command->command[0], "export") == 0)
+		export();
+	else if (ft_strcmp(t_command->command[0], "unset") == 0)
+		unset();
+	*/
+	else if (ft_strcmp(t_command->command[0], "env") == 0)
+		env(l_env, status);
+	else if (ft_strcmp(t_command->command[0], "exit") == 0)
+		exit(t_command->command, status);
 }
