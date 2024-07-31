@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 17:39:21 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:04:23 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define MSG_CNF "%s: command not found\n"
 # define MSG_IAD "%s: is a directory\n"
 # define MSG_NSF "%s: no such file or directory\n"
+# define MSG_NAD "cd: %s: Not a directory\n"
 
 /*-------ERROR-CODES-----*/
 # define DBL_RE 6
@@ -68,6 +69,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <linux/limits.h>
 
 /*---------STRUCTS----------*/
 typedef enum s_redirect_type
@@ -116,6 +118,12 @@ typedef struct s_exec
 	int		n_com;
 }	t_exec;
 
+typedef	struct s_utils_exp
+{
+	int squotes;
+	int exstat;
+}	t_utils_exp;
+
 /*--------------HEADERS--------------*/
 
 //	EXPANSOR
@@ -130,11 +138,17 @@ void	heredoc(t_com *command);
 void	execute(t_com *t_command, t_env *l_env, char *env[], int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec  fill_exec(char **env, int *status, int n_com);
+t_exec  fill_exec(char **env, int *status, t_com *t_command);
 void	make_redirections(t_redir *redir);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
-t_exec	fill_exec(char **env, int *status, int n_com);
+void	close_pipe(int in, int out);
+
+// BUILTINS
+int 	check_builtin(char **com);
+void	builtins(t_com *t_com, t_env *l_env, int *status);
+void	echo(char **command, int *status);
+
 
 /*General*/
 int		parse_input(int argc, char **argv, char **envp);
