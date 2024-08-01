@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 16:55:29 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:31:36 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ void	execute(t_com *t_command, t_env *l_env, char *env[], int *status)
 	i = 0;
 	while (t_command != NULL)
 	{
-		if (check_builtin(t_command->command) == 1 && exec.n_com == 1 
-			&& t_command->command != NULL)
+		if (check_builtin(t_command->command) == 1 && exec.n_com == 1 && t_command->command != NULL)
 		{
 			make_redirections(t_command->redir);
 			builtins(t_command, l_env, status);

@@ -6,17 +6,17 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 17:16:15 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:40:58 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit(char **com, int *status)
+int	ft_exit(char **com, int *status)
 {
 	if (com[1] == NULL)
-		return(printf("exit\n"), exit(EXIT_SUCCESS))
-	
+		return(printf("exit\n"), ft_exit(EXIT_SUCCESS, status));
+	return (*status);
 }
 
 void env(t_env *l_env, int *status)
@@ -92,5 +92,5 @@ void builtins(t_com *t_command, t_env *l_env, int *status)
 	else if (ft_strcmp(t_command->command[0], "env") == 0)
 		env(l_env, status);
 	else if (ft_strcmp(t_command->command[0], "exit") == 0)
-		exit(t_command->command, status);
+		ft_exit(t_command->command, status);
 }
