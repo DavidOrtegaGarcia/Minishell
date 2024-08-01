@@ -6,16 +6,42 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 17:16:15 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:24:33 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit(char **com, int *status)
+int is_digit(char *par)
+{
+	int i;
+
+	i = 0;
+	if(par[0] == '-')
+		i++;
+	while (par[i] != '\0')
+	{
+		if (ft_isdigit(par[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void check_first_arg(char **com)
+{
+	if (is_digit(com[1]))
+		return (ft_printf("exit: %s: numeric argument required\n", com[1]), exit(2));
+	else
+		printf("xd\n");
+}
+
+
+void ft_exit(char **com)
 {
 	if (com[1] == NULL)
-		return(printf("exit\n"), exit(EXIT_SUCCESS))
+		return(printf("exit\n"), exit(EXIT_SUCCESS));
+	check_first_arg(com);
 	
 }
 
@@ -92,5 +118,5 @@ void builtins(t_com *t_command, t_env *l_env, int *status)
 	else if (ft_strcmp(t_command->command[0], "env") == 0)
 		env(l_env, status);
 	else if (ft_strcmp(t_command->command[0], "exit") == 0)
-		exit(t_command->command, status);
+		ft_exit(t_command->command);
 }

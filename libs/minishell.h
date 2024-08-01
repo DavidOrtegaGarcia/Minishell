@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 17:12:44 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:08:01 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_exec
 	char	**env;
 	int		*status;
 	int		n_com;
+	int 	i;
 }	t_exec;
 
 typedef	struct s_utils_exp

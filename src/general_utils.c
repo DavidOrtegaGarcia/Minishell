@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 17:03:18 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:11:53 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ t_com	*ft_token_and_parse(char *line, int *status)
 	t_com	*com;
 
 	if (line == NULL || line[0] == '\0')
-		return (NULL);
+		return (free(line), NULL);
 	list = ft_tokenize(line);
 	if (list == NULL)
+	{
+		ft_printf("WOOPS");
 		exit(EXIT_FAILURE);
+	}
 	com = ft_lst_to_coms(list, status);
 	ft_free_list(list);
 	if (*status < 0)
