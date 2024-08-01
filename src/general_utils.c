@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 17:03:18 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:21:58 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,19 @@ t_com	*ft_token_and_parse(char *line, int *status)
 		exit(EXIT_FAILURE);
 	com = ft_lst_to_coms(list, status);
 	ft_free_list(list);
+	free(line);
 	if (*status < 0)
 	{
 		*status *= -1;
 		ft_free_coms(com);
-		free(line);
 		return (NULL);
 	}
-	//ft_free_list(list);
 	ft_countredir(com, status);
-	free(line);
+	if (*status < 0)
+	{
+		*status *= -1;
+		ft_free_coms(com);
+		return (NULL);
+	}
 	return (com);
 }

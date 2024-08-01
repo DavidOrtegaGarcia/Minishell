@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:01:54 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 15:23:34 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:37:17 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_builtin(char **com)
+int	check_builtin(char **com)
 {
 	if (ft_strcmp(com[0], "echo") == 0)
 		return (1);
@@ -29,5 +29,4 @@ int check_builtin(char **com)
 	if (ft_strcmp(com[0], "exit") == 0)
 		return (1);
 	return (0);
-		
 }
