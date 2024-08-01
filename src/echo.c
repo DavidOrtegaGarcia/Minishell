@@ -6,15 +6,15 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:17:38 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/31 16:02:16 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:30:08 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_echo(char **com, int print, int has_flag, int *status)
+static void	print_echo(char **com, int print, int has_flag, int *status)
 {
-	while(com[print] != NULL)
+	while (com[print] != NULL)
 	{
 		if (com[print + 1] == NULL)
 			ft_printf("%s", com[print]);
@@ -27,9 +27,9 @@ static void print_echo(char **com, int print, int has_flag, int *status)
 	*status = EXIT_SUCCESS;
 }
 
-static int check_flag(char *com)
+static int	check_flag(char *com)
 {
-	size_t i;
+	size_t	i;
 
 	i = 2;
 	if (com[0] != '-' || com[1] != 'n')
@@ -45,10 +45,10 @@ static int check_flag(char *com)
 
 void	echo(char **command, int *status)
 {
-	int i;
-	int flag;
-	int print;
-	int has_flag;
+	int	i;
+	int	flag;
+	int	print;
+	int	has_flag;
 
 	i = 1;
 	flag = 0;
