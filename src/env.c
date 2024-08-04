@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 15:42:42 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:26:04 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	*find_key(char *env)
 	return (key);
 }
 
-static t_env	*new_node(char *env)
+t_env	*new_node(char *env)
 {
 	t_env	*n_node;
 

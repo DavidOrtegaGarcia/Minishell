@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 13:28:19 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:42:50 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_utils_exp
 
 //	EXPANSOR
 t_env	*fill_l_env(char **env);
+t_env   *new_node(char *env);
 void	print_env(t_env *l_env);
 void	expansor(t_com *com, t_env *l_env, int exstat);
 int		compare_key(char *line, char *key);
@@ -147,6 +148,9 @@ void	close_pipe(int in, int out);
 int		check_builtin(char **com);
 void	builtins(t_com *t_com, t_env *l_env, int *status);
 void	echo(char **command, int *status);
+void    unset(t_com *com, t_env *l_env, int *status);
+void    export(t_com *com, t_env *l_env, int *status);
+void    del_env(t_env *l_env, t_env *del);
 
 /*General*/
 void	ft_free(char **str);
