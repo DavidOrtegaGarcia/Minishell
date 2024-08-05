@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/05 14:55:30 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:12:39 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	unset(t_com *com, t_env *l_env, int *status)
 	int	i;
 
 	i = 1;
-	*status = 0;
 	while (com->command[i] != NULL)
 	{
 		*status = delete_one(l_env, com->command[i]);
