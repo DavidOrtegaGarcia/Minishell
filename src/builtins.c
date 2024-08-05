@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/04 19:23:12 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:48:15 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void builtins(t_com *t_command, t_env *l_env, int *status)
 		pwd(status);
 	else if (ft_strcmp(t_command->command[0], "export") == 0)
 		export(t_command, l_env, status);
-	/*else if (ft_strcmp(t_command->command[0], "unset") == 0)
-		unset(t_command, l_env, status);*/
+	else if (ft_strcmp(t_command->command[0], "unset") == 0)
+		unset(t_command, l_env, status);
 	else if (ft_strcmp(t_command->command[0], "env") == 0)
 		env(l_env, status);
 	else if (ft_strcmp(t_command->command[0], "exit") == 0)
