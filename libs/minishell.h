@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 16:08:01 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:50:15 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <linux/limits.h>
+# include <limits.h>
 
 /*---------STRUCTS----------*/
 typedef enum s_redirect_type
@@ -126,7 +127,7 @@ typedef	struct s_utils_exp
 
 /*--------------HEADERS--------------*/
 
-//	EXPANSOR
+//EXPANSOR
 t_env	*fill_l_env(char **env);
 void	print_env(t_env *l_env);
 void	expansor(t_com *com, t_env *l_env, int exstat);
@@ -135,16 +136,17 @@ int		compare_key(char *line, char *key);
 //EXEC
 void	signals(int process);
 void	heredoc(t_com *command);
-void	execute(t_com *t_command, t_env *l_env, char *env[], int *status);
+void	execute(t_com *t_command, t_env *l_env, int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec  fill_exec(char **env, int *status, t_com *t_command);
+t_exec  fill_exec(int *status, t_com *t_command);
 void	make_redirections(t_redir *redir);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 void	close_pipe(int in, int out);
+char	**convert_env(t_env *l_env);
 
-// BUILTINS
+//BUILTINS
 int 	check_builtin(char **com);
 void	builtins(t_com *t_com, t_env *l_env, int *status);
 void	echo(char **command, int *status);
