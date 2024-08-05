@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 16:11:32 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:29:27 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,27 @@ static void	the_whatipids(t_exec exec)
 		*exec.status = WEXITSTATUS(child_status);
 	else if (WIFSIGNALED(child_status))
 	{
-		if (WTERMSIG(child_status) == SIGINT)
+		if (WTERMSIG(child_status) == CTRL_C)
 			*exec.status = 130;
-		else if (WTERMSIG(child_status) == SIGQUIT)
+		else if (WTERMSIG(child_status) == CTRL_BS)
 		{
 			*exec.status = 131;
 			perror("Quit (core dumped)\n");
 		}
 	}
 }
+
+/*void print_env2(char **env)
+{
+	int i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		ft_printf("%s\n", env[i]);
+		i++;
+	}
+}*/
 
 static void	exec_command(t_com *l_com, t_env *l_env, t_exec exec, int *status)
 {
@@ -65,7 +77,8 @@ static void	exec_command(t_com *l_com, t_env *l_env, t_exec exec, int *status)
 		}
 		path = find_path(l_com->command[0], l_env);
 	}
-	execve(path, l_com->command, exec.env);
+	//print_env2(convert_env(l_env));
+	execve(path, l_com->command, convert_env(l_env));
 }
 
 static void make_exec(t_com *l_command, t_env *l_env, t_exec exec, int *status)
@@ -81,13 +94,13 @@ static void make_exec(t_com *l_command, t_env *l_env, t_exec exec, int *status)
 	close_pipe(exec.fd[0], exec.fd[1]);
 }
 
-void	execute(t_com *l_command, t_env *l_env, char *env[], int *status)
+void	execute(t_com *l_command, t_env *l_env, int *status)
 {
 	t_exec	exec;
 
 	if (l_command == NULL)
 		return ;
-	exec = fill_exec(env, status, l_command);
+	exec = fill_exec(status, l_command);
 	exec.i = 0;
 	while (l_command != NULL)
 	{

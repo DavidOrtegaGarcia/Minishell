@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 17:24:33 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:19:52 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@ int is_digit(char *par)
 
 void check_first_arg(char **com)
 {
-	if (is_digit(com[1]))
+	if (is_digit(com[1]) && ft_strcmp(com[1], ULONG_MAX) == -1)
 		return (ft_printf("exit: %s: numeric argument required\n", com[1]), exit(2));
 	else
-		printf("xd\n");
+	{
+		if (com[2] != NULL)
+		{
+			ft_printf("exit: too many arguments\n");
+			return ;
+		}
+	}
 }
 
 
