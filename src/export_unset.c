@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/05 14:40:01 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:55:30 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,12 @@ void	export(t_com *com, t_env *l_env, int *status)
 	return ;
 }
 
-void	delete_one(t_env *l_env, char *one)
+int	delete_one(t_env *l_env, char *one)
 {
 	t_env	*temp;
 	t_env	*prev;
 
 	temp = l_env;
-	prev = NULL;
 	if (temp != NULL && ft_strcmp(temp->key, one) == 0)
 	{
 		prev = temp->next;
@@ -85,8 +84,7 @@ void	delete_one(t_env *l_env, char *one)
 		free(temp->value);
 		temp->value = prev->value;
 		temp->next = prev->next;
-		free(prev);
-		return ;
+		return (free(prev), 0);
 	}
 	while (temp != NULL && ft_strcmp(temp->key, one) != 0)
 	{
@@ -94,12 +92,13 @@ void	delete_one(t_env *l_env, char *one)
 		temp = temp->next;
 	}
 	if (temp == NULL)
-		return ;
+		return (0);
 	prev->next = temp->next;
 	free(temp->key);
 	free(temp->value);
-	free(temp);
+	return (free(temp), 0);
 }
+
 void	unset(t_com *com, t_env *l_env, int *status)
 {
 	int	i;
@@ -108,7 +107,7 @@ void	unset(t_com *com, t_env *l_env, int *status)
 	*status = 0;
 	while (com->command[i] != NULL)
 	{
-		delete_one(l_env, com->command[i]);
+		*status = delete_one(l_env, com->command[i]);
 		i++;
 	}
 	return ;
