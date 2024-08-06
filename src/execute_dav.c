@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 13:31:36 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:29:27 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	the_whatipids(t_exec exec)
 		*exec.status = WEXITSTATUS(child_status);
 	else if (WIFSIGNALED(child_status))
 	{
-		if (WTERMSIG(child_status) == SIGINT)
+		if (WTERMSIG(child_status) == CTRL_C)
 			*exec.status = 130;
-		else if (WTERMSIG(child_status) == SIGQUIT)
+		else if (WTERMSIG(child_status) == CTRL_BS)
 		{
 			*exec.status = 131;
 			perror("Quit (core dumped)\n");
@@ -46,58 +46,74 @@ static void	the_whatipids(t_exec exec)
 	}
 }
 
-static void	exec_command(t_com *t_com, t_env *l_env, t_exec exec, int *status)
+/*void print_env2(char **env)
+{
+	int i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		ft_printf("%s\n", env[i]);
+		i++;
+	}
+}*/
+
+static void	exec_command(t_com *l_com, t_env *l_env, t_exec exec, int *status)
 {
 	char	*path;
 
 	signals(CHILD);
 	path = NULL;
-	if (t_com->next != NULL)
+	if (l_com->next != NULL)
 		dup2(exec.fd[1], STDOUT_FILENO);
 	close_pipe(exec.fd[0], exec.fd[1]);
-	make_redirections(t_com->redir);
-	if (t_com->command != NULL)
+	make_redirections(l_com->redir);
+	if (l_com->command != NULL)
 	{
-		if (check_builtin(t_com->command) == 1)
+		if (check_builtin(l_com->command) == 1)
 		{
-			builtins(t_com, l_env, status);
+			builtins(l_com, l_env, status);
 			exit(EXIT_SUCCESS);
 		}
-		path = find_path(t_com->command[0], l_env);
+		path = find_path(l_com->command[0], l_env);
 	}
-	execve(path, t_com->command, exec.env);
+	//print_env2(convert_env(l_env));
+	execve(path, l_com->command, convert_env(l_env));
 }
 
-void	execute(t_com *t_command, t_env *l_env, char *env[], int *status)
+static void make_exec(t_com *l_command, t_env *l_env, t_exec exec, int *status)
+{
+	if (pipe(exec.fd) == -1)
+		return (perror(MSG_PFE), exit(EXIT_FAILURE));
+	exec.pids[exec.i] = fork();
+	if (exec.pids[exec.i] < 0)
+		return (perror(MSG_FORK_F), exit(EXIT_FAILURE));
+	else if (exec.pids[exec.i] == 0)
+		exec_command(l_command, l_env, exec, status);
+	dup2(exec.fd[0], STDIN_FILENO);
+	close_pipe(exec.fd[0], exec.fd[1]);
+}
+
+void	execute(t_com *l_command, t_env *l_env, int *status)
 {
 	t_exec	exec;
-	int		i;
 
-	if (t_command == NULL)
+	if (l_command == NULL)
 		return ;
-	exec = fill_exec(env, status, t_command);
-	i = 0;
-	while (t_command != NULL)
+	exec = fill_exec(status, l_command);
+	exec.i = 0;
+	while (l_command != NULL)
 	{
-		if (check_builtin(t_command->command) == 1 && exec.n_com == 1 && t_command->command != NULL)
+		if (check_builtin(l_command->command) == 1 && exec.n_com == 1
+			&& l_command->command != NULL)
 		{
-			make_redirections(t_command->redir);
-			builtins(t_command, l_env, status);
+			make_redirections(l_command->redir);
+			builtins(l_command, l_env, status);
 		}
 		else
-		{
-			if (pipe(exec.fd) == -1)
-				return (perror(MSG_PFE), exit(EXIT_FAILURE));	
-			exec.pids[i] = fork();
-			if (exec.pids[i] < 0)
-				return (perror(MSG_FORK_F), exit(EXIT_FAILURE));
-			else if (exec.pids[i] == 0)
-				exec_command(t_command, l_env, exec, status);
-			dup2(exec.fd[0], STDIN_FILENO);
-			close_pipe(exec.fd[0], exec.fd[1]);
-		}
-		i++;
-		t_command = t_command->next;
+			make_exec(l_command, l_env, exec, status);
+		exec.i++;
+		l_command = l_command->next;
 	}
 	set_std_default(exec);
 	the_whatipids(exec);
