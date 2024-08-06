@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/05 14:50:15 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:08:58 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 void	close_pipe(int in, int out);
 char	**convert_env(t_env *l_env);
+long	ft_atol(char *str);
 
 //BUILTINS
 int 	check_builtin(char **com);

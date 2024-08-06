@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/05 14:22:56 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:28:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static char	*strjoin_env(char const *s1, char const *s2)
 	return (sfinal);
 }
 
-static int get_size_env(t_env *l_env)
+static int	get_size_env(t_env *l_env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (l_env != NULL)
@@ -59,14 +59,14 @@ char	**convert_env(t_env *l_env)
 
 	i = 0;
 	s_env = get_size_env(l_env);
-	env = malloc((s_env + 1)* sizeof(char *));
+	env = malloc((s_env + 1) * sizeof(char *));
 	if (env == NULL)
-		return(perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	while (l_env != NULL)
 	{
 		env[i] = strjoin_env(l_env->key, l_env->value);
 		if (env == NULL)
-			return(perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		i++;
 		l_env = l_env->next;
 	}
