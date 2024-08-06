@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 13:35:14 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:07:49 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(line);
 		com = ft_token_and_parse(line, &status);
 		//EXPANSOR
+		//print_commands(com);
 		expansor(com, l_env, status);
 		//EXEC
 		heredoc(com);
