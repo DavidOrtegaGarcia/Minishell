@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/01 16:22:34 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:30:12 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char *argv[], char *env[])
 		expansor(com, l_env, status);
 		//EXEC
 		heredoc(com);
-		execute(com, l_env, env, &status);
+		execute(com, l_env, &status);
 		//clean_heredoc(com);
 		ft_free_coms(com);
 		line = readline("minishell$ ");
