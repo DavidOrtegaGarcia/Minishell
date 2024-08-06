@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:26:45 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/25 16:05:12 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:34:32 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	hd_redir(char *file)
 {
 	int	fd;
 
-	printf("%s\n", file);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE));

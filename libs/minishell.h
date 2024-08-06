@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 17:39:21 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:08:58 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define MSG_CNF "%s: command not found\n"
 # define MSG_IAD "%s: is a directory\n"
 # define MSG_NSF "%s: no such file or directory\n"
+# define MSG_NAD "cd: %s: Not a directory\n"
 
 /*-------ERROR-CODES-----*/
 # define DBL_RE 6
@@ -48,7 +49,6 @@
 # define FORK_F 12
 # define FDE 13
 # define PFE 14
-
 
 /*------COMMAND-ERRORS------*/
 # define CMD_NO_ACCESS 126
@@ -68,6 +68,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <linux/limits.h>
+# include <limits.h>
 
 /*---------STRUCTS----------*/
 typedef enum s_redirect_type
@@ -81,45 +83,53 @@ typedef enum s_redirect_type
 
 typedef struct s_token
 {
-	char		*content;
 	struct s_token	*next;
+	char			*content;
 }	t_token;
 
 typedef struct s_redir
 {
-	t_type		type;
-	char		*file;
 	struct s_redir	*next;
+	t_type			type;
+	char			*file;
 }	t_redir;
 
 typedef struct s_com
 {
-	char		**command;
-	t_redir		*redir;
 	struct s_com	*next;
+	char			**command;
+	t_redir			*redir;
 }	t_com;
 
 typedef struct s_env
 {
-	char		*key;
-	char		*value;
 	struct s_env	*next;
+	char			*key;
+	char			*value;
 }	t_env;
 
 typedef struct s_exec
 {
-	pid_t   *pids;
+	pid_t	*pids;
 	int		fd[2];
 	int		default_fd[2];
 	char	**env;
 	int		*status;
 	int		n_com;
+	int 	i;
 }	t_exec;
+
+typedef struct s_utils_exp
+{
+	int	squotes;
+	int	exstat;
+}	t_utils_exp;
 
 /*--------------HEADERS--------------*/
 
-//	EXPANSOR
+//EXPANSOR
 t_env	*fill_l_env(char **env);
+t_env   *new_node(char *env);
 void	print_env(t_env *l_env);
 void	expansor(t_com *com, t_env *l_env, int exstat);
 int		compare_key(char *line, char *key);
@@ -127,41 +137,54 @@ int		compare_key(char *line, char *key);
 //EXEC
 void	signals(int process);
 void	heredoc(t_com *command);
-void	execute(t_com *t_command, t_env *l_env, char *env[], int *status);
+void	execute(t_com *t_command, t_env *l_env, int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec  fill_exec(char **env, int *status, int n_com);
+t_exec  fill_exec(int *status, t_com *t_command);
 void	make_redirections(t_redir *redir);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
-t_exec	fill_exec(char **env, int *status, int n_com);
+void	close_pipe(int in, int out);
+char	**convert_env(t_env *l_env);
+long	ft_atol(char *str);
+
+//BUILTINS
+int 	check_builtin(char **com);
+void	builtins(t_com *t_com, t_env *l_env, int *status);
+void	echo(char **command, int *status);
+void    unset(t_com *com, t_env *l_env, int *status);
+void    export(t_com *com, t_env *l_env, int *status);
 
 /*General*/
-int		parse_input(int argc, char **argv, char **envp);
-int	count_lines(char **matrix);
 void	ft_free(char **str);
-t_com   *ft_token_and_parse(char *line, int *status);
-char    *find_path_old(char **envp, char *str);
+t_com	*ft_token_and_parse(char *line, int *status);
+char	*find_path_old(char **envp, char *str);
 
 /*--------------TOKENIZE-------------*/
-t_token *ft_tokenize(char *line);
-void    print_list(t_token *list);
-int     ft_free_list(t_token *list);
-int     ft_metachr(int c);
-t_token *ft_tokenlast(t_token *tkn);
-int     ft_addmetachr(char *line, int start, int x);
-int     ft_addprint(char *line, int x);
-int     ft_addend(char *line, int x);
-int     ft_addquote(char *line, int start, int x);
+t_token	*ft_tokenize(char *line);
+t_token	*ft_tokenlast(t_token *tkn);
+void	print_list(t_token *list);
+int		ft_free_list(t_token *list);
+int		ft_metachr(int c);
+int		ft_addmetachr(char *line, int start, int x);
+int		ft_addprint(char *line, int x);
+int		ft_addend(char *line, int x);
+int		ft_addquote(char *line, int start, int x);
 
 /*--------------PARSING--------------*/
-void    make_redirections(t_redir *redir);
-void    print_commands(t_com *com);
-t_com   *ft_lst_to_coms(t_token *list, int *err);
-void    ft_free_coms(t_com *com);
-t_type  ft_type_redir(char *str);
-t_redir *ft_red_last(t_redir *elem);
-void    ft_countredir(t_com *list, int *err);
-void    free_dpchar(char **com);
+t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err);
+void	make_redirections(t_redir *redir);
+void	print_commands(t_com *com);
+void	print_content_com(t_com *elem, int i);
+t_com	*ft_lst_to_coms(t_token *list, int *err);
+void	ft_free_coms(t_com *com);
+t_type	ft_type_redir(char *str);
+t_redir	*ft_red_last(t_redir *elem);
+void	ft_countredir(t_com *list, int *err);
+char	**con_with_i(t_token *list, int x);
+int		count_subcom(t_com *elem, int i, int n_com, int *err);
+void	free_dpchar(char **com);
+t_redir	*first_redir(t_com *elem, int *err, int *tru, int i);
+void	second_redir(t_com *elem, t_redir *red, int i, int *tru);
+char	**generate_new_com(int *n_com);
 #endif
-//Missing misaligned variable declarations
