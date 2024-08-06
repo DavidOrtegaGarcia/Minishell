@@ -95,7 +95,7 @@ static char	*find_key(char *env)
 	return (key);
 }
 
-static t_env	*new_node(char *env)
+t_env	*new_node(char *env)
 {
 	t_env	*n_node;
 

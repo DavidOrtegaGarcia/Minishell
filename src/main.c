@@ -24,8 +24,7 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc != 1)
 		return (perror(MSG_WNA), WNA);
 	signals(DEFAULT);
-	l_env = fill_l_env(env);
-   //print_env(l_env);
+	l_env = fill_l_env(env);//print_env(l_env);
 	line = readline("minishell$ ");
 	while (line != NULL)
 	{
@@ -33,6 +32,7 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(line);
 		com = ft_token_and_parse(line, &status);
 		//EXPANSOR
+		//print_commands(com);
 		expansor(com, l_env, status);
 		//EXEC
 		heredoc(com);

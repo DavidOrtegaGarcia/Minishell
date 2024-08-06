@@ -119,16 +119,17 @@ typedef struct s_exec
 	int 	i;
 }	t_exec;
 
-typedef	struct s_utils_exp
+typedef struct s_utils_exp
 {
-	int squotes;
-	int exstat;
+	int	squotes;
+	int	exstat;
 }	t_utils_exp;
 
 /*--------------HEADERS--------------*/
 
 //EXPANSOR
 t_env	*fill_l_env(char **env);
+t_env   *new_node(char *env);
 void	print_env(t_env *l_env);
 void	expansor(t_com *com, t_env *l_env, int exstat);
 int		compare_key(char *line, char *key);
@@ -151,7 +152,8 @@ long	ft_atol(char *str);
 int 	check_builtin(char **com);
 void	builtins(t_com *t_com, t_env *l_env, int *status);
 void	echo(char **command, int *status);
-
+void    unset(t_com *com, t_env *l_env, int *status);
+void    export(t_com *com, t_env *l_env, int *status);
 
 /*General*/
 void	ft_free(char **str);
