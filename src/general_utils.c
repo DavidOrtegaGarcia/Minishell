@@ -49,22 +49,21 @@ t_com	*ft_token_and_parse(char *line, int *status)
 	if (line == NULL || line[0] == '\0')
 		return (free(line), NULL);
 	list = ft_tokenize(line);
-	if (list == NULL)
-	{
-		ft_printf("WOOPS");
-		exit(EXIT_FAILURE);
-	}
 	com = ft_lst_to_coms(list, status);
 	ft_free_list(list);
+	free(line);
 	if (*status < 0)
 	{
 		*status *= -1;
 		ft_free_coms(com);
-		free(line);
 		return (NULL);
 	}
-	//ft_free_list(list);
 	ft_countredir(com, status);
-	free(line);
+	if (*status < 0)
+	{
+		*status *= -1;
+		ft_free_coms(com);
+		return (NULL);
+	}
 	return (com);
 }

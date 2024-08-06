@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 17:06:54 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:03:04 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	count_subcom(t_com *elem, int i, int n_com, int *err)
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
 			tru = 0;
 		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
-			return (*err = DBL_RE * -1, printf(MSG_DBL_RE), -1);
+		{
+			*err = DBL_RE * -1;
+			return (printf(MSG_DBL_RE), -1);
+		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
 			n_com++;
 		i++;

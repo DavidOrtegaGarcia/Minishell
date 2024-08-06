@@ -123,11 +123,10 @@ void	builtins(t_com *t_command, t_env *l_env, int *status)
 		*status = cd(t_command->command, l_env);
 	else if (ft_strcmp(t_command->command[0], "pwd") == 0)
 		pwd(status);
-	/*else if (ft_strcmp(t_command->command[0], "export") == 0)
-		export();
+	else if (ft_strcmp(t_command->command[0], "export") == 0)
+		export(t_command, l_env, status);
 	else if (ft_strcmp(t_command->command[0], "unset") == 0)
-		unset();
-	*/
+		unset(t_command, l_env, status);
 	else if (ft_strcmp(t_command->command[0], "env") == 0)
 		env(l_env, status);
 	else if (ft_strcmp(t_command->command[0], "exit") == 0)
