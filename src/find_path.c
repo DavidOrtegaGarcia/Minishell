@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:26:11 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/30 17:10:28 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:15:01 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ char	**get_routes(t_env *l_env)
 {
 	char	**routes;
 
+	while (l_env != NULL && compare_key(l_env->key, "PATH") != 0)
+		l_env = l_env->next;
 	if (l_env == NULL)
 		return (NULL);
-	while (compare_key(l_env->key, "PATH") != 0)
-		l_env = l_env->next;
 	routes = ft_split(l_env->value, ':');
 	if (routes == NULL)
 		return (perror(MSG_MLC_F), exit(MLC_F), NULL);
