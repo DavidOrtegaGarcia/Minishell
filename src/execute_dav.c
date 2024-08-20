@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:28 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:29:24 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	the_whatipids(t_exec exec)
 	}
 }*/
 
-static void	exec_command(t_com *l_com, t_env *l_env, t_exec exec, int *status)
+static void	exec_command(t_com *l_com, t_env **l_env, t_exec exec, int *status)
 {
 	char	*path;
 	char	**env;
@@ -75,14 +75,14 @@ static void	exec_command(t_com *l_com, t_env *l_env, t_exec exec, int *status)
 			builtins(l_com, l_env, status);
 			exit(EXIT_SUCCESS);
 		}
-		path = find_path(l_com->command[0], l_env);
+		path = find_path(l_com->command[0], *l_env);
 	}
-	env = convert_env(l_env);
+	env = convert_env(*l_env);
 	execve(path, l_com->command, env);
 	exit(EXIT_SUCCESS);
 }
 
-static void make_exec(t_com *l_command, t_env *l_env, t_exec exec, int *status)
+static void make_exec(t_com *l_command, t_env **l_env, t_exec exec, int *status)
 {
 	signals(CHILD);
 	if (pipe(exec.fd) == -1)
@@ -96,7 +96,7 @@ static void make_exec(t_com *l_command, t_env *l_env, t_exec exec, int *status)
 	close_pipe(exec.fd[0], exec.fd[1]);
 }
 
-void	execute(t_com *l_command, t_env *l_env, int *status)
+void	execute(t_com *l_command, t_env **l_env, int *status)
 {
 	t_exec	exec;
 
