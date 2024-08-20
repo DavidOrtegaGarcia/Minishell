@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/20 15:21:39 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:56:36 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	single_export(t_com *com, t_env *l_env, int *tru, int i)
 		if (ft_strcmp(aux->key, ret->key) == 0)
 		{
 			del = aux->value;
-			aux->value = ret->value;//ft_strdup(ret->value);
+			aux->value = ret->value;
 			free(del);
 			*tru = 1;
 		}
@@ -46,7 +46,6 @@ void	single_export(t_com *com, t_env *l_env, int *tru, int i)
 	else
 	{
 		free(ret->key);
-		//free(ret->value);
 		free(ret);
 	}
 }
