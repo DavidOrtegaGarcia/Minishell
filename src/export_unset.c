@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/06 14:59:17 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:56:36 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	single_export(t_com *com, t_env *l_env, int *tru, int i)
 		if (ft_strcmp(aux->key, ret->key) == 0)
 		{
 			del = aux->value;
-			aux->value = ret->value;//ft_strdup(ret->value);
+			aux->value = ret->value;
 			free(del);
 			*tru = 1;
 		}
@@ -46,12 +46,11 @@ void	single_export(t_com *com, t_env *l_env, int *tru, int i)
 	else
 	{
 		free(ret->key);
-		//free(ret->value);
 		free(ret);
 	}
 }
 
-void	export(t_com *com, t_env *l_env, int *status)
+void	export(t_com *com, t_env **l_env, int *status)
 {
 	int	i;
 	int	tru;
@@ -63,28 +62,31 @@ void	export(t_com *com, t_env *l_env, int *status)
 		if (ft_strchr(com->command[i], '=') != 0)
 		{
 			tru = 0;
-			single_export(com, l_env, &tru, i);
+			if (*l_env == NULL)
+			{
+				*l_env = new_node(com->command[i]);
+			}
+			else
+				single_export(com, *l_env, &tru, i);
 		}
 		i++;
 	}
 	return ;
 }
 
-int	delete_one(t_env *l_env, char *one)
+int	delete_one(t_env **l_env, char *one)
 {
 	t_env	*temp;
 	t_env	*prev;
 
-	temp = l_env;
+	temp = *l_env;
 	if (temp != NULL && ft_strcmp(temp->key, one) == 0)
 	{
-		prev = temp->next;
+		*l_env = temp->next;
 		free(temp->key);
-		temp->key = prev->key;
 		free(temp->value);
-		temp->value = prev->value;
-		temp->next = prev->next;
-		return (free(prev), 0);
+		free(temp);
+		return (0);
 	}
 	while (temp != NULL && ft_strcmp(temp->key, one) != 0)
 	{
@@ -99,23 +101,14 @@ int	delete_one(t_env *l_env, char *one)
 	return (free(temp), 0);
 }
 
-void	unset(t_com *com, t_env *l_env, int *status)
+void	unset(t_com *com, t_env **l_env, int *status)
 {
 	int	i;
 
 	i = 1;
 	while (com->command[i] != NULL)
 	{
-		if (l_env->next == NULL && ft_strcmp(l_env->key, com->command[i]) == 0)
-		{
-			*status = 0;
-			free(l_env->key);
-			free(l_env->value);
-			free(l_env);
-			l_env = NULL;
-		}
-		else
-			*status = delete_one(l_env, com->command[i]);
+		*status = delete_one(l_env, com->command[i]);
 		i++;
 	}
 	return ;
