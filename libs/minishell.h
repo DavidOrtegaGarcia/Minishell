@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:08:58 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:48:36 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	execute(t_com *t_command, t_env *l_env, int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
 t_exec  fill_exec(int *status, t_com *t_command);
-void	make_redirections(t_redir *redir);
+void	make_redirections(t_redir *redir, int mode);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 void	close_pipe(int in, int out);
@@ -173,7 +173,6 @@ int		ft_addquote(char *line, int start, int x);
 
 /*--------------PARSING--------------*/
 t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err);
-void	make_redirections(t_redir *redir);
 void	print_commands(t_com *com);
 void	print_content_com(t_com *elem, int i);
 t_com	*ft_lst_to_coms(t_token *list, int *err);
