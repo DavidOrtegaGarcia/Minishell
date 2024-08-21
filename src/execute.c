@@ -5,98 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 13:59:11 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/24 17:34:51 by rpocater         ###   ########.fr       */
+/*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
+/*   Updated: 2024/08/20 16:08:17 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/minishell.h"
+#include <minishell.h>
 
-/*void	ft_free(char **str)
+static void	set_std_default(t_exec exec)
+{
+	dup2(exec.default_fd[0], STDIN_FILENO);
+	dup2(exec.default_fd[1], STDOUT_FILENO);
+	close(exec.default_fd[0]);
+	close(exec.default_fd[1]);
+}
+
+static void	the_whatipids(t_exec exec)
 {
 	int	i;
+	int	child_status;
 
 	i = 0;
-	while (str[i])
+	while (i < exec.n_com)
+	{
+		waitpid(exec.pids[i], &child_status, 0);
 		i++;
-	while (i >= 0)
-		free(str[i--]);
-	free(str);
+	}
+	free(exec.pids);
+	if (WIFEXITED(child_status))
+		*exec.status = WEXITSTATUS(child_status);
+	else if (WIFSIGNALED(child_status))
+	{
+		if (WTERMSIG(child_status) == CTRL_C)
+			*exec.status = 130;
+		else if (WTERMSIG(child_status) == CTRL_BS)
+		{
+			*exec.status = 131;
+			perror("Quit (core dumped)\n");
+		}
+	}
 }
 
-char	*find_path_old(char **envp, char *str)
+/*void print_env2(char **env)
 {
-	int	i;
-	int	len;
+	int i;
 
 	i = 0;
-	len = ft_strlen(str);
-	while (*envp != NULL)
+	while (env[i] != NULL)
 	{
-		if (ft_strncmp(str, envp[i], len) == 0)
-			return (envp[i] + len);
+		ft_printf("%s\n", env[i]);
 		i++;
 	}
-	return (printf("Did not find %s\n", str), "\0");
-}
-
-int	path_execute(char *com, char **argv, char **envp)
-{
-	char	*route;
-	char	**path;
-	int		i;
-
-	i = 0;
-	com = ft_strjoin("/", com);
-	path = ft_split(find_path_old(envp, "PATH="), ':');
-	while (path[i] != NULL)
-	{
-		route = ft_strjoin(path[i], com);
-		execve(route, argv, envp);
-		i++;
-	}
-	printf("Could not find any path for %s\n", com);
-	ft_free(path);
-	free(route);
-	free(com);
-	return (-1);
-}
-
-int	direction_execute(char *com, char **argv, char **envp)
-{
-	//int	i;
-
-	//i = 0;
-	if (com[0] == '~')
-		com = ft_strjoin(find_path_old(envp, "HOME="), com + 1);
-	if (com[0] == '.')
-	{
-		//while (com[i] == '.')
-		//{
-		//	i++;
-		//}
-		com = ft_strjoin(find_path_old(envp, "PWD="), com + 1);
-	}
-	execve(com, argv, envp);
-	return (-1);
-}
-
-void	pre_execute(int argc, char **argv, char **envp)
-{
-	if (parse_input(argc, argv, envp) == -1)
-	{
-		printf("The arguments did not pass the parse process\n");
-		return ;
-	}
-	else if (parse_input(argc, argv, envp) == 2)
-	{
-		if (path_execute(argv[0], argv, envp) == -1)
-			perror("Could not path_execute");
-	}
-	else if (parse_input(argc, argv, envp) == 1)
-	{
-		if (direction_execute(argv[0], argv, envp) == -1)
-			printf("Could not non path execve\n");
-	}
-	return ;
 }*/
+
+static void	exec_command(t_com *l_com, t_env **l_env, t_exec exec, int *status)
+{
+	char	*path;
+	char	**env;
+
+	path = NULL;
+	if (l_com->next != NULL)
+		dup2(exec.fd[1], STDOUT_FILENO);
+	close_pipe(exec.fd[0], exec.fd[1]);
+	make_redirections(l_com->redir, CHILD);
+	if (l_com->command != NULL)
+	{
+		if (check_builtin(l_com->command) == 1)
+		{
+			builtins(l_com, l_env, status);
+			exit(EXIT_SUCCESS);
+		}
+		path = find_path(l_com->command[0], *l_env);
+	}
+	env = convert_env(*l_env);
+	execve(path, l_com->command, env);
+	exit(EXIT_SUCCESS);
+}
+
+static void	make_exec(t_com *l_command, t_env **l_env, t_exec exec, int *status)
+{
+	signals(CHILD);
+	if (pipe(exec.fd) == -1)
+		return (perror(MSG_PFE), exit(EXIT_FAILURE));
+	exec.pids[exec.i] = fork();
+	if (exec.pids[exec.i] < 0)
+		return (perror(MSG_FORK_F), exit(EXIT_FAILURE));
+	else if (exec.pids[exec.i] == 0)
+		exec_command(l_command, l_env, exec, status);
+	dup2(exec.fd[0], STDIN_FILENO);
+	close_pipe(exec.fd[0], exec.fd[1]);
+}
+
+void	execute(t_com *l_command, t_env **l_env, int *status)
+{
+	t_exec	exec;
+
+	if (l_command == NULL)
+		return ;
+	exec = fill_exec(status, l_command);
+	exec.i = 0;
+	while (l_command != NULL)
+	{
+		if (check_builtin(l_command->command) == 1 && exec.n_com == 1
+			&& l_command->command != NULL)
+		{
+			make_redirections(l_command->redir, DEFAULT);
+			builtins(l_command, l_env, status);
+		}
+		else
+			make_exec(l_command, l_env, exec, status);
+		exec.i++;
+		l_command = l_command->next;
+	}
+	set_std_default(exec);
+	the_whatipids(exec);
+}
