@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/20 15:56:36 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:32:33 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,32 @@ t_env	*ft_envlast(t_env *tkn)
 	return (tkn);
 }
 
-void	single_export(t_com *com, t_env *l_env, int *tru, int i)
+void	single_export(char *com, t_env *l_env, int *tru)
 {
 	t_env	*aux;
 	t_env	*ret;
 	char	*del;
 
 	aux = l_env;
-	ret = new_node(com->command[i]);
+	ret = new_node(com);
 	while (aux != NULL)
 	{
 		if (ft_strcmp(aux->key, ret->key) == 0)
 		{
 			del = aux->value;
-			aux->value = ret->value;
+			if (*tru == 2)
+			{
+				aux->value = ft_strjoin(aux->value, ret->value);
+				free(ret->value);
+			}
+			else
+				aux->value = ret->value;
 			free(del);
-			*tru = 1;
+			*tru = 0;
 		}
 		aux = aux->next;
 	}
-	if (*tru == 0)
+	if (*tru != 0)
 		ft_envlast(l_env)->next = ret;
 	else
 	{
@@ -59,15 +65,13 @@ void	export(t_com *com, t_env **l_env, int *status)
 	*status = 0;
 	while (com->command[i] != NULL)
 	{
-		if (ft_strchr(com->command[i], '=') != 0)
+		tru = check_key(com->command[i], status);
+		if (tru > 0)
 		{
-			tru = 0;
 			if (*l_env == NULL)
-			{
 				*l_env = new_node(com->command[i]);
-			}
 			else
-				single_export(com, *l_env, &tru, i);
+				single_export(com->command[i], *l_env, &tru);
 		}
 		i++;
 	}
