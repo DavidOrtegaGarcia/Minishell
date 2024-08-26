@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/22 14:31:31 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:11:17 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_env
 	struct s_env	*next;
 	char			*key;
 	char			*value;
+	int			list;
 }	t_env;
 
 typedef struct s_exec
@@ -153,6 +154,7 @@ long	ft_atol(char *str);
 //BUILTINS
 int 	check_builtin(char **com);
 int	check_key(char *key, int *st);
+void    print_x_env(t_env *l_env);
 void	builtins(t_com *t_com, t_env **l_env, int *status);
 void	echo(char **command, int *status);
 void    unset(t_com *com, t_env **l_env, int *status);
