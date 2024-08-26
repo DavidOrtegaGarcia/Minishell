@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:31:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/26 15:17:34 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:05:12 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	single_export(char *com, t_env *l_env, int *tru)
 {
 	t_env	*aux;
 	t_env	*ret;
-	char	*del;
 
 	aux = l_env;
 	ret = new_node(com);
@@ -34,17 +33,10 @@ void	single_export(char *com, t_env *l_env, int *tru)
 	{
 		if (ft_strcmp(aux->key, ret->key) == 0)
 		{
-			del = aux->value;
-			if (*tru == 2)
-			{
-				aux->value = ft_strjoin(aux->value, ret->value);
+			if (ret->value == NULL)
 				free(ret->value);
-			}
 			else
-				aux->value = ret->value;
-			free(del);
-			if (aux->list == 1)
-				aux->list = 3;
+				add_rep_node(aux, ret, tru);
 			*tru = 0;
 		}
 		aux = aux->next;
@@ -65,8 +57,13 @@ void	export(t_com *com, t_env **l_env, int *status)
 
 	i = 1;
 	*status = 0;
-	if (com->command[i] == NULL)
+	if (com->command[i] == NULL )
 		print_x_env(*l_env);
+	else if (com->command[i][0] == '#')
+	{
+		print_x_env(*l_env);
+		return ;
+	}
 	while (com->command[i] != NULL)
 	{
 		tru = check_key(com->command[i], status);
