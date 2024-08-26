@@ -6,12 +6,24 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/22 15:06:38 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:18:33 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	print_x_env(t_env *l_env)
+{
+	while (l_env != NULL)
+	{	
+		printf ("declare -x ");
+		if (l_env->list == 1)
+			printf("%s\n", l_env->key);
+		if (l_env->list == 3)
+			printf ("%s=\"%s\"\n", l_env->key, l_env->value);
+		l_env = l_env->next;
+	}
+}
 void	print_content_com(t_com *elem, int i)
 {
 	t_redir	*red;
@@ -49,8 +61,8 @@ int	check_key(char *key, int *st)
 
 	metachar = "@#!$%^*-():;?/.,~+";
 	i = 0;
-	if (ft_strchr(key, '=') == 0)
-		return (0);
+	if (ft_isalpha(key[0]) == 0)//(ft_strchr(key, '=') == 0)
+		return (printf(MSG_NVF, key), *st = NVF, 0);
 	while (key[i] != '\0' && key[i] != '=')
 	{
 		if (key[i + 1] == '=' && key[i] == '+')
