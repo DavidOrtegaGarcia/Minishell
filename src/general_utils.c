@@ -6,11 +6,48 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/01 15:11:53 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:31:37 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_x_env(t_env *l_env)
+{
+	while (l_env != NULL)
+	{
+		printf ("declare -x ");
+		if (l_env->list == 1)
+			printf("%s\n", l_env->key);
+		if (l_env->list == 3)
+			printf ("%s=\"%s\"\n", l_env->key, l_env->value);
+		l_env = l_env->next;
+	}
+}
+
+void	add_rep_node(t_env *aux, t_env *ret, int *tru)
+{
+	char	*del;
+
+	del = aux->value;
+	if (*tru == 2)
+	{
+		if (ret->value == NULL)
+			return ;
+		else if (aux->value == NULL)
+			aux->value = ret->value;
+		else
+		{
+			aux->value = ft_strjoin(aux->value, ret->value);
+			free(ret->value);
+		}
+	}
+	else
+		aux->value = ret->value;
+	free(del);
+	if (aux->list == 1)
+		aux->list = 3;
+}
 
 void	print_content_com(t_com *elem, int i)
 {
@@ -39,6 +76,35 @@ void	print_content_com(t_com *elem, int i)
 		}
 	}
 	return ;
+}
+
+int	check_key(char *key, int *st)
+{
+	char	*metachar;
+	int		i;
+	int		j;
+
+	metachar = "@#!$%^*-():;?/.,~+";
+	i = 0;
+	if (ft_isalpha(key[0]) == 0)
+		return (printf(MSG_NVF, key), *st = NVF, 0);
+	while (key[i] != '\0' && key[i] != '=')
+	{
+		if (key[i + 1] == '=' && key[i] == '+')
+		{
+			ft_memmove(key + i, key + i + 1, ft_strlen(key) - i);
+			return (2);
+		}
+		j = 0;
+		while (metachar[j] != '\0')
+		{
+			if (metachar[j] == key[i])
+				return (printf(MSG_NVF, key), *st = NVF, -1);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 t_com	*ft_token_and_parse(char *line, int *status)

@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/05 13:27:06 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:07:37 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	print_env(t_env *l_env)
 {
 	while (l_env != NULL)
 	{
-		printf ("%s=%s\n", l_env->key, l_env->value);
+		if (l_env->list == 2 || l_env->list == 3)
+			printf ("%s=%s\n", l_env->key, l_env->value);
 		l_env = l_env->next;
 	}
 }
@@ -104,8 +105,18 @@ t_env	*new_node(char *env)
 		return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 	if (env == NULL)
 		return (NULL);
-	n_node->key = find_key(env);
-	n_node->value = find_value(env);
+	if (ft_strchr(env, '=') != 0)
+	{
+		n_node->key = find_key(env);
+		n_node->value = find_value(env);
+		n_node->list = 3;
+	}
+	else
+	{
+		n_node->key = ft_strdup(env);
+		n_node->value = NULL;
+		n_node->list = 1;
+	}
 	n_node->next = NULL;
 	return (n_node);
 }
