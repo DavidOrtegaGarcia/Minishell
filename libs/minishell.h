@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/20 16:06:46 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:12:05 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define MSG_FDE "The %s file doesn't exist\n"
 # define MSG_PFE "Pipe function failed\n" 
 # define MSG_DF "Dup function failed\n"
+# define MSG_NVF "`%s': not a valid identifier\n"
 
 /*-----MSG-COMMAND-ERRORS-------*/
 # define MSG_CNA "%s: permission denied\n"
@@ -49,6 +50,7 @@
 # define FORK_F 12
 # define FDE 13
 # define PFE 14
+# define NVF 26
 
 /*------COMMAND-ERRORS------*/
 # define CMD_NO_ACCESS 126
@@ -106,6 +108,7 @@ typedef struct s_env
 	struct s_env	*next;
 	char			*key;
 	char			*value;
+	int			list;
 }	t_env;
 
 typedef struct s_exec
@@ -149,7 +152,10 @@ char	**convert_env(t_env *l_env);
 long	ft_atol(char *str);
 
 //BUILTINS
-int		check_builtin(char **com);
+int 	check_builtin(char **com);
+int	check_key(char *key, int *st);
+void    print_x_env(t_env *l_env);
+void    add_rep_node(t_env *aux, t_env *ret, int *tru);
 void	builtins(t_com *t_com, t_env **l_env, int *status);
 void	echo(char **command, int *status);
 void	unset(t_com *com, t_env **l_env, int *status);
