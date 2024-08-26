@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:08:58 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:03:31 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,11 @@ int		compare_key(char *line, char *key);
 //EXEC
 void	signals(int process);
 void	heredoc(t_com *command);
-void	execute(t_com *t_command, t_env *l_env, int *status);
+void	execute(t_com *t_command, t_env **l_env, int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
 t_exec  fill_exec(int *status, t_com *t_command);
-void	make_redirections(t_redir *redir);
+void	make_redirections(t_redir *redir, int mode);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
 void	close_pipe(int in, int out);
@@ -150,10 +150,10 @@ long	ft_atol(char *str);
 
 //BUILTINS
 int 	check_builtin(char **com);
-void	builtins(t_com *t_com, t_env *l_env, int *status);
+void	builtins(t_com *t_com, t_env **l_env, int *status);
 void	echo(char **command, int *status);
-void    unset(t_com *com, t_env *l_env, int *status);
-void    export(t_com *com, t_env *l_env, int *status);
+void    unset(t_com *com, t_env **l_env, int *status);
+void    export(t_com *com, t_env **l_env, int *status);
 
 /*General*/
 void	ft_free(char **str);
@@ -173,7 +173,6 @@ int		ft_addquote(char *line, int start, int x);
 
 /*--------------PARSING--------------*/
 t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err);
-void	make_redirections(t_redir *redir);
 void	print_commands(t_com *com);
 void	print_content_com(t_com *elem, int i);
 t_com	*ft_lst_to_coms(t_token *list, int *err);

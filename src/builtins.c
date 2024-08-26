@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:32:28 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:32:45 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ int	cd(char **command, t_env *l_env)
 	return (EXIT_SUCCESS);
 }
 
-void	builtins(t_com *t_command, t_env *l_env, int *status)
+void	builtins(t_com *t_command, t_env **l_env, int *status)
 {
 	if (ft_strcmp(t_command->command[0], "echo") == 0)
 		echo(t_command->command, status);
 	else if (ft_strcmp(t_command->command[0], "cd") == 0)
-		*status = cd(t_command->command, l_env);
+		*status = cd(t_command->command, *l_env);
 	else if (ft_strcmp(t_command->command[0], "pwd") == 0)
 		pwd(status);
 	else if (ft_strcmp(t_command->command[0], "export") == 0)
@@ -128,7 +128,7 @@ void	builtins(t_com *t_command, t_env *l_env, int *status)
 	else if (ft_strcmp(t_command->command[0], "unset") == 0)
 		unset(t_command, l_env, status);
 	else if (ft_strcmp(t_command->command[0], "env") == 0)
-		env(l_env, status);
+		env(*l_env, status);
 	else if (ft_strcmp(t_command->command[0], "exit") == 0)
 		*status = ft_exit(t_command->command);
 }

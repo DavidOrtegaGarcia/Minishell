@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:01:54 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:25:32 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:35:57 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ long	ft_atol(char *str)
 
 int	check_builtin(char **com)
 {
+	if (com == NULL)
+		return (0);
 	if (ft_strcmp(com[0], "echo") == 0)
 		return (1);
 	if (ft_strcmp(com[0], "cd") == 0)
