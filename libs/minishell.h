@@ -119,7 +119,7 @@ typedef struct s_exec
 	char	**env;
 	int		*status;
 	int		n_com;
-	int 	i;
+	int		i;
 }	t_exec;
 
 typedef struct s_utils_exp
@@ -132,7 +132,7 @@ typedef struct s_utils_exp
 
 //EXPANSOR
 t_env	*fill_l_env(char **env);
-t_env   *new_node(char *env);
+t_env	*new_node(char *env);
 void	print_env(t_env *l_env);
 void	expansor(t_com *com, t_env *l_env, int exstat);
 int		compare_key(char *line, char *key);
@@ -143,7 +143,7 @@ void	heredoc(t_com *command);
 void	execute(t_com *t_command, t_env **l_env, int *status);
 int		get_n_commands(t_com *command);
 char	*find_path(char *command, t_env *l_env);
-t_exec  fill_exec(int *status, t_com *t_command);
+t_exec	fill_exec(int *status, t_com *t_command);
 void	make_redirections(t_redir *redir, int mode);
 char	*ft_strjoin_s(char const *s1, char const *s2);
 void	free_matrix(char **matrix);
@@ -158,8 +158,8 @@ void    print_x_env(t_env *l_env);
 void    add_rep_node(t_env *aux, t_env *ret, int *tru);
 void	builtins(t_com *t_com, t_env **l_env, int *status);
 void	echo(char **command, int *status);
-void    unset(t_com *com, t_env **l_env, int *status);
-void    export(t_com *com, t_env **l_env, int *status);
+void	unset(t_com *com, t_env **l_env, int *status);
+void	export(t_com *com, t_env **l_env, int *status);
 
 /*General*/
 void	ft_free(char **str);
