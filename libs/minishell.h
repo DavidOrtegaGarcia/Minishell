@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/26 16:12:05 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:48:59 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,30 @@ typedef enum s_redirect_type
 
 typedef struct s_token
 {
-	struct s_token	*next;
 	char			*content;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_redir
 {
-	struct s_redir	*next;
 	t_type			type;
 	char			*file;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_com
 {
-	struct s_com	*next;
 	char			**command;
 	t_redir			*redir;
+	struct s_com	*next;
 }	t_com;
 
 typedef struct s_env
 {
-	struct s_env	*next;
 	char			*key;
 	char			*value;
-	int			list;
+	int				list;
+	struct s_env	*next;
 }	t_env;
 
 typedef struct s_exec
@@ -152,10 +152,10 @@ char	**convert_env(t_env *l_env);
 long	ft_atol(char *str);
 
 //BUILTINS
-int 	check_builtin(char **com);
-int	check_key(char *key, int *st);
-void    print_x_env(t_env *l_env);
-void    add_rep_node(t_env *aux, t_env *ret, int *tru);
+int		check_builtin(char **com);
+int		check_key(char *key, int *st);
+void	print_x_env(t_env *l_env);
+void	add_rep_node(t_env *aux, t_env *ret, int *tru);
 void	builtins(t_com *t_com, t_env **l_env, int *status);
 void	echo(char **command, int *status);
 void	unset(t_com *com, t_env **l_env, int *status);

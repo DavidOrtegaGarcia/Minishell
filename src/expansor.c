@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:30:43 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 17:33:16 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:45:04 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ static int	check_ev(char *line, t_env *l_env)
 {
 	while (l_env != NULL)
 	{
-		if (compare_key(line, l_env->key) == 0)
+		if (compare_key(line, l_env->key) == 0 && l_env->list != 1
+			&& l_env->value[0] != '\0')
 			return (1);
 		l_env = l_env->next;
 	}

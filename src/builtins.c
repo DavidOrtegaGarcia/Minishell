@@ -6,13 +6,13 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:54:27 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/21 15:45:54 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:51:46 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int zerocase(char *num, int neg)
+int	zerocase(char *num, int neg)
 {
 	int	i;
 
@@ -26,11 +26,11 @@ int zerocase(char *num, int neg)
 			if (neg == 1 && i != 1)
 			{
 				num[i - 1] = '-';
-				return(i - 1);
+				return (i - 1);
 			}
 			if (neg == 1 && i == 1)
 				return (0);
-			return(i);
+			return (i);
 		}
 		i++;
 	}
@@ -58,29 +58,28 @@ int	is_digit(char *par)
 	return (1);
 }
 
-int check_num(char *num, int neg)
+int	check_num(char *num, int neg)
 {
-
-	int i;
-	char *number;
+	int		i;
+	char	*number;
 
 	if (!is_digit(num))
 		return (1);
 	number = ft_strdup(num);
 	i = zerocase(number, neg);
-	if ((neg == 0 && ft_strlen(&number[i]) > 19) 
+	if ((neg == 0 && ft_strlen(&number[i]) > 19)
 		|| (neg == 1 && ft_strlen(&number[i]) > 20))
 		return (free(number), 1);
-	if (neg == 0 && ft_strlen(&number[i]) == 19 
-		&& ft_strcmp(&number[i], "9223372036854775807") == 1) 
+	if (neg == 0 && ft_strlen(&number[i]) == 19
+		&& ft_strcmp(&number[i], "9223372036854775807") == 1)
 		return (free(number), 1);
-	if (neg == 1 && ft_strlen(&number[i]) == 20 
+	if (neg == 1 && ft_strlen(&number[i]) == 20
 		&& ft_strcmp(&number[i], "-9223372036854775808") == 1)
 		return (free(number), 1);
 	return (free(number), 0);
 }
 
-int check_neg(char *num)
+int	check_neg(char *num)
 {
 	if (num[0] == '-')
 		return (1);
@@ -90,7 +89,7 @@ int check_neg(char *num)
 int	check_first_arg(char **com)
 {
 	int	num;
-	int neg;
+	int	neg;
 
 	neg = check_neg(com[1]);
 	ft_printf("exit\n");
