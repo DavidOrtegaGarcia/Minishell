@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:28:16 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:31:47 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int	get_size_env(t_env *l_env)
 	i = 0;
 	while (l_env != NULL)
 	{
-		i++;
+		if (l_env->list != 1)
+			i++;
 		l_env = l_env->next;
 	}
 	return (i);
@@ -64,10 +65,13 @@ char	**convert_env(t_env *l_env)
 		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	while (l_env != NULL)
 	{
-		env[i] = strjoin_env(l_env->key, l_env->value);
-		if (env == NULL)
-			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-		i++;
+		if (l_env->list != 1)
+		{
+			env[i] = strjoin_env(l_env->key, l_env->value);
+			if (env == NULL)
+				return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			i++;
+		}
 		l_env = l_env->next;
 	}
 	env[i] = NULL;
