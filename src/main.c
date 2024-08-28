@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/27 17:48:10 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:07:44 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	clean_heredoc(t_com *com)
 		{
 			if (aux->type == HERE_DOC)
 				remove_heredoc(aux->file);
-			aux = com->redir->next;
+			aux = aux->next;
 		}
 		com = com->next;
 	}

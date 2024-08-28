@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:26:45 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/20 16:08:00 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:50:28 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,13 @@ static int	in_redir(char *file, int mode)
 {
 	int	fd;
 
+	write(2,"IN_REDIR AAAAAAA\n", 18);
 	if (mode == CHILD)
 	{
+		write(2,"IN_REDIR BBBBBBB\n", 18);
 		if (access(file, F_OK) == -1)
-			return (printf(MSG_FDE, file), exit(EXIT_FAILURE), 1);
+			return (perror("Me cago en tu puta madre\n"), exit(EXIT_FAILURE), 1);
+		write(2,"IN_REDIR CCCCCCC\n", 18);
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
 			return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
@@ -101,6 +104,10 @@ void	make_redirections(t_redir *redir, int mode)
 {
 	while (redir != NULL)
 	{
+		write(2,"Exec AAAAAAA\n", 14);
+		int i = redir->type;
+		ft_putnbr_fd(i, 2);
+		write(2,"\n", 1);
 		if (redir->type == IN)
 			in_redir(redir->file, mode);
 		else if (redir->type == HERE_DOC)
@@ -109,6 +116,9 @@ void	make_redirections(t_redir *redir, int mode)
 			out_t_redir(redir->file, mode);
 		else if (redir->type == OUT_APPEND)
 			out_a_redir(redir->file, mode);
+		write(2,"Exec YYYYYYY\n", 14);
 		redir = redir->next;
+		write(2,"Exec ZZZZZZZ\n", 14);
 	}
+	write(2,"Exec FFFFFFF\n", 14);
 }
