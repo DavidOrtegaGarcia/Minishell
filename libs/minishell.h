@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/26 16:12:05 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:53:43 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,4 +192,5 @@ void	free_dpchar(char **com);
 t_redir	*first_redir(t_com *elem, int *err, int *tru, int i);
 void	second_redir(t_com *elem, t_redir *red, int i, int *tru);
 char	**generate_new_com(int *n_com);
+char    *ft_protected_dup(char *elem);
 #endif
