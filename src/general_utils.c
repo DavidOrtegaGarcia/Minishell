@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/26 16:31:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:18:29 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	add_rep_node(t_env *aux, t_env *ret, int *tru)
 		else
 		{
 			aux->value = ft_strjoin(aux->value, ret->value);
+			if (aux->value == NULL)
+			{
+				perror(MSG_MLC_F);
+				exit(MLC_F);
+			}
 			free(ret->value);
 		}
 	}

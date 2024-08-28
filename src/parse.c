@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/31 16:59:20 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:53:02 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	**con_with_i(t_token *list, int x)
 	while (elem != NULL && i < x)
 	{
 		*(ret + i) = ft_strdup(elem->content);
+		if (*(ret + i) == NULL)
+			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		elem = elem->next;
 		i++;
 	}
@@ -70,7 +72,7 @@ void	ft_addredir(t_com *elem, int n_com, int *err)
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 1)
 			second_redir(elem, red, i, &tru);
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
-			new_com[n_com++] = ft_strdup(elem->command[i]);
+			new_com[n_com++] = ft_protected_dup(elem->command[i]);
 		i++;
 	}
 	free_dpchar(elem->command);

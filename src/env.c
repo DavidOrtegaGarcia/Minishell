@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/26 15:07:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:55:57 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ t_env	*new_node(char *env)
 	else
 	{
 		n_node->key = ft_strdup(env);
+		if (n_node->key == NULL)
+                	return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 		n_node->value = NULL;
 		n_node->list = 1;
 	}
