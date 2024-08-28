@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:17:38 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:26:33 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:53:33 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,14 @@ void	echo(char **command, int *status)
 	int	i;
 	int	flag;
 	int	print;
-	int	has_flag;
 
 	i = 1;
 	flag = 0;
 	print = 1;
-	if (command[i] != NULL && check_flag(command[i]) == 1)
+	while (command[i] != NULL && check_flag(command[i]) == 1)
 	{
 		flag = 1;
-		print++;
+		print = ++i;
 	}
-	has_flag = flag;
-	while (command[i] != NULL)
-	{
-		if (flag == 1 && check_flag(command[i]) == 0)
-		{
-			flag = 0;
-			print = i;
-		}
-		i++;
-	}
-	print_echo(command, print, has_flag, status);
+	print_echo(command, print, flag, status);
 }
