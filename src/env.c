@@ -86,6 +86,8 @@ t_env	*new_node(char *env)
 	else
 	{
 		n_node->key = ft_strdup(env);
+		if (n_node->key == NULL)
+                	return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 		n_node->value = NULL;
 		n_node->list = 1;
 	}
