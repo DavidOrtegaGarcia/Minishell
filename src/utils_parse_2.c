@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/01 13:03:04 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:33:38 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err)
 
 	ret = (t_com *)malloc(sizeof(t_com));
 	if (ret == NULL)
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	ret->command = con_with_i(list, i);
 	ret->redir = NULL;
 	ret->next = NULL;
@@ -28,7 +28,7 @@ t_com	*prepare_com(t_token *list, t_token *elem, int i, int *err)
 		{
 			elem = elem->next;
 			if (elem == NULL)
-				return (*err = SE_PIPE * -1, printf(MSG_SE_PIPE), ret);
+				return (*err = SE_PIPE * -1, perror(MSG_SE_PIPE), ret);
 			ret->next = ft_lst_to_coms(elem, err);
 		}
 	}
@@ -49,14 +49,14 @@ int	count_subcom(t_com *elem, int i, int n_com, int *err)
 		else if (ft_metachr(elem->command[i][0]) == 2 && tru == 1)
 		{
 			*err = DBL_RE * -1;
-			return (printf(MSG_DBL_RE), -1);
+			return (perror(MSG_DBL_RE), -1);
 		}
 		else if (ft_metachr(elem->command[i][0]) != 2 && tru == 0)
 			n_com++;
 		i++;
 	}
 	if (tru == 1)
-		return (*err = AT_END * -1, printf(MSG_AT_END), -1);
+		return (*err = AT_END * -1, perror(MSG_AT_END), -1);
 	return (n_com);
 }
 
@@ -70,7 +70,7 @@ t_redir	*first_redir(t_com *elem, int *err, int *tru, int i)
 	if (red == NULL)
 	{
 		*err = MLC_F * -1;
-		printf(MSG_MLC_F);
+		perror(MSG_MLC_F);
 		return (exit(EXIT_FAILURE), NULL);
 	}
 	red->type = ft_type_redir(elem->command[i]);
@@ -80,6 +80,11 @@ t_redir	*first_redir(t_com *elem, int *err, int *tru, int i)
 void	second_redir(t_com *elem, t_redir *red, int i, int *tru)
 {
 	red->file = ft_strdup(elem->command[i]);
+	if (red->file == NULL)
+	{
+		perror(MSG_MLC_F);
+		exit(EXIT_FAILURE);
+	}
 	red->next = NULL;
 	if (elem->redir == NULL)
 		elem->redir = red;
@@ -96,7 +101,7 @@ char	**generate_new_com(int *n_com)
 	{
 		new_com = (char **)malloc(sizeof(char *) * (*(n_com) + 1));
 		if (new_com == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	}
 	else
 		new_com = NULL;

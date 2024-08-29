@@ -6,39 +6,11 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:46:42 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/26 15:07:37 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:02:00 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_env(t_env *l_env)
-{
-	t_env	*aux;
-
-	if (l_env != NULL)
-	{
-		while (l_env->next != NULL)
-		{
-			aux = l_env;
-			l_env = l_env->next;
-			free(l_env->key);
-			free(l_env->value);
-			free(aux);
-		}
-		free(l_env);
-	}
-}
-
-void	print_env(t_env *l_env)
-{
-	while (l_env != NULL)
-	{
-		if (l_env->list == 2 || l_env->list == 3)
-			printf ("%s=%s\n", l_env->key, l_env->value);
-		l_env = l_env->next;
-	}
-}
 
 void	get_size_value(int *i, int *j, char *env)
 {
@@ -114,6 +86,8 @@ t_env	*new_node(char *env)
 	else
 	{
 		n_node->key = ft_strdup(env);
+		if (n_node->key == NULL)
+			return (perror(MSG_MLC_F), exit(MLC_F), NULL);
 		n_node->value = NULL;
 		n_node->list = 1;
 	}

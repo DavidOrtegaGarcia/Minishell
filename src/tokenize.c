@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <rpocater@student.42barcel>       +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:51:44 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/30 15:38:27 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:26:39 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strtoken(char *line, int start, int end)
 	len = (end - start) + 1;
 	str = (char *) malloc(len * sizeof(char) + 1);
 	if (str == NULL)
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	while (i < len)
 	{
 		str[i] = line[start + i];
@@ -41,7 +41,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 	{
 		token_list = (t_token *) malloc(sizeof(t_token));
 		if (token_list == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		token_list->content = ft_strtoken(line, start, end);
 		token_list->next = NULL;
 	}
@@ -49,7 +49,7 @@ t_token	*ft_addtoken(t_token *token_list, char *line, int start, int end)
 	{
 		new = (t_token *)malloc(sizeof(t_token));
 		if (new == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		new->content = ft_strtoken(line, start, end);
 		new->next = NULL;
 		elem = ft_tokenlast(token_list);

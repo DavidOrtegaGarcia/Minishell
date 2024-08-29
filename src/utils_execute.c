@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:04:39 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/06 14:28:16 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:26:32 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int	get_size_env(t_env *l_env)
 	i = 0;
 	while (l_env != NULL)
 	{
-		i++;
+		if (l_env->list != 1)
+			i++;
 		l_env = l_env->next;
 	}
 	return (i);
@@ -64,20 +65,17 @@ char	**convert_env(t_env *l_env)
 		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	while (l_env != NULL)
 	{
-		env[i] = strjoin_env(l_env->key, l_env->value);
-		if (env == NULL)
-			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
-		i++;
+		if (l_env->list != 1)
+		{
+			env[i] = strjoin_env(l_env->key, l_env->value);
+			if (env == NULL)
+				return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			i++;
+		}
 		l_env = l_env->next;
 	}
 	env[i] = NULL;
 	return (env);
-}
-
-void	close_pipe(int in, int out)
-{
-	close(in);
-	close(out);
 }
 
 t_exec	fill_exec(int *status, t_com *t_command)
@@ -96,45 +94,6 @@ t_exec	fill_exec(int *status, t_com *t_command)
 	if (exec.default_fd[1] == -1)
 		return (perror(MSG_DF), exit(EXIT_FAILURE), exec);
 	return (exec);
-}
-
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i] != NULL)
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-}
-
-char	*ft_strjoin_s(char const *s1, char const *s2)
-{
-	char	*sfinal;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (0);
-	sfinal = malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
-	if (sfinal == NULL)
-		return (NULL);
-	while (i < ft_strlen(s1))
-	{
-		sfinal[i] = s1[i];
-		i++;
-	}
-	sfinal[i] = '/';
-	i++;
-	while (i < ft_strlen(s1) + ft_strlen(s2) + 1)
-		sfinal[i++] = s2[j++];
-	sfinal[i] = '\0';
-	return (sfinal);
 }
 
 int	get_n_commands(t_com *command)

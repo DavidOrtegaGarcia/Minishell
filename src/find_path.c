@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:26:11 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/12 17:15:01 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:16:26 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ char	*find_relative_path(char *path)
 		if (stat(path, &path_stat) != 0)
 			return (perror("Stat failed\n"), exit(EXIT_FAILURE), NULL);
 		if (S_ISDIR(path_stat.st_mode))
-			return (ft_printf(MSG_IAD, path), exit(IS_A_DIR), NULL);
+			return (ft_printf_fd(2, MSG_IAD, path), exit(IS_A_DIR), NULL);
 		if (access(path, X_OK) == 0)
 			return (path);
 		else
-			return (ft_printf(MSG_CNA, path), exit(CMD_NO_ACCESS), NULL);
+			return (ft_printf_fd(2, MSG_CNA, path), exit(CMD_NO_ACCESS), NULL);
 	}
 	else
-		return (ft_printf(MSG_NSF, path), exit(NO_SUCH_FILE), NULL);
+		return (ft_printf_fd(2, MSG_NSF, path), exit(NO_SUCH_FILE), NULL);
 }
 
 char	*find_path(char *command, t_env *l_env)
@@ -65,10 +65,11 @@ char	*find_path(char *command, t_env *l_env)
 			if (access(path, X_OK) == 0)
 				return (free_matrix(routes), path);
 			else
-				return (ft_printf(MSG_CNA, command), exit(CMD_NO_ACCESS), NULL);
+				return (ft_printf_fd(2, MSG_CNA, command), exit(CMD_NO_ACCESS),
+					NULL);
 		}
 		free(path);
 		i++;
 	}
-	return (ft_printf(MSG_CNF, command), exit(CMD_NOT_FOUND), NULL);
+	return (ft_printf_fd(2, MSG_CNF, command), exit(CMD_NOT_FOUND), NULL);
 }
