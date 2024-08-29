@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:07:17 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/24 15:05:40 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:46:38 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,33 @@ int	compare_key(char *line, char *key)
 	else if (result < 0)
 		result = -1;
 	return (result);
+}
+
+t_env	*get_ev(char *line, int k, t_env *l_env)
+{
+	int	i;
+	int	j;
+
+	j = k;
+	i = 0;
+	while (ft_isalpha(line[j]) == 1)
+	{
+		i++;
+		j++;
+	}
+	while (compare_key(&line[k], l_env->key) != 0)
+		l_env = l_env->next;
+	return (l_env);
+}
+
+int	check_ev(char *line, t_env *l_env)
+{
+	while (l_env != NULL)
+	{
+		if (compare_key(line, l_env->key) == 0 && l_env->list != 1
+			&& l_env->value[0] != '\0')
+			return (1);
+		l_env = l_env->next;
+	}
+	return (0);
 }

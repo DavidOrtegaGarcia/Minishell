@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:45:03 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/20 16:08:17 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:08:35 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ static void	the_whatipids(t_exec exec)
 		}
 	}
 }
-
-/*void print_env2(char **env)
-{
-	int i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		ft_printf("%s\n", env[i]);
-		i++;
-	}
-}*/
 
 static void	exec_command(t_com *l_com, t_env **l_env, t_exec exec, int *status)
 {
