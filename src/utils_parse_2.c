@@ -6,7 +6,7 @@
 /*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:43:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/01 13:03:04 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:53:59 by rpocater         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ t_redir	*first_redir(t_com *elem, int *err, int *tru, int i)
 void	second_redir(t_com *elem, t_redir *red, int i, int *tru)
 {
 	red->file = ft_strdup(elem->command[i]);
+	if (red->file == NULL)
+	{
+		printf(MSG_MLC_F);
+		exit(EXIT_FAILURE);
+	}
 	red->next = NULL;
 	if (elem->redir == NULL)
 		elem->redir = red;
@@ -102,4 +107,16 @@ char	**generate_new_com(int *n_com)
 		new_com = NULL;
 	*n_com = 0;
 	return (new_com);
+}
+
+char	*ft_protected_dup(char *elem)
+{
+	char	*ret;
+
+	ret = ft_strdup(elem);
+	if (ret == NULL)
+        {
+                return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+        }
+	return (ret);
 }
