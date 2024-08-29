@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:52:16 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/28 14:53:02 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:32:14 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_commands(t_com *com)
 	i = 0;
 	while (elem != NULL)
 	{
-		printf("Command %d: \n", i);
+		ft_printf("Command %d: \n", i);
 		print_content_com(elem, i);
 		elem = elem->next;
 		i++;
@@ -38,7 +38,7 @@ char	**con_with_i(t_token *list, int x)
 	ret = (char **)malloc(sizeof(char *) * (x + 1));
 	if (ret == NULL)
 	{
-		return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	}
 	elem = list;
 	i = 0;
@@ -46,7 +46,7 @@ char	**con_with_i(t_token *list, int x)
 	{
 		*(ret + i) = ft_strdup(elem->content);
 		if (*(ret + i) == NULL)
-			return (printf(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
+			return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 		elem = elem->next;
 		i++;
 	}
@@ -123,6 +123,6 @@ t_com	*ft_lst_to_coms(t_token *list, int *err)
 		ret = prepare_com(list, elem, i, err);
 	}
 	else if (elem != NULL && elem->content[0] == '|')
-		return (*err = SE_PIPE * -1, printf(MSG_SE_PIPE), NULL);
+		return (*err = SE_PIPE * -1, perror(MSG_SE_PIPE), NULL);
 	return (ret);
 }

@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpocater <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:37:13 by rpocater          #+#    #+#             */
-/*   Updated: 2024/07/29 16:23:18 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:34:16 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_lines(char **matrix)
+char	*ft_protected_dup(char *elem)
 {
-	int	i;
+	char	*ret;
 
-	i = 0;
-	while (matrix[i] != NULL)
+	ret = ft_strdup(elem);
+	if (ret == NULL)
 	{
-		i++;
+		return (perror(MSG_MLC_F), exit(EXIT_FAILURE), NULL);
 	}
-	return (i);
+	return (ret);
 }
 
 int	ft_free_list(t_token *list)
@@ -57,7 +57,7 @@ void	print_list(t_token *list)
 	i = 0;
 	while (elem != NULL)
 	{
-		printf("Argument %d: %s\n", i, elem->content);
+		ft_printf("Argument %d: %s\n", i, elem->content);
 		elem = elem->next;
 		i++;
 	}
