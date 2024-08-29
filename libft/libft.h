@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:38:19 by daortega          #+#    #+#             */
-/*   Updated: 2024/07/29 14:04:23 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:42:12 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,17 @@ int		ft_putunsnum(unsigned int num);
 int		ft_puthexalow(unsigned int num);
 int		ft_puthexaup(unsigned int num);
 int		ft_putpointer(unsigned long address);
+
+//PRINTF_FD
+int		ft_printf_fd(const int fd, const char *str, ...);
+int		ft_printpnt_fd(unsigned long pointer, int fd);
+int		ft_printuphex_fd(unsigned int nb, int test, int fd);
+int		ft_printundhex_fd(unsigned int nb, int test, int fd);
+int		ft_printunnbr_fd(unsigned int num, int test, int fd);
+int		ft_printnbr_fd(int n, int fd);
+int		ft_printstr_fd(char *str, int fd);
+int		ft_printchar_fd(int c, int fd);
+int		ft_test_write_fd(int test, int i);
 
 //GET_NEXT_LINE
 char	*get_next_line(int fd);
