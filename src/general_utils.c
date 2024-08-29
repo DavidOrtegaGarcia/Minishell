@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/29 15:31:27 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:48:52 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_x_env(t_env *l_env)
 {
 	while (l_env != NULL)
 	{
-		printf ("declare -x ");
+		ft_printf("declare -x ");
 		if (l_env->list == 1)
 			ft_printf("%s\n", l_env->key);
 		if (l_env->list == 3)
