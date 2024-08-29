@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:26:45 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/12 15:53:01 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:08:00 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	hd_redir(char *file, int mode)
 static int	in_redir(char *file, int mode)
 {
 	int	fd;
-	
+
 	if (mode == CHILD)
 	{
 		if (access(file, F_OK) == -1)
