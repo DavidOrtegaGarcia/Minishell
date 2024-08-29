@@ -6,7 +6,7 @@
 #    By: daortega <daortega@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/18 14:31:34 by daortega          #+#    #+#              #
-#    Updated: 2024/07/23 15:52:24 by daortega         ###   ########.fr        #
+#    Updated: 2024/08/29 13:30:28 by daortega         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,10 @@ CFLAGS = -Wall -Wextra -Werror -I.
 LIBCOM = ar rcs
 
 #--------------<SRC>-------------
-SRCPRINTF = printf/
+SRCPRINTF = ft_printf/
+SRCPRINTFFD = ft_printf_fd/
 SRC_GET_NEXT_LINE = get_next_line/
+
 
 #----------------<Files>---------------- 
 CFILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
@@ -36,13 +38,17 @@ ft_lstmap.c
 
 PFFILES = ft_printf.c ft_putchar.c ft_puthexa.c ft_putnum.c ft_putpointer.c \
 
+PFDFILES = ft_hex_fd.c ft_printf_fd.c ft_printfnbr_fd.c \
+
 GNLFILES = get_next_line.c get_next_line_utils.c \
 
 SRCPRINT = $(addprefix $(SRCPRINTF), $(PFFILES))
+SRCPRINTFD = $(addprefix $(SRCPRINTFFD), $(PFDFILES))
 SRCGNL = $(addprefix $(SRC_GET_NEXT_LINE), $(GNLFILES))
 
 OBJ = $(CFILES:.c=.o)
 OBJ_PRINT = $(SRCPRINT:.c=.o)
+OBJ_PRINT_FD = $(SRCPRINTFD:.c=.o)
 OBJ_GNL = $(SRCGNL:.c=.o)
 BOBJ = $(BFILES:.c=.o)
 
@@ -55,8 +61,8 @@ bonus: libbonus
 %.o: %.c $(NAMELIB) Makefile
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
-$(NAME): $(OBJ) $(OBJ_PRINT) $(OBJ_GNL)
-	@$(LIBCOM) $(NAME) $(OBJ) $(OBJ_PRINT) $(OBJ_GNL)
+$(NAME): $(OBJ) $(OBJ_PRINT) $(OBJ_PRINT_FD) $(OBJ_GNL)
+	@$(LIBCOM) $(NAME) $(OBJ) $(OBJ_PRINT) $(OBJ_PRINT_FD) $(OBJ_GNL)
 
 libbonus: $(BOBJ)
 	@$(LIBCOM) $(NAME) $(BOBJ)

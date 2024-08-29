@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:26:45 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/20 16:08:00 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:18:27 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static int	out_a_redir(char *file, int mode)
 	if (mode == CHILD)
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
 	}
 	else
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), 1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -40,12 +40,12 @@ static int	out_t_redir(char *file, int mode)
 	if (mode == CHILD)
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
 	}
 	else
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), 1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -60,12 +60,12 @@ static int	hd_redir(char *file, int mode)
 	if (mode == CHILD)
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
 	}
 	else
 	{
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), 1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -79,18 +79,18 @@ static int	in_redir(char *file, int mode)
 	if (mode == CHILD)
 	{
 		if (access(file, F_OK) == -1)
-			return (printf(MSG_FDE, file), exit(EXIT_FAILURE), 1);
+			return (ft_printf_fd(2, MSG_FDE, file), exit(EXIT_FAILURE), 1);
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), exit(EXIT_FAILURE), 1);
 	}
 	else
 	{
 		if (access(file, F_OK) == -1)
-			return (printf(MSG_FDE, file), 1);
+			return (ft_printf_fd(2, MSG_FDE, file), 1);
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
-			return (printf(MSG_OPEN_F, file), 1);
+			return (ft_printf_fd(2, MSG_OPEN_F, file), 1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
