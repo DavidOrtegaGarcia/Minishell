@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:01:58 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/28 17:07:44 by daortega         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:37:22 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argv;
 	status = 0;
 	if (argc != 1)
-		return (perror(MSG_WNA), WNA);
+		return (ft_printf_fd(2, MSG_WNA), 1);
 	signals(DEFAULT);
 	l_env = fill_l_env(env);
 	line = readline("minishell$ ");

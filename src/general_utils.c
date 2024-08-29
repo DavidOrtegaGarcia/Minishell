@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:10:22 by rpocater          #+#    #+#             */
-/*   Updated: 2024/08/28 14:18:29 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:31:27 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	print_x_env(t_env *l_env)
 	{
 		printf ("declare -x ");
 		if (l_env->list == 1)
-			printf("%s\n", l_env->key);
+			ft_printf("%s\n", l_env->key);
 		if (l_env->list == 3)
-			printf ("%s=\"%s\"\n", l_env->key, l_env->value);
+			ft_printf("%s=\"%s\"\n", l_env->key, l_env->value);
 		l_env = l_env->next;
 	}
 }
@@ -64,19 +64,19 @@ void	print_content_com(t_com *elem, int i)
 	{
 		while (elem->command[x] != NULL)
 		{
-			printf("%s\n", elem->command[x++]);
+			ft_printf("%s\n", elem->command[x++]);
 		}
 	}
 	else
-		printf("No contents in command %d\n", i);
+		ft_printf("No contents in command %d\n", i);
 	red = elem->redir;
 	if (red != NULL)
 	{
-		printf("Command %d has redirections\n", i);
+		ft_printf("Command %d has redirections\n", i);
 		while (red != NULL)
 		{
-			printf("Redirection type %d\n", red->type);
-			printf("To file %s\n", red->file);
+			ft_printf("Redirection type %d\n", red->type);
+			ft_printf("To file %s\n", red->file);
 			red = red->next;
 		}
 	}
@@ -92,7 +92,7 @@ int	check_key(char *key, int *st)
 	metachar = "@#!$%^*-():;?/.,~+";
 	i = 0;
 	if (ft_isalpha(key[0]) == 0)
-		return (printf(MSG_NVF, key), *st = NVF, 0);
+		return (ft_printf_fd(2, MSG_NVF, key), *st = NVF, 0);
 	while (key[i] != '\0' && key[i] != '=')
 	{
 		if (key[i + 1] == '=' && key[i] == '+')
@@ -104,7 +104,7 @@ int	check_key(char *key, int *st)
 		while (metachar[j] != '\0')
 		{
 			if (metachar[j] == key[i])
-				return (printf(MSG_NVF, key), *st = NVF, -1);
+				return (ft_printf_fd(2, MSG_NVF, key), *st = NVF, -1);
 			j++;
 		}
 		i++;

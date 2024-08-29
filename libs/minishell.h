@@ -6,7 +6,7 @@
 /*   By: daortega <daortega@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:04:32 by daortega          #+#    #+#             */
-/*   Updated: 2024/08/28 14:53:43 by rpocater         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:22:04 by daortega         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@
 
 /*-------ERROR-CODES-----*/
 # define DBL_RE 6
-# define SE_PIPE 7
+# define SE_PIPE 2
 # define MLC_F 8
 # define AT_END 9
-# define OPEN_F 15
-# define WNA 10
-# define CNR 11
-# define FORK_F 12
-# define FDE 13
-# define PFE 14
-# define NVF 26
+//# define OPEN_F 1
+//# define WNA 1
+//# define CNR 1
+//# define FORK_F 1
+//# define FDE 1
+//# define PFE 1
+# define NVF 1
 
 /*------COMMAND-ERRORS------*/
 # define CMD_NO_ACCESS 126
@@ -199,5 +199,5 @@ void	free_dpchar(char **com);
 t_redir	*first_redir(t_com *elem, int *err, int *tru, int i);
 void	second_redir(t_com *elem, t_redir *red, int i, int *tru);
 char	**generate_new_com(int *n_com);
-char    *ft_protected_dup(char *elem);
+char	*ft_protected_dup(char *elem);
 #endif
