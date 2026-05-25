@@ -7,7 +7,7 @@ The shell works through a continuous loop (Read-Eval-Print Loop) structured into
 
 * **Tokenizer:** Scans the raw input string and breaks it down into tokens (words, pipes, redirections).
 * **Parser:** Analyzes the tokens to build an Abstract Syntax Tree (AST) or a command table, handling grammar, quotes, and environment variables.
-* **Expander:** Processes the parsed commands before execution, expanding environment variables (e.g., `$USER`, `$??`), handling exit statuses, and stripping quotes.
+* **Expander:** Processes the parsed commands before execution, expanding environment variables (e.g., `$USER`, `$?`), handling exit statuses, and stripping quotes.
 * **Executor:** Executes the commands by managing forks, duplicating file descriptors, and tracking process IDs.
 * **Builtins:** Internal shell commands executed directly within the parent process to modify the shell state.
 
@@ -45,13 +45,14 @@ Minishell replicates a subset of Bash features. Before running it, ensure you un
 ```
 
 * **Redirections & Pipes:** Commands can be chained and their inputs/outputs redirected using standard operators:
-```bash
+```text
   |   -> Pipes the output of one command into the input of the next
   <   -> Redirects standard input from a file
   >   -> Redirects standard output to a file (truncates)
   >>  -> Redirects standard output to a file (appends)
   <<  -> Heredoc (reads input until a specific delimiter is met)
 ```
+> ⚠️ **Warning:** If a command contains unclosed quotes (`'` or `"`), Minishell will automatically interpret them as closed at the end of that specific token. Additionally, unhandled metacharacters (like `;`, `\`, `&&`, or `||`) will trigger a syntax error, as they are explicitly excluded by the 42 project subject guidelines.
 
 ## 📊 Environment & Signal Management
 To ensure the shell behaves like a real terminal, it replicates environment tracking and standard terminal interruptions:
@@ -59,9 +60,7 @@ To ensure the shell behaves like a real terminal, it replicates environment trac
 * **Environment Variables:** Transmitted from the parent shell, they expand dynamically when using `$` (e.g., `$USER` or the exit status via `$?`).
 * **Signal Handling:** Intercepts system interrupts to match Bash behavior (`Ctrl-C`, `Ctrl-D`, and `Ctrl-\`).
 
-> ⚠️ **Warning:** If a command contains unclosed quotes (`'` or `"`), Minishell will automatically interpret them as closed at the end of that specific token. Additionally, unhandled metacharacters (like `;`, `\`, `&&`, or `||`) will trigger a syntax error, as they are explicitly excluded by the 42 project subject guidelines.
->
-> ## 🛠 Usage
+## 🛠 Usage
 We have included a `Makefile` to simplify binary management. You can use the following commands in your terminal:
 
 * `make` or `make all`: Compiles the source files and generates the `minishell` executable.
@@ -83,12 +82,12 @@ To launch the shell after compilation, simply run:
 This project was developed in collaboration between:
 
 * **[DavidOrtegaGarcia](https://github.com/DavidOrtegaGarcia):** Developed the core infrastructure, including:
-  * **Expander:** Environment variable expansion (`$USER`, `$??`) and quote removal.
+  * **Expander:** Environment variable expansion (`$USER`, `$?`) and quote removal.
   * **Executor:** Process creation via `fork()`, pipeline manipulation (`|`), and complex redirections (`<`, `>`, `>>`, `<<`).
   * **Signals & Memory:** Signal intercepting (`Ctrl-C`, `Ctrl-D`, `Ctrl-\`) and leak prevention management.
   * **Builtins:** Implemented `echo`, `cd`, `pwd`, `export`, and `exit`.
 
-* **[@richix64](https://github.com/richix64):** Developed the initial processing layers and environment features:
+* **[richix64](https://github.com/richix64):** Developed the initial processing layers and environment features:
   * **Lexer & Tokenizer:** Scanning and breaking down the raw input into structured tokens.
   * **Parser:** Transforming tokens into the command table and validating grammar syntax.
   * **Builtins:** Implemented `env` and `unset`.
